@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments :: page_head('Shopping Cart', 'none')" />
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="title">Your Shopping Cart</h1>
+
+<div class="cart-content">
+        <div class="cart-products">
+        	<th:block th:each="item, status : ${cartItems}">
+            <div th:with="product = ${item.product}" class="product" th:id="'row' + ${status.count}">
+                <div class="product-number divCount">[[${status.count}]]</div>
+
+                <a th:href="@{'/p/' + ${product.alias}}" target="_blank"
+					 th:title="${product.name}">
+				<img th:src="@{${product.mainImagePath}}" class="product-img">
+				</a>
+
+                <div class="product-content">
+                    <a th:href="@{'/p/' + ${product.alias}}" target="_blank"
+					 th:title="${product.name}" class="product-name">[[${item.product.shortName}]]</a>
+
+                    <div th:replace="cart/quantity_control :: quantity_control(${item.quantity}, ${product.id})"></div>
+
+                    <div class="product-price">
+                        <div th:replace="product/product_fragment :: product_price"></div>
+                        Subtotal:
+						<span>=&nbsp;</span>
+						<span th:if="${CURRENCY_SYMBOL_POSITION == 'Before price'}" th:remove="tag">[[${CURRENCY_SYMBOL}]]</span><span th:id="'subtotal' + ${product.id}" class="subtotal">[[${#numbers.formatDecimal(item.subtotal, 1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]</span><span th:if="${CURRENCY_SYMBOL_POSITION == 'After price'}" th:remove="tag">[[${CURRENCY_SYMBOL}]]</span>
+                    </div>
+                </div>
+
+                <a th:href="@{'/cart/remove/' + ${product.id}}" th:rowNumber="${status.count}" class="fas fa-trash remove-product linkDelete" title="Remove this Product"></a>
+            </div>
+           	</th:block>
+        </div>
+
+		<th:block th:unless="${#lists.isEmpty(cartItems)}">
+        <div class="cart-subtotal" id="sectionTotal">
+            <h2>Estimated Total:</h2>
+			<div class="cart-total-price">
+				<span th:if="${CURRENCY_SYMBOL_POSITION == 'Before price'}" th:remove="tag">[[${CURRENCY_SYMBOL}]]</span><span id="total">[[${#numbers.formatDecimal(estimatedTotal, 1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]</span><span th:if="${CURRENCY_SYMBOL_POSITION == 'After price'}" th:remove="tag">[[${CURRENCY_SYMBOL}]]</span>
+			</div>
+			
+			<div th:if="${shippingSupported}">
+				<form th:action="@{/checkout}">
+					<input type="submit" value="Check Out"></input>
+				</form>
+			</div>
+			
+			<div th:unless="${shippingSupported}" style="font-size: 1.8rem; text-transform: none; margin: 1rem 0;">
+				<span style="color: red;">No shipping available for your location!</span>
+				
+				<div th:if="${usePrimaryAddressAsDefault}">
+					<a th:href="@{/account_details(redirect=cart)}">Update your address</a>
+				</div>
+				
+				<div th:unless="${usePrimaryAddressAsDefault}">
+					<a th:href="@{/address_book(redirect=cart)}">Use another shipping address</a>
+				</div>
+			</div>
+        </div>
+        </th:block>
+    </div>
+
+
+<div id="sectionEmptyCartMessage" class="cart-message" th:classappend="${#lists.isEmpty(cartItems)} ? '' : 'd-none'" >
+	You have not chosen any products yet.
+</div>
+
+<!-- Footer -->
+<div th:replace="fragments :: footer"></div>
+
+<!-- Warning Modal -->
+<div th:replace="fragments :: warning-modal"></div>
+
+<script type="text/javascript">
+	contextPath = "[[@{/}]]";
+	var csrfHeaderName = "[[${_csrf.headerName}]]";
+	var csrfValue = "[[${_csrf.token}]]";
+	
+	decimalDigits = [[${DECIMAL_DIGITS}]];
+	decimalPointType = "[[${DECIMAL_POINT_TYPE}]]";
+	thousandsPointType = "[[${THOUSANDS_POINT_TYPE}]]";
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/shopping_cart.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.number.min.js}"></script>
+</body>
+</html>

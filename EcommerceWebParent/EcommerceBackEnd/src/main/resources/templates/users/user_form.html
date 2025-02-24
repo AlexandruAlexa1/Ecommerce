@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments :: page_head('Manage Users', 'none')"></head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="form-title"><span>Manage Users</span> [[${pageTitle}]]</h1>
+
+<!-- Form -->
+<form th:action="@{/users/save}" method="post" class="common-form"
+	  th:object="${user}" onsubmit="return checkEmailUnique(this)" enctype="multipart/form-data">
+	<input type="hidden" th:field="*{id}" />
+	
+	<div class="input-group">
+		<label>E-mail:</label>
+		<input type="email" th:field="*{email}" maxlength="128" required/>
+	</div>
+	
+	<div class="input-group">
+		<label>First Name:</label>
+		<input type="text" th:field="*{firstName}" maxlength="45" required />
+	</div>
+	
+	<div class="input-group">
+		<label>Last Name:</label>
+		<input type="text" th:field="*{lastName}" maxlength="45" required/>
+	</div>
+	
+	<div class="input-group">
+		<label>Password:</label>
+		<input type="password" th:field="*{password}" maxlength="64" th:required="${user.id == null}"
+			th:placeholder="${user.id}? 'Leave blank if you don\'t want to change password' : ''" />
+	</div>
+	
+	<div class="user-role">
+		<label>Roles:</label>
+		<div class="list-user-roles">
+			<th:block th:each="role: ${listRoles}">
+			<div class="role">
+				<input type="checkbox" th:field="*{roles}" th:value="${role.id}"/>
+				<p><span>[[${role.name}]]:</span> [[${role.description}]]</p>
+			</div>
+			</th:block>
+		</div>
+	</div>
+	
+	<div class="input-group-checkbox">
+		<label>Enabled:</label>
+		<input type="checkbox" th:field="*{enabled}"/>
+	</div>
+	
+	<div class="upload-img">
+		<label>Photos:</label>
+		<input type="hidden" th:field="*{photos}">
+		<input type="file" name="image" onchange="showImageThumbnail(this)" accept="image/png, image/jpeg" />
+		<img alt="Photos preview" th:src="@{${user.getPhotosImagePath}}" id="thumbnail">
+	</div>
+	
+	<input type="submit" value="Save"/>
+	<a href="#" class="fa-solid fa-xmark cancel-form-btn"></a>
+</form>
+
+<script type="text/javascript">
+	MAX_FILE_SIZE = 102400; // 100KB
+	moduleUrl = "[[@{/users}]]";
+
+	function checkEmailUnique(form) {
+		url = '[[@{/users/check_email}]]';
+		id = $('#id').val();
+		emailValue = $('#email').val();
+		csrf = $("input[name='_csrf']").val();
+		params = {id: id, email: emailValue, _csrf: csrf};
+		
+		$.post(url, params, (response) => {
+			if(response == 'OK') {
+				form.submit();
+			} else {
+				alert("This E-mail already exist. Please Enter other e-mail!");
+			}
+		});
+		
+		return false;
+	}
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

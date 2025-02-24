@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('Error', 'none')"></head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+	
+<div class="error-message">
+	<h1>404</h1>
+	<h2>Page Not Found</h2>
+	<p>Sorry, the requested page could not be found</p>
+</div>
+
+<script type="text/javascript" th:src="@{/js/script.js}"></script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

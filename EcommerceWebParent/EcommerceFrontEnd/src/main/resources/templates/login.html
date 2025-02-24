@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+	<head th:replace="fragments :: page_head('Login Page', 'tag')" />
+	<link rel="stylesheet" th:href="@{/css/login_form.css}"/>
+</head> 
+<body>
+	<!-- Navbar -->
+	<div th:replace="navigation :: navbar"></div>
+	
+	<!-- Login Form -->
+	<div class="login-form-wrapper">
+        <div class="login-form-img-wrapper">
+            <img th:src="@{images/login-form.jpg}" class="login-form-img"></img>
+            <div>
+                <span>Don't have an account?</span>
+                <a th:href="@{/register}" class="signup-btn">Sign up</a>
+            </div>
+        </div>
+
+        <form th:action="@{/login}" method="post" class="login-form">
+        	<div th:if="${param.error}">
+				<p class="login-form-message">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+			</div>
+			<div th:if="${param.logout}">
+				<p class="login-form-message">You have been logged out.</p>
+			</div>
+			
+            <div class="login-form-input-group">
+                <input type="text" name="email" placeholder="E-mail" required />
+                <i class="fa-solid fa-at"></i>
+            </div>
+            <div class="login-form-input-group">
+                <input type="password" name="password" placeholder="Password" required />
+                <i class="fa-solid fa-key"></i>
+            </div>
+            <div class="login-form-checkbox">
+                <label for="">Remember Me</label>
+                <input type="checkbox" name="remember-me">
+            </div>
+
+            <div class="login-form-btns">
+                <input type="submit" value="SignIn" class="login-form-submit-btn">
+                <a th:href="@{/oauth2/authorization/google}" class="fa-brands fa-google google-btn" title="Login with Google"></a>
+                <a th:href="@{/oauth2/authorization/facebook}" class="fa-brands fa-facebook-square facebook-btn" title="Login with Facebook"></a>
+            </div>
+
+            <a th:href="@{/forgot_password}" class="forgot-password">Forgot password?</a>
+        </form>
+    </div>
+	<!-- End of Login Form -->
+
+
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

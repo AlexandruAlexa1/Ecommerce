@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<head th:replace="fragments :: page_head('Manage Products', 'tag')" />
+	<link rel="stylesheet" th:href="@{/richtext/richtext.min.css}" />
+	<script th:src="@{/richtext/jquery.richtext.min.js}"></script>
+</head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="form-title"><span>Manage Products</span> [[${pageTitle}]]</h1>
+
+<!-- Form -->
+<form th:action="@{/products/save}" method="post" th:object="${product}" onsubmit="return checkUnique(this)"
+	enctype="multipart/form-data" class="product-form">
+	<input type="hidden" th:field="*{id}" />
+	<input th:if="${product.category != null}" type="hidden" id="categoryId" th:value="${product.category.id}" />
+	
+	<div class="tab-wrapper">
+		<!-- Tab links -->
+		<div class="tab-nav">
+			<a onclick="openTab(event, 'Overview')" class="tab-link active" href="#">Overview</a>
+			<a onclick="openTab(event, 'Description')" class="tab-link" href="#">Description</a>
+			<a onclick="openTab(event, 'Images')" class="tab-link" href="#">Images</a>
+			<a onclick="openTab(event, 'Details')" class="tab-link" href="#">Details</a>
+			<a onclick="openTab(event, 'Shipping')" class="tab-link" href="#">Shipping</a>
+		</div>
+		
+		<!-- Tab content -->
+		<div id="Overview" class="tab-content">
+			<div th:replace="products/product_overview :: content"></div>
+		</div>
+		
+		<div id="Description" class="tab-content" style="display: none;">
+			<th:block th:if="${isReadOnlyForSalesperson}">
+			<div th:replace="products/product_description_read_only :: content"></div>
+			</th:block>
+
+			<th:block th:unless="${isReadOnlyForSalesperson}">
+			<div th:replace="products/product_description :: content"></div>
+			</th:block>
+		</div>
+		
+		<div id="Images" class="tab-content" style="display: none;">
+			<th:block th:if="${isReadOnlyForSalesperson}">
+				<div th:replace="products/product_images_read_only :: content"></div>
+			</th:block>
+			
+			<th:block th:unless="${isReadOnlyForSalesperson}">
+			<div th:replace="products/product_images :: content"></div>
+			</th:block>
+		</div>
+		
+		<div id="Details" class="tab-content" style="display: none;">
+			<th:block th:if="${isReadOnlyForSalesperson}">
+				<div th:replace="products/product_details_read_only :: content"></div>
+			</th:block>
+			
+			<th:block th:unless="${isReadOnlyForSalesperson}">
+			<div th:replace="products/product_details :: content"></div>
+			</th:block>
+		</div>
+		
+		<div id="Shipping" class="tab-content" style="display: none;">
+			<th:block th:if="${isReadOnlyForSalesperson}">
+				<div th:replace="products/product_shipping_read_only :: content"></div>
+			</th:block>
+		
+			<th:block th:unless="${isReadOnlyForSalesperson}">
+			<div th:replace="products/product_shipping :: content"></div>
+			</th:block>
+		</div>
+		
+		<input type="submit" value="Save" class="form-btn submit-btn" /> 
+		<a href="#" class="fa-solid fa-xmark close-tab-btn cancel-form-btn"></a>
+	</div>
+</form>
+
+<!-- Warning Modal -->
+<div th:replace="fragments :: warning-modal"></div>
+
+<script type="text/javascript">
+	MAX_FILE_SIZE = 5002400;
+	moduleUrl = "[[@{/products}]]";
+	brandModuleUrl = "[[@{/brands}]]";
+	defaultImage = "[[@{/images/image-thumbnail.png}]]";
+	checkUniqueURL = "[[@{/products/check_unique}]]";
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/product_form_overview.js}"></script>
+<script type="text/javascript" th:src="@{/js/product_form_images.js}"></script>
+<script type="text/javascript" th:src="@{/js/product_form_details.js}"></script>
+</body>
+</html>

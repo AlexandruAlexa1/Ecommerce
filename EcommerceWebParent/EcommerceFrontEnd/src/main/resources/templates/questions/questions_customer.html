@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+	<head th:replace="fragments :: page_head('My Questions', 'tag')" />
+	<link rel="stylesheet" th:href="@{/css/modal.css}"/>
+</head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="title">Questions Posted by me</h1>
+
+<div class="table-wrapper">
+	<!-- Search Form -->
+	<div th:replace="fragments :: search_form"></div>
+	
+	<div th:if="${message}">
+		<p class="message">[[${message}]]</p>
+	</div>
+		
+	<table>
+		<thead>
+			<tr>
+				<th th:replace="fragments :: column_link('id', 'ID', 'none')"/>
+				<th th:replace="fragments :: column_link('product', 'Product', 'none')"/>
+				<th th:replace="fragments :: column_link('questionContent', 'Question', 'none')"/>
+				<th th:replace="fragments :: column_link('askTime', 'Ask Time', 'none')"/>
+				<th th:replace="fragments :: column_link('approvalStatus', 'Approval', 'none')"/>
+				<th th:replace="fragments :: column_link('answerContent', 'Answer', 'none')"/>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="question : ${listQuestions}">
+				<td>[[${question.id}]]</td>
+				<td>
+					<a th:href="@{'/p/' + ${question.product.alias}}" title="View Product">[[${question.product.shortName}]]</a>
+				</td>
+				<td>[[${question.questionContent}]]</td>
+				<td><div th:replace="fragments :: format_time(${question.askTime})"></div></td>
+				<td>
+					<i class="far fa-check-square icon" 
+						th:classappend="${question.approvalStatus} ? 'icon-green' : 'icon-silver'" ></i>
+				</td>
+				<td>
+					<i class="far fa-check-square icon"
+						th:classappend="${question.answer} ? 'icon-green' : 'icon-silver'"></i>
+				</td>
+				<td>
+					<a class="fas fa-file-alt icon icon-aqua link-detail" title="View details of this question"
+						th:href="@{'/questions/detail/' + ${question.id}}"></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<!-- Responsive Table -->
+	<div class="table-cards-wrapper">
+		<th:block th:each="question : ${listQuestions}">
+		<div class="table-card">
+			<div class="table-card-header">
+				<h5>Question ID #[[${question.id}]]</h5>
+				<a class="fas fa-file-alt icon icon-aqua link-detail" title="View details of this question"
+							th:href="@{'/questions/detail/' + ${question.id}}"></a>
+			</div>
+			<div class="table-card-body">
+				<a th:href="@{'/p/' + ${question.product.alias}}" title="View Product">[[${question.product.shortName}]]</a>
+				
+				<p>Question: [[${question.questionContent}]]</p>
+				
+				<div th:replace="fragments :: format_time(${question.askTime})"></div>
+			</div>
+		</div>
+		</th:block>
+	</div>
+	
+	<!-- Pagination -->
+	<div th:replace="fragments :: pagination(${moduleURL}, 'questions')"></div>
+</div>
+
+<!-- Detail Modal -->
+<div th:replace="fragments :: detail_modal"></div>
+
+<!-- Footer -->
+<div th:replace="fragments :: footer"></div>
+
+<script type="text/javascript">
+	contextPath = "[[@{/}]]";
+	moduleURL = "[[@{/questions}]]";
+	
+	$(document).ready(function() {
+		handleLinkViewDetail();
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

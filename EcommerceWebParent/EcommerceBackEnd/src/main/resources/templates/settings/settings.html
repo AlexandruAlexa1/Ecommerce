@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<head th:replace="fragments :: page_head('Manage Settings', 'tag')" />
+	<link rel="stylesheet" th:href="@{/richtext/richtext.min.css}" />
+	<script th:src="@{/richtext/jquery.richtext.min.js}"></script>
+</head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="title">Site Settings</h1>
+	
+<div class="tab-wrapper settings-wrapper">
+	<!-- Tab links -->
+	<div class="tab-nav">
+		<a onclick="openTab(event, 'general')" class="tab-link active" href="#">General</a>
+		<a onclick="openTab(event, 'countries')" class="tab-link" href="#">Countries</a>
+		<a onclick="openTab(event, 'states')" class="tab-link" href="#">States</a>
+		<a onclick="openTab(event, 'mailServer')" class="tab-link" href="#">Mail Server</a>
+		<a onclick="openTab(event, 'mailTemplate')" class="tab-link" href="#">Mail Templates</a>
+		<a onclick="openTab(event, 'payment')" class="tab-link" href="#">Payment</a>
+	</div>
+	
+	<div th:if="${message}" class="message">[[${message}]]</div>
+	
+	<!-- Tab content -->
+	<div id="general" class="tab-content">
+		<div th:replace="settings/general :: content"></div>
+	</div>
+	
+	<div id="countries" class="tab-content" style="display: none;">
+		<div th:replace="settings/countries :: content"></div>
+	</div>
+	
+	<div id="states" class="tab-content" style="display: none;">
+		<div th:replace="settings/states :: content"></div>
+	</div>
+	
+	<div id="mailServer" class="tab-content" style="display: none;">
+		<div th:replace="settings/mail_server :: content"></div>
+	</div>
+	
+	<div id="mailTemplate" class="tab-content" style="display: none;">
+		<div th:replace="settings/mail_templates/mail_templates :: content"></div>
+	</div>
+	
+	<div id="payment" class="tab-content" style="display: none;">
+		<div th:replace="settings/payment :: content"></div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	MAX_FILE_SIZE = 102400; // 100KB
+	contextPath = "[[@{/}]]";
+	let csrfHeaderName = "[[${_csrf.headerName}]]";
+	let csrfValue = "[[${_csrf.token}]]";
+	
+	$(document).ready(function() {
+		$("#customerVerificationContent").richText();
+		$("#orderConfirmationContent").richText();
+	});
+
+	function openTab(event, tabName) {
+		document.querySelectorAll(".tab-content").forEach((item) => {
+			item.style.display = "none";
+			item.classList.remove("active");
+		});
+
+		document.querySelectorAll(".tab-link").forEach((link) => {
+			link.classList.remove("active");
+		});
+			
+		document.getElementById(tabName).style.display = "block";
+		event.currentTarget.classList.add("active");
+	}
+	
+	function openMailTab(tabName) {
+		document.querySelectorAll(".tab-content-mail").forEach((item) => {
+			item.style.display = "none";
+			item.classList.remove("active");
+		});
+
+		document.querySelectorAll(".tab-link").forEach((link) => {
+			link.classList.remove("active");
+		});
+			
+		document.getElementById(tabName).style.display = "block";
+		event.currentTarget.classList.add("active");
+	}
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/countries_setting.js}"></script>
+<script type="text/javascript" th:src="@{/js/states_setting.js}"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+<div th:fragment="content" class="modal">
+	<a class="fas fa-times close-modal-icon close-modal"></a>
+	<div class="detail-modal-content">
+		<iframe class="iframe-add-product" th:src="@{/sections/search_product}"></iframe>
+	</div>
+</div>
+
+</body>
+</html>

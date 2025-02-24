@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<body>
+
+<div th:fragment="content" th:remove="tag">
+	<table class="detail-table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Value</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="detail : ${product.details}">
+				<td>[[${detail.name}]]</td>
+				<td>[[${detail.value}]]</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<body>
+
+<div th:fragment="content" th:remove="tag">
+	<div class="input-group">
+		<label>Length (inch):</label> 
+		<input type="text" th:value="${product.length}" readonly />
+	</div>
+	
+	<div class="input-group">
+		<label>Width (inch):</label> 
+		<input type="text" th:value="${product.width}" readonly />
+	</div>
+	
+	<div class="input-group">
+		<label>Height (inch):</label> 
+		<input type="text" th:value="${product.height}" readonly />
+	</div>
+	
+	<div class="input-group">
+		<label>Weight:</label> 
+		<input type="text" th:value="${product.weight}" readonly />
+	</div>
+</div>
+
+</body>
+</html>

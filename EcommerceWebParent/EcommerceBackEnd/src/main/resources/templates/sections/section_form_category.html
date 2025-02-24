@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments :: page_head(${pageTitle}, 'none')" />
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="form-title"><span>Manage Section</span> [[${pageTitle}]]</h1>
+
+<!-- Form -->
+<form th:action="@{/sections/save/category}" th:object="${section}" method="post" class="common-form"
+	onsubmit="return selectAllCategories(this)" id="sectionForm">
+	<input type="hidden" th:field="*{id}" />
+	
+	<div class="input-group">
+		<label>Heading:</label>
+		<input type="text" th:field="*{heading}"/>
+	</div>
+	
+	<div class="input-group-textarea">
+		<label>Description:</label>
+		<textarea th:field="*{description}"></textarea>
+	</div>
+	
+	<div class="input-group-checkbox">
+		<label>Enabled:</label>
+		<input type="checkbox" th:field="*{enabled}" />
+	</div>
+	
+	<div class="input-group-select" style="flex-direction: column; align-items: unset; margin-bottom: 0;">
+		<label style="margin-bottom: .5rem">Categories:</label>
+		<select size="9" id="categories">
+			<th:block th:each="category : ${listCategories}">
+			<option th:value="${category.id}">[[${category.name}]]</option>
+			</th:block>
+		</select>
+	</div>
+	
+	<input type="button" value="Add Category" class="form-btn" style="margin-bottom: 2rem;" id="add-category-btn" />
+	
+	<div class="input-group-select" style="flex-direction: column; align-items: unset;">
+		<label style="margin-bottom: .5rem">Chosen Categories:</label>
+		<select th:field="*{categories}" id="chosen-categories" size="9" multiple>
+			<th:block th:each="category : ${section.categories}">
+			<option th:value="${category.id}">[[${category.name}]]</option>
+			</th:block>
+		</select>
+		<div class="section-input-group-btns">
+			<a class="fa-solid fa-eraser" id="remove-category-btn" title="Delete Category"></a>
+			<a class="fa-solid fa-angle-up" id="move-up-category-btn" title="Move up Category"></a>
+			<a class="fa-solid fa-angle-down" id="move-down-category-btn" title="Move down Category"></a>
+		</div>
+	</div>
+			
+	<input type="submit" value="Save" class="form-btn submit-btn"/>
+	<a href="#" class="fa-solid fa-xmark cancel-form-btn"></a>
+</form>
+
+<!-- Warning Modal -->
+<div th:replace="fragments :: warning-modal"></div>
+
+<script type="text/javascript">
+	moduleUrl = "[[@{/sections}]]";
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/section_form_add_category.js}"></script>
+</body>
+</html>

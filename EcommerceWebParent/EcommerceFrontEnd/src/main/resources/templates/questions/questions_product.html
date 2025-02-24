@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<head th:replace="fragments :: page_head('Questions', 'tag')" />
+<link th:href="@{/css/product_detail.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/star-rating/css/star-rating.css}" media="all" rel="stylesheet" type="text/css" />
+<script th:src="@{/star-rating/js/star-rating.js}" type="text/javascript"></script>
+<link th:href="@{/star-rating/themes/krajee-svg/theme.css}" media="all" rel="stylesheet" type="text/css" />
+<script th:src="@{/star-rating/themes/krajee-svg/theme.js}" type="text/javascript"></script>
+</head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<div class="questions-product">
+	<div class="product">
+		<img th:src="@{${product.mainImagePath}}">
+		<div>
+			<h3 class="name">[[${product.name}]]</h3>
+			<div class="links">
+				<a th:href="@{'/questions/' + ${product.alias} +  '/page/1?sortField=votes&sortDir=desc'}">Sort by most voted</a>
+				<a th:href="@{'/questions/' + ${product.alias} + '/page/1?sortField=askTime&sortDir=desc'}">Sort by most recent</a>
+			</div>
+		</div>
+	</div>
+	
+	<div th:replace="questions/questions_votes :: content"></div>
+</div>
+
+<!-- Pagination -->
+<div th:replace="fragments :: pagination('/questions/' + ${product.alias}, 'questions')"></div>
+
+<!-- Footer -->
+<div th:replace="fragments :: footer"></div>
+
+<!-- Warning Modal -->
+<div th:replace="fragments :: warning-modal"></div>
+
+<script type="text/javascript">
+	csrfHeaderName = "[[${_csrf.headerName}]]";
+	csrfValue = "[[${_csrf.token}]]";
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/question_vote.js}"></script>
+</body>
+</html>

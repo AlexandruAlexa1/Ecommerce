@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content" th:remove="tag">
+	<div class="input-group">
+		<label>Deliver Days:</label>
+		<input type="text" th:field="*{deliverDays}" required />
+	</div>
+
+	<div class="input-group">
+		<label>Expected Deliver Date:</label>
+		<input type="date" th:field="*{deliverDateOnForm}" />
+	</div>
+
+	<div class="input-group">
+		<label>First Name:</label> 
+		<input type="text" th:field="*{firstName}" required />
+	</div>
+
+	<div class="input-group">
+		<label>Last Name:</label> 
+		<input type="text" th:field="*{lastName}" required />
+	</div>
+
+	<div class="input-group">
+		<label>Phone Number:</label> 
+		<input type="text" th:field="*{phoneNumber}" required />
+	</div>
+
+	<div class="input-group">
+		<label>Address Line 1:</label> 
+		<input type="text" th:field="*{addressLine1}" required />
+	</div>
+
+	<div class="input-group">
+		<label>Address Line 2:</label> 
+		<input type="text" th:field="*{addressLine2}" />
+	</div>
+
+	<div class="input-group">
+		<label>City:</label> 
+		<input type="text" th:field="*{city}" required />
+	</div>
+
+	<div class="input-group">
+		<label>Country:</label>
+		<input type="hidden" name="countryName" id="countryName" th:value="${order.country}" />
+		<select id="country">
+			<option th:each="aCountry : ${listCountries}" th:value="${aCountry.id}" th:selected="${aCountry.name == order.country}">[[${aCountry.name}]]</option>
+		</select>
+	</div>
+
+	<div class="input-group">
+		<label>State:</label> <input type="text" th:field="*{state}" list="listStates" />
+		<datalist id="listStates"></datalist>
+	</div>
+
+	<div class="input-group">
+		<label>Postal Code:</label> <input type="text" th:field="*{postalCode}" required />
+	</div>
+</div>
+</body>
+</html>

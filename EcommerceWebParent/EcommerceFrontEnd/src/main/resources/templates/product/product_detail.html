@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<head th:replace="fragments :: page_head(${pageTitle}, 'tag')" />
+<link th:href="@{/star-rating/css/star-rating.css}" media="all" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/product_detail.css}" rel="stylesheet" type="text/css" />
+<script th:src="@{/star-rating/js/star-rating.js}" type="text/javascript"></script>
+<link th:href="@{/star-rating/themes/krajee-svg/theme.css}" media="all" rel="stylesheet" type="text/css" />
+<script th:src="@{/star-rating/themes/krajee-svg/theme.js}" type="text/javascript"></script>
+</head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<!-- Breadcrumb -->
+<div th:replace="breadcrumb :: content"></div>
+
+<div class="product-wrapper">
+	<div class="product">
+		<div class="img-wrapper">
+			<div class="product-small-images">
+				<img th:src="@{${product.mainImagePath}}" class="image-thumbnail">
+				<th:block th:each="extraImage : ${product.images}">
+				<img th:src="@{${extraImage.imagePath}}" class="image-thumbnail">
+				</th:block>
+			</div>
+			<img th:src="@{${product.mainImagePath}}" class="product-main-img" id="mainImage">
+		</div>
+		
+		<div class="product-info">
+			<h2 class="product-name">[[${product.name}]]</h2>
+			
+			<div class="product-rating-stars">
+				<input type="text" class="product-detail-rating-star" dir="ltr" data-size="md"
+					th:value="${product.averageRating}"/>
+				<div>
+					<a href="#reviews">[[${product.reviewCount}]] rating(s)</a>
+					<a href="#questions">[[${answerCount}]] answered questions</a>
+				</div>
+			</div>
+			
+			<div class="product-short-description" th:utext="${product.shortDescription}"></div>
+			<p class="brand">Brand: [[${product.brand.name}]]</p>
+			<p th:if="${product.inStock}" class="stock">Stock: In Stock</p>
+			<p th:unless="${product.inStock}" class="stock">Stock: Out of Stock</p>
+			
+			<div class="price">
+				<p>List Price:</p>
+				&nbsp;
+				<span th:if="${product.discountPercent <= 0}">
+				<div th:replace="product/product_fragment :: price_fragment(${product.price})"></div>
+				</span>
+
+				<div th:if="${product.discountPercent > 0}" >
+				<span style="color: red;">
+					<div th:replace="product/product_fragment :: price_fragment(${product.discountPrice})"></div>
+				</span>
+				
+				<span style="text-decoration: line-through;">
+					<div th:replace="product/product_fragment :: price_fragment(${product.price})"></div>
+				</span>
+				</div>
+			</div>
+			
+			<th:block th:if="${product.inStock}">
+			<div th:replace="cart/quantity_control :: quantity_control(1, ${product.id})"></div>
+			</th:block>
+		</div>
+	</div>
+</div>
+
+<!-- Product Description -->
+<div class="product-description">
+	<h2>Product Description</h2>
+	<div class="product-full-description" th:utext="${product.fullDescription}"></div>
+</div>
+
+<!-- Product Details -->
+<div class="product-details">
+	<h2>Product Details</h2>
+	<table class="product-detail-table">
+		<th:block th:each="detail : ${product.details}">
+		<tr>
+			<td>[[${detail.name}]]: </td>
+			<td>[[${detail.value}]]</td>
+		</tr>
+		<th:block>
+	</table>
+</div>
+
+<!-- Questions -->
+<div th:replace="product/product_top_questions :: content"></div>
+
+<!-- Reviews -->
+<div th:replace="product/product_top_reviews :: content"></div>
+
+<!-- Footer -->
+<div th:replace="fragments :: footer"></div>
+
+<!-- Warning Modal -->
+<div th:replace="fragments :: warning-modal"></div>
+
+<script type="text/javascript">
+	contextPath = "[[@{/}]]";
+	productId = "[[${product.id}]]";
+	csrfHeaderName = "[[${_csrf.headerName}]]";
+	csrfValue = "[[${_csrf.token}]]";
+
+	decimalSeparator = "[[${DECIMAL_POINT_TYPE == 'COMMA' ? ',' : '.'}]]";
+	thousandSeparator = "[[${THOUSANDS_POINT_TYPE == 'COMMA' ? ',' : '.'}]]";
+
+	$(document).ready(function() {
+		$(".image-thumbnail").click(function() {
+			currentImageSource = $(this).attr("src");
+			$("#mainImage").attr("src", currentImageSource);
+		});
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/jquery.number.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/common_rating.js}"></script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/quantity_control.js}"></script>
+<script type="text/javascript" th:src="@{/js/add_to_cart.js}"></script>
+<script type="text/javascript" th:src="@{/js/review_vote.js}"></script>
+<script type="text/javascript" th:src="@{/js/question_vote.js}"></script>
+<script type="text/javascript" th:src="@{/js/post_question.js}"></script>
+</body>
+</html>
+
+

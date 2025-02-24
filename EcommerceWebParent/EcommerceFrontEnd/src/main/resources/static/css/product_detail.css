@@ -1,0 +1,386 @@
+.product-wrapper {
+    margin: 1rem 0;
+}
+
+.product {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.img-wrapper {
+	display: flex;
+	align-items: center;
+}
+
+.product-small-images {
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem;
+}
+
+.product-small-images img {
+    width: 10rem;
+    height: 10rem;
+    margin-bottom: 1rem;
+    object-fit: contain;
+}
+
+.product-main-img {
+   	width: 80rem;
+    height: 60rem;	
+    object-fit: contain;
+}
+
+.product-info {
+    padding: 0 5rem;
+}
+
+.product-name {
+    font-weight: 400;
+    font-size: 3rem;
+}
+
+.product-rating-stars {
+	font-size: 1.8rem;
+	margin-bottom: 1rem;
+}
+
+.product-short-description {
+	font-size: 1.8rem;
+	margin-bottom: 1rem;
+}
+
+.product-short-description::first-letter {
+    margin-left: 1rem;
+}
+
+.brand,
+.stock {
+    font-size: 1.8rem;
+    text-transform: capitalize;
+    letter-spacing: .1rem;
+}
+
+.price {
+   	 font-size: 1.8rem;
+   	 letter-spacing: .1rem;
+   	 display: flex;
+}
+
+.product-description,
+.product-details,
+.product-questions {
+	padding: 1rem;
+    border-bottom: .1rem solid #000;
+}
+
+.product-description h2,
+.product-details h2,
+.product-questions h2,
+.product-reviews h2 {
+    font-size: 3rem;
+    font-weight: 500;
+    letter-spacing: .2rem;
+    margin-bottom: .5rem;
+}
+
+.product-full-description {
+    font-size: 1.5rem;
+    
+}
+
+table {
+    font-size: 1.5rem;
+}
+
+.question-wrapper {
+	margin-bottom: 1.5rem;
+}
+
+.question {
+	display: flex;
+}
+
+.question-content,
+.answer-content {
+    font-weight: 500;
+    font-size: 1.6rem;
+}
+
+.question-content span,
+.answer-content span {
+    font-weight: 600;
+    letter-spacing: .2rem;
+}
+
+.author,
+.admin {
+    font-size: 1.5rem;
+    margin-left: 2rem;
+    letter-spacing: .2rem;
+    text-transform: capitalize;
+}
+
+.answer {
+	display: flex;
+	margin-left: 2rem;
+}
+
+.link-questions,
+.link-reviews {
+    font-size: 1.7rem;
+    letter-spacing: .2rem;
+    color: blue;
+}
+
+.question-btn {
+    font-size: 1.5rem;
+    background-color: #b2b2b2;
+    color: #fff;
+    padding: .2rem 1rem;
+    text-transform: uppercase;
+    letter-spacing: .2rem;
+    margin-left: 1rem;
+    transition: background .3s;
+}
+
+.question-btn:hover {
+	background-color: #a6a6a6;
+}
+
+.product-reviews {
+    padding: 1rem;
+}
+
+.review {
+    margin-bottom: 1rem;
+}
+
+.review-headline {
+    font-size: 1.8rem;
+    font-weight: 400;
+    letter-spacing: .1rem;
+    margin-bottom: .2rem;
+}
+
+.review-comment {
+    font-size: 1.6rem;
+    margin-left: 1rem;
+}
+
+.review-rating {
+	display: flex;
+	align-items: center;
+}
+
+.review-rating .rating-stars {
+	margin-right: 1rem;
+}
+
+.review-rating .rating-number {
+	font-size: 1.6rem;
+}
+
+.LinkVoteReview {
+	font-size: 1.5rem;
+	color: #00e5e5;
+}
+
+.review-rating-vote span {
+	font-size: 1.4rem;
+	font-weight: bolder;
+	color: #009999;
+	text-transform: uppercase;
+	letter-spacing: .2rem;
+	margin: 0 .2rem;
+}
+
+.review-message {
+	font-size: 1.7rem;
+	letter-spacing: .2rem;
+}
+
+.question-vote {
+	display: flex;
+	margin-left: 2rem;
+	font-size: 1.5rem;
+}
+
+.question-vote span {
+	margin: 0 1rem;
+}
+
+.question-form {
+	width: 50rem;
+	display: flex;
+	flex-direction: column;
+	margin-top: 1rem;
+}
+
+.question-form textarea {
+	font-size: 1.6rem;
+	max-width: 100%;
+	max-height: 5rem;
+	outline: none;
+	border: .1rem solid #bfbfbf;
+}
+
+.question-form input[type = "Submit"] {
+	border: none;
+	outline: none;
+	background-color: #bfbfbf;
+	color: #fff;
+	text-transform: uppercase;
+	letter-spacing: 1rem;
+	font-size: 1.5rem;
+	padding: .2rem 0;
+	transition: background .3s;
+}
+
+.question-form input[type = "Submit"]:hover {
+	background-color: #b2b2b2;
+}
+
+@media screen and (max-width: 1200px) {
+	.product-name {
+	    font-size: 2.5rem;
+	}
+	
+}
+
+@media screen and (max-width: 1100px) {
+	.product-name {
+	    font-size: 2.3rem;
+	}
+	
+	.product-main-img {
+	   	width: 50rem;
+	    height: 50rem;	
+	    
+	}
+	
+	.product-small-images img {
+	    width: 8rem;
+	    height: 8rem;
+	}
+	
+	.linkMinus,
+	.linkPlus {
+	    font-size: 1.5rem;
+	}
+}
+
+@media screen and (max-width: 900px) {
+	.product {
+		flex-direction: column;
+	}
+	
+	.product-info {
+    	padding: 1rem;
+	}
+	
+	.product-name {
+	    font-size: 2.5rem;
+	}
+	
+	.product-main-img {
+	   	width: 45rem;
+	    height: 45rem;	
+	    
+	}
+	
+	.product-small-images img {
+	    width: 8rem;
+	    height: 8rem;
+	}
+	
+	.product-description h2,
+	.product-details h2,
+	.product-questions h2,
+	.product-reviews h2 {
+	    font-size: 2.5rem;
+	}
+}
+
+@media screen and (max-width: 800px)  {
+	.img-wrapper {
+		margin: 0 auto 2rem auto;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.img-wrapper {
+		width: 100%;
+		flex-direction: column;
+		margin-bottom: .5rem;
+	}
+	
+	.product-small-images {
+		flex-direction: row;
+		padding: 0 .5rem;
+		order: 2;
+	}
+	
+	.product-small-images img {
+		width: 5rem;
+		margin-right: 1rem;
+	}
+	
+	
+	.product-main-img {
+	   	width: 100%;
+	    height: 32rem;
+	    padding: 1rem;
+	}
+	
+	.question-form {
+		width: 100%;
+	}
+	
+	.question-wrapper {
+		margin-bottom: 2rem;
+	}
+	
+	.question {
+		flex-direction: column;
+	}
+	
+	.answer {
+		flex-direction: column;
+	}
+}
+
+@media screen and (max-width: 350px) {
+	.product-description h2,
+	.product-details h2,
+	.product-questions h2,
+	.product-reviews h2 {
+	    font-size: 1.6rem;
+	}
+	
+	.product-name {
+   		font-size: 1.6rem;
+	}
+	
+	.product-short-description {
+		font-size: 1.6rem;
+	}
+	
+	.brand,
+	.stock {
+	    font-size: 1.6rem;
+	}
+	
+	.price {
+	   	 font-size: 1.6rem;
+	}
+	
+	.product-full-description {
+		font-size: 1.4rem;
+	}
+	
+	.question-content,
+	.answer-content {
+	    font-size: 1.4rem;
+	}
+}

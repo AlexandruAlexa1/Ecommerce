@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<body>
+<!-- Navbar -->
+<div class="navbar" th:fragment="navbar">
+    <a th:href="@{/}" class="logo">
+        <img src="">
+    </a>
+
+    <div class="menu">
+        <div class="menu-line menu-line-1"></div>
+        <div class="menu-line menu-line-2"></div>
+        <div class="menu-line menu-line-3"></div>
+    </div>
+
+    <ul class="nav-list">
+        <li>
+        	<a th:href="@{/}" class="nav-link">Home</a>
+        </li>
+        
+        <li sec:authorize="hasAuthority('Admin')" class="dropdown">
+       		<a th:href="@{/users}" class="nav-link">Users</a>
+       		<div class="dropdown-content">
+       			<a th:href="@{/users/new}">New</a>
+       			<a th:href="@{/users/export/csv}">Export CSV</a>
+       			<a th:href="@{/users/export/excel}">Export Excel</a>
+       			<a th:href="@{/users/export/excel}">Export PDF</a>
+       		</div>
+        </li>
+        
+        <li sec:authorize="hasAnyAuthority('Admin', 'Editor')" class="dropdown">
+        	<a th:href="@{/categories}" class="nav-link">Categories</a>
+        	<div class="dropdown-content">
+        		<a th:href="@{/categories/new}">New</a>
+        		<a th:href="@{/categories/export/csv}">Export CSV</a>
+        	</div>
+        </li>
+        
+        <li sec:authorize="hasAnyAuthority('Admin', 'Editor')" class="dropdown">
+        	<a th:href="@{/brands}" class="nav-link">Brands</a>
+        	<div class="dropdown-content">
+        		<a th:href="@{/brands/new}">New</a>
+        		<a th:href="@{/brands/export/csv}">Export CSV</a>
+        	</div>
+        </li>
+        
+        <li sec:authorize="hasAnyAuthority('Admin', 'SalesPerson', 'Editor', 'Shipper')" class="dropdown">
+       		<a th:href="@{/products}" class="nav-link">Products</a>
+       		<div sec:authorize="hasAnyAuthority('Admin', 'Editor')" class="dropdown-content">
+       			<a th:href="@{/products/new}" class="nav-link">New</a>
+       			<a th:href="@{/products/export/csv}">Export CSV</a>
+       		</div>
+       	</li>
+       	
+       	<li sec:authorize="hasAnyAuthority('Admin', 'Assistent')">
+        	<a th:href="@{/reviews}" class="nav-link">Reviews</a>
+        </li>
+        
+        <li sec:authorize="hasAnyAuthority('Admin', 'Assistent')">
+        	<a th:href="@{/questions}" class="nav-link">Questions</a>
+        </li>
+        
+        <li sec:authorize="hasAnyAuthority('Admin', 'SalesPerson')" class="dropdown">
+        	<a th:href="@{/customers}" class="nav-link">Customers</a>
+        	<div class="dropdown-content">
+        		<a th:href="@{/customers/export/csv}">Export CSV</a>
+        	</div>
+        </li>
+        
+        <li sec:authorize="hasAnyAuthority('Admin', 'SalesPerson')" class="dropdown">
+        	<a th:href="@{/shipping_rates}" class="nav-link">Shipping</a>
+        	<div class="dropdown-content">
+        		<a th:href="@{/shipping_rates/new}">New</a>
+        	</div>
+        </li>
+        
+        <li sec:authorize="hasAnyAuthority('Admin', 'SalesPerson', 'Shipper')">
+        	<a th:href="@{/orders}" class="nav-link">Orders</a>
+        </li>
+        
+        <li sec:authorize="hasAnyAuthority('Admin', 'SalesPerson')">
+        	<a th:href="@{/reports}" class="nav-link">Sales Raport</a>
+        </li>
+        
+        <li sec:authorize="hasAnyAuthority('Admin', 'Editor')" class="dropdown">
+        	<a th:href="@{/articles}" class="nav-link">Articles</a>
+        	<div class="dropdown-content">
+        		<a th:href="@{/articles/new}" class="nav-link">New</a>
+        	</div>
+        </li>
+        
+        <li sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+        	<a th:href="@{/menus}" class="nav-link">Menu</a>
+        </li>
+        
+        <li sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+        	<a th:href="@{/sections}" class="nav-link">Home Page</a>
+        </li>
+        
+        <li sec:authorize="hasAuthority('Admin')">
+        	<a th:href="@{/settings}" class="nav-link">Settings</a>
+        </li>
+        
+        <li class="dropdown link-user">
+			<form th:action="@{/logout}" method="post" th:hidden="true" id="logoutForm">
+				<input type="submit" />
+			</form>
+			<a th:href="@{/account}" sec:authentication="principal.fullname" class="nav-link"></a>
+			<div class="dropdown-content">
+				<a href="#" class="logoutLink nav-link">Logout</a>
+			</div>
+		</li>
+		
+		<div class="authenticated-user">
+			<form th:action="@{/logout}" method="post" th:hidden="true" id="logoutForm">
+				<input type="submit" />
+			</form>
+			<a th:href="@{/account}" sec:authentication="principal.fullname" class="nav-link"></a>
+			<a href="#" class="logoutLink nav-link">Logout</a>
+		</div>
+    </ul>
+</div>
+<!-- End of Navbar -->
+
+
+<div class="navbar">
+    <a th:href="@{/}" class="logo">
+        <img src="">
+    </a>
+
+    <div class="menu">
+        <div class="menu-line menu-line-1"></div>
+        <div class="menu-line menu-line-2"></div>
+        <div class="menu-line menu-line-3"></div>
+    </div>
+
+    <nav class="nav-list">
+        <a th:href="@{/}" class="nav-link">Home</a>
+        
+        <th:block sec:authorize="hasAuthority('Admin')">
+       		<a th:href="@{/users}" class="nav-link">Users</a>
+        </th:block>
+        
+        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+        	<a th:href="@{/categories}" class="nav-link">Categories</a>
+        </th:block>
+        
+        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+        	<a th:href="@{/brands}" class="nav-link">Brands</a>
+        </th:block>
+        
+        <th:block sec:authorize="hasAnyAuthority('Admin', 'SalesPerson', 'Editor', 'Shipper')">
+       		<a th:href="@{/products}" class="nav-link">Products</a>
+       	</th:block>
+       	
+       	<th:block sec:authorize="hasAnyAuthority('Admin', 'Assistent')">
+        	<a th:href="@{/reviews}" class="nav-link">Reviews</a>
+        </th:block>
+        
+        <th:block sec:authorize="hasAnyAuthority('Admin', 'Assistent')">
+        	<a th:href="@{/questions}" class="nav-link">Questions</a>
+        </th:block>
+        
+        <th:block sec:authorize="hasAnyAuthority('Admin', 'SalesPerson')">
+        	<a th:href="@{/customers}" class="nav-link">Customers</a>
+        </th:block>
+        
+        <th:block sec:authorize="hasAnyAuthority('Admin', 'SalesPerson')">
+        	<a th:href="@{/shipping_rates}" class="nav-link">Shipping</a>
+        </th:block>
+        
+        <th:block sec:authorize="hasAnyAuthority('Admin', 'SalesPerson', 'Shipper')">
+        	<a th:href="@{/orders}" class="nav-link">Orders</a>
+        </th:block>
+        
+        <th:block sec:authorize="hasAnyAuthority('Admin', 'SalesPerson')">
+        	<a th:href="@{/reports}" class="nav-link">Sales Raport</a>
+        </th:block>
+        
+        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+        	<a th:href="@{/articles}" class="nav-link">Articles</a>
+        </th:block>
+        
+        <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+        	<a th:href="@{/menu}" class="nav-link">Menu</a>
+        </th:block>
+        
+        <th:block sec:authorize="hasAuthority('Admin')">
+        	<a th:href="@{/settings}" class="nav-link">Settings</a>
+        </th:block>
+    </nav>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Menu icon -->
+<div th:fragment="menu_icon" class="menu-icon">
+	<div class="line line-1"></div>
+	<div class="line line-2"></div>
+	<div class="line line-3"></div>
+</div>
+<!-- End of Menu icon -->
+
+<!-- Menu -->
+<div th:fragment="menu" class="sidebar">
+	<!-- Logged User -->
+	<div class="name-user ">
+		<form th:action="@{/logout}" method="post" th:hidden="true" id="logoutForm">
+			<input type="submit" />
+		</form>
+		<a href="" sec:authentication="principal.fullname"></a>
+		<div class="dropdown-content">
+			<a th:href="@{/account}">View Details</a>
+			<a href="#" id="logoutLink">Logout</a>
+		</div>
+	</div>
+	<!-- End of Logged User -->
+	
+	<ul class="menu">
+		<li class="menu-item"><a th:href="@{/}" class="menu-link" data-content="Home">Home</a></li>
+		
+		<th:block sec:authorize="hasAuthority('Admin')">
+			<li class="menu-item"><a th:href="@{/users}" class="menu-link" data-content="Users">Users</a></li>
+		</th:block>
+
+		<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+			<li class="menu-item">
+				<a th:href="@{/categories}" class="menu-link" data-content="Categories">Categories</a>
+			</li>
+		</th:block>
+		
+		<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+			<li class="menu-item">
+				<a th:href="@{/brands}" class="menu-link" data-content="Brands">Brands</a>
+			</li>
+		</th:block>
+		
+		<th:block sec:authorize="hasAnyAuthority('Admin', 'SalesPerson', 'Editor', 'Shipper')">
+			<li class="menu-item">
+				<a th:href="@{/products}" class="menu-link" data-content="Products">Products</a>
+			</li>
+		</th:block>
+		
+		<th:block sec:authorize="hasAnyAuthority('Admin', 'Assistent')">
+			<li class="menu-item">
+				<a th:href="@{/reviews}" class="menu-link" data-content="Reviews">Reviews</a>
+			</li>
+		</th:block>
+		
+		<th:block sec:authorize="hasAnyAuthority('Admin', 'Assistent')">
+			<li class="menu-item">
+				<a th:href="@{/questions}" class="menu-link" data-content="Questions">Questions</a>
+			</li>
+		</th:block>
+
+		<th:block sec:authorize="hasAnyAuthority('Admin', 'SalesPerson')">
+			<li class="menu-item">
+				<a th:href="@{/customers}" class="menu-link" data-content="Customers">Customers</a>
+			</li>
+		</th:block>
+
+		<th:block sec:authorize="hasAnyAuthority('Admin', 'SalesPerson')">
+			<li class="menu-item">
+				<a th:href="@{/shipping_rates}" class="menu-link" data-content="Shipping">Shipping</a>
+			</li>
+		</th:block>
+
+		<th:block sec:authorize="hasAnyAuthority('Admin', 'SalesPerson', 'Shipper')">
+			<li class="menu-item">
+				<a th:href="@{/orders}" class="menu-link" data-content="Orders">Orders</a>
+			</li>
+		</th:block>
+
+		<th:block sec:authorize="hasAnyAuthority('Admin', 'SalesPerson')">
+		<li class="menu-item">
+			<a th:href="@{/reports}" class="menu-link" data-content="Sales">Sales Report</a>
+		</li>
+		</th:block>
+
+		<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+			<li class="menu-item"><a href="#" class="menu-link" data-content="Articles">Articles</a></li>
+		</th:block>
+
+		<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+			<li class="menu-item"><a href="#" class="menu-link" data-content="Menu">Menu</a></li>
+		</th:block>
+
+		<th:block sec:authorize="hasAuthority('Admin')">
+			<li class="menu-item"><a th:href="@{/settings}" class="menu-link" data-content="Settings">Settings</a></li>
+		</th:block>
+	</ul>
+</div>
+<!-- End of Menu -->
+
+</body>
+</html>

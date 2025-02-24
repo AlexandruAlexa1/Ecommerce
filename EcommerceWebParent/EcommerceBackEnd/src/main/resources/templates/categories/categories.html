@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments :: page_head('List Categories', 'none')"></head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="title">Manage Categories</h1>
+
+<div class="table-wrapper">
+    <div class="links-wrapper">
+    	<a th:href="@{/categories/new}" class="fa-solid fa-folder-plus" title="Create new Category"></a>
+		<a th:href="@{/categories/export/csv}" class="fa-solid fa-file-csv" title="Export to CSV"></a>
+    </div>
+
+    <!-- Search -->
+	<div th:replace="fragments :: search_form"></div>
+	
+	<!-- Message -->
+	<div th:if="${message}" class="message">[[${message}]]</div>
+	
+	<!-- Table -->
+	<table class="common-table">
+	    <thead>
+	        <tr>
+	           	<th>ID</th>
+				<th>
+					Category Image
+				</th>
+				<th th:replace="fragments :: column_link('name', 'Category Name')"></th>
+				<th>Alias</th>
+				<th>Enabled</th>
+				<th></th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr th:each="category: ${listCategories}">
+				<td>[[${category.id}]]</td>
+				<td>
+					<img th:src="@{${category.getImagePath}}" class="img" />
+				</td>
+				<td>[[${category.name}]]</td>
+				<td>[[${category.alias}]]</td>
+				<td>
+					<div th:replace="fragments :: status('/categories/' + ${category.id}, 'category', ${category.enabled})"></div>
+				</td>
+				<td>
+					<div class="table-links">
+						<div th:replace="fragments :: edit('/categories/edit/' + ${category.id}, 'category')"></div>
+						<div th:replace="fragments :: delete('/categories/delete/' + ${category.id}, ${category.id}, 'category', ${category.hasChildren == false})"></div>
+					</div>
+				</td>
+			</tr>
+	    </tbody>
+	</table>
+
+	<!-- Responsive Table -->
+    <div class="table-cards">
+    	<th:block th:each="category : ${listCategories}">
+	        <div class="table-card">
+	            <span class="id">ID: [[${category.id}]]</span>
+	            
+	            <img th:src="@{${category.getImagePath}}" class="img" />
+	            
+	            <div class="details">
+	                <p>[[${category.name}]]</p>
+	                <p>[[${category.alias}]]</p>
+	            </div>
+	            <div class="links">
+	               	<div th:replace="fragments :: status('/categories/' + ${category.id}, 'category', ${category.enabled})"></div>
+	                <div th:replace="fragments :: edit('/categories/edit/' + ${category.id}, 'category')"></div>
+       				<div th:replace="fragments :: delete('/categories/delete/' + ${category.id}, ${category.id}, 'category', ${category.hasChildren == false})"></div>
+	            </div>
+	        </div>
+        </th:block>
+    </div>
+    
+    <!-- Pagination -->
+    <div th:replace="fragments :: pagination('categories')"></div>
+</div>
+
+<!-- Confirm Modal-->
+<div th:replace="fragments :: confirm_modal"></div>
+
+<script type="text/javascript">
+	moduleURL = "[[@{/categories}]]";
+	
+	$(document).ready(function() {
+		handleLinkDelete("category");
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/common_list.js}"></script>
+</body>
+</html>

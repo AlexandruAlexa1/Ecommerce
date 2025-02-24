@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments :: page_head('List Orders', 'none')"></head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="title">Manage Orders</h1>
+
+<div class="table-wrapper">
+<!-- Search -->
+<div th:replace="fragments :: search_form"></div>
+
+<!-- Message -->
+<div th:if="${message}" class="message">[[${message}]]</div>
+
+<!-- Table -->
+<table class="common-table">
+	<thead>
+		<tr>
+			<th th:replace="fragments :: column_link('id', 'ID')"></th>
+			<th th:replace="fragments :: column_link('customer', 'Customer')"></th>
+			<th th:replace="fragments :: column_link('total', 'Total')"></th>
+			<th th:replace="fragments :: column_link('orderTime', 'Order Time')"></th>
+			<th th:replace="fragments :: column_link('destination', 'Destination')"></th>
+			<th th:replace="fragments :: column_link('paymentMethod', 'Payment Method')"></th>
+			<th th:replace="fragments :: column_link('orderStatus', 'Status')"></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each="order : ${listOrders}">
+			<td>[[${order.id}]]</td>
+			<td>
+				<a th:href="@{'/customers/detail/' + ${order.customer.id}}" class="link-customer"
+					title="View customer detail">
+				[[${order.customer.fullName}]]
+				</a>
+			</td>
+			<td>
+				<div th:replace="fragments :: format_currency(${order.total})"></div>
+			</td>
+			<td>
+				<div th:replace="fragments :: format_time(${order.orderTime})"></div>
+			</td>
+			<td>[[${order.destination}]]</td>
+			<td>[[${order.paymentMethod}]]</td>
+			<td>[[${order.orderStatus}]]</td>
+			<td>
+				<div class="table-links">
+					<a th:href="@{'/orders/detail/' + ${order.id}}" class="fas fa-file-alt icon-aqua link-order" title="View details of this order"></a>
+					<div th:replace="fragments :: edit('/orders/edit/' + ${order.id}, 'order')"></div>
+					<div th:replace="fragments :: delete('/orders/delete/' + ${order.id}, ${order.id}, 'order', true)"></div>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<!-- Responsive Table -->
+<div class="table-cards">
+	<th:block th:each="order : ${listOrders}">
+     <div class="table-card">
+         <span class="id">ID: [[${order.id}]]</span>
+         
+         <div class="details">
+         	<p><span>Customer:</span><a th:href="@{'/customers/detail/' + ${order.customer.id}}" class="link-customer" title="View customer detail">
+				[[${order.customer.fullName}]]</a>
+			</p>
+         	<p><span>Order Time:</span> <div th:replace="fragments :: format_time(${order.orderTime})"></div></p>
+         	<p><span>Total:</span> <div th:replace="fragments :: format_currency(${order.total})"></div></p>
+         	<p><span>Status:</span> [[${order.orderStatus}]]</p>
+         </div>
+         
+         <div class="links">
+       		<a th:href="@{'/orders/detail/' + ${order.id}}" class="fas fa-file-alt icon-aqua link-order" title="View details of this order"></a>
+			<div th:replace="fragments :: edit('/orders/edit/' + ${order.id}, 'order')"></div>
+			<div th:replace="fragments :: delete('/orders/delete/' + ${order.id}, ${order.id}, 'order', true)"></div>
+         </div>
+     </div>
+    </th:block>
+</div>
+
+<!-- Pagination -->
+<div th:replace="fragments :: pagination('orders')"></div>
+</div>
+
+<!-- Confirm Modal-->
+<div th:replace="fragments :: confirm_modal"></div>
+
+<!-- Detail Modal -->
+<div th:replace="fragments :: detail_modal"></div>
+
+<script type="text/javascript">
+	moduleURL = "[[@{/orders}]]";
+	
+	$(document).ready(function() {
+		handleLinkViewDetail($('.link-order'));
+		handleLinkViewDetail($('.link-customer'));
+		handleLinkDelete('order');
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/common_list.js}"></script>
+</body>
+</html>

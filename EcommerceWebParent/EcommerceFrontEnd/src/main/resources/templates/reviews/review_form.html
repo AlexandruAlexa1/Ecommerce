@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<head th:replace="fragments :: page_head('Write Product Review', 'tag')" />
+<link th:href="@{/star-rating/css/star-rating.css}" media="all" rel="stylesheet" type="text/css" />
+<script th:src="@{/star-rating/js/star-rating.js}" type="text/javascript"></script>
+<link th:href="@{/star-rating/themes/krajee-svg/theme.css}" media="all" rel="stylesheet" type="text/css" />
+<script th:src="@{/star-rating/themes/krajee-svg/theme.js}" type="text/javascript"></script>
+</head>
+<body>
+
+<div class="container">
+	<!-- Navbar -->
+	<div th:replace="navigation :: navbar"></div>
+	
+	<h1 class="title">Write Product Review</h1>
+	
+	<div style="width: 100%; display: flex; justify-content: center;">
+		<div style="display: flex; flex-direction: column; font-size: 2rem;">
+			<img th:src="@{${product.mainImagePath}}" width="300">
+			<h2>[[${product.name}]]</h2>
+			
+			<div th:if="${customerReviewed}">
+				<span style="color: aqua;">You already reviewed this product.</span>
+			</div>
+			
+			<div th:if="${NoReviewPermission}">
+				<span style="color: red;">You can't review this product because you did not purchase it, or you have not received it.</span>
+			</div>
+			
+			<th:block th:if="${customerCanReview}">
+			<form th:action="@{/post_review}" th:object="${review}" method="post" style="border: .2rem solid #000; display: flex; flex-direction: column; padding: 2rem;">
+				<input type="hidden" name="productId" th:value="${product.id}" />
+				<div>
+					<input type="text" th:field="*{rating}" class="product-rating-star" dir="ltr" data-size="md" data-step="1" />
+				</div>
+				<input type="text" th:field="*{headline}" minlength="10" maxlength="150" required placeholder="Headline or Summary" style="margin-bottom: 2rem;"/>
+				<textarea th:field="*{comment}" rows="5" cols="100" placeholder="Comment Details"
+					maxlength="500" required></textarea>
+				
+				<input type="submit" value="Post this Review" style="background-color: blue; color: #eee; padding: 1rem; text-transform: uppercase; letter-spacing: 1rem; margin: 1rem 0;" />
+			</form>
+			</th:block>
+		</div>
+	</div>
+
+	<div class="copyright">[[${COPYRIGHT}]]</div>
+</div>
+
+<script type="text/javascript">
+	$(".product-rating-star").rating({
+		hoverOnClear: false,
+		theme: 'krajee-svg'
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

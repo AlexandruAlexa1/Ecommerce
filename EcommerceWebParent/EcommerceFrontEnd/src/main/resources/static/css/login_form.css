@@ -1,0 +1,378 @@
+.login-form-wrapper {
+    width: 100rem;
+    height: 50rem;
+    display: flex;
+    position: relative;
+   /*  top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+    margin: 26rem auto;
+    box-shadow: .2rem .5rem 10rem #555;
+    transition: box-shadow .5s;
+    opacity: 0;
+    animation: showLoginForm 2.5s forwards;
+}
+
+@keyframes showLoginForm {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.login-form-wrapper:hover {
+    box-shadow: .2rem .5rem 8rem #000;
+}
+
+.login-form-wrapper::before {
+    content: "";
+    width: 0.5rem;
+    height: 100%;
+    background-color: #404040;
+    position: absolute;
+    top: 0;
+    left: -0.5rem;
+    transform: skewY(45deg);
+    transform-origin: right;
+}
+
+.login-form-wrapper::after {
+    content: "";
+    width: 100%;
+    height: 0.5rem;
+    background-color: #404040;
+    position: absolute;
+    top: -0.5rem;
+    left: 0;
+    transform: skewX(45deg);
+    transform-origin: bottom;
+}
+
+.login-form-img-wrapper {
+    width: 65%;
+    position: relative;
+}
+
+.login-form-img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+.login-form-img-wrapper div {
+    width: 35rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: .2rem .3rem 1rem #00e5e5;
+    padding: 1rem .5rem;
+    filter: blur();
+    transition: box-shadow .5s;
+    opacity: 0;
+    animation: showDiv 3s 2.5s forwards;
+}
+
+@keyframes showDiv {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.login-form-img-wrapper div:hover {
+    box-shadow: .4rem .6rem 1rem #00e5e5;
+}
+
+.login-form-img-wrapper div::before {
+    content: "";
+    background-color: #00e5e5;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    filter: blur(3rem);
+}
+
+.login-form-img-wrapper div span {
+    color: #fff;
+    text-shadow: .1rem .1rem .1rem #000;
+    letter-spacing: .2rem;
+    font-size: 2.3rem;
+    margin-bottom: 1rem;
+}
+
+.signup-btn {
+    font-size: 1.8rem;
+    background-color: #00e5e5;
+    box-shadow: .2rem .2rem .5rem #404040;
+    color: #fff;
+    text-shadow: .1rem .1rem .1rem #000;
+    padding: .1rem 4rem;
+    letter-spacing: 1rem;
+    transition: all .3s;
+}
+
+.signup-btn:hover {
+    background-color: #00cccc;
+    box-shadow: .3rem .3rem .5rem #404040;
+}
+
+.login-form {
+    width: 50%;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.login-form-message {
+	font-size: 1.5rem;
+	text-transform: uppercase;
+	font-weight: 600;
+	position: absolute;
+	top: .5rem;
+	left: .5rem;
+}
+
+.login-form-input-group {
+    width: 100%;
+    position: relative;
+}
+
+.login-form-input-group i {
+    font-size: 2rem;
+    color: #555;
+    position: absolute;
+    top: 0;
+    right: 0
+}
+
+.login-form-input-group input {
+    width: 100%;
+    font-size: 1.8rem;
+    margin-bottom: 5rem;
+    padding-right: 3rem;
+    background: transparent;
+    border: none;
+    outline: none;
+    border-bottom: .2rem solid #333333;
+}
+
+.login-form-input-group input:focus {
+    border-bottom: .2rem solid #00e5e5;
+}
+
+.login-form-checkbox {
+    position: absolute;
+    bottom: .5rem;
+    right: 1rem;
+}
+
+.login-form-checkbox label {
+    color: #000;
+    font-weight: 200;
+    font-size: 1.8rem;
+    margin-right: 1rem;
+}
+
+.login-form-submit-btn {
+    width: 100%;
+    font-size: 1.8rem;
+    background-color: #00e5e5;
+    color: #fff;
+    text-shadow: .1rem .1rem .1rem #000;
+    border: none;
+    outline: none;
+    padding: .2rem 5rem;
+    letter-spacing: 2rem;
+    margin-right: .2rem;
+    cursor: pointer;
+    transition: background .3s;
+}
+
+.login-form-submit-btn:hover {
+    background-color: #00cccc;
+}
+
+.login-form-btns {
+    width: 100%;
+    display: flex;
+}
+
+.google-btn,
+.facebook-btn {
+    font-size: 2.2rem;
+    color: #00e5e5;
+    border: .1rem solid #00e5e5;
+    padding: .2rem 1rem;
+    margin-right: .2rem;
+    transition: all .3s;
+}
+
+.google-btn:hover,
+.facebook-btn:hover {
+    background-color: #00e5e5;
+    color: #fff;
+}
+
+.forgot-password {
+    font-size: 1.8rem;
+    font-weight: 100;
+    color: #00cccc;
+    position: absolute;
+    bottom: .5rem;
+    left: 1rem;
+}
+
+@media screen and (max-width: 1100px) {
+    .login-form-wrapper {
+        width: 90rem;
+    }
+}
+
+@media screen and (max-width: 950px) {
+    .login-form-wrapper {
+        width: 80rem;
+    }
+    .login-form-img-wrapper {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .login-form-wrapper {
+        width: 75rem;
+    }
+    .login-form-img-wrapper div {
+        width: 30rem;
+    }
+    .login-form-img-wrapper div span {
+        font-size: 2rem;
+    }
+    .signup-btn {
+        font-size: 1.5rem;
+        padding: .1rem 2rem;
+    }
+    .login-form-input-group i {
+        font-size: 2rem;
+        color: #555;
+        position: absolute;
+        top: 0;
+        right: 0
+    }
+    .login-form-submit-btn {
+        padding: .2rem 4.5rem;
+    }
+    .forgot-password,
+    .login-form-checkbox label {
+        font-size: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .login-form-wrapper {
+        width: 42rem;
+        height: auto;
+        flex-direction: column;
+    }
+    .login-form-img-wrapper {
+        width: 100%;
+        height: 28rem;
+    }
+    
+    .login-form {
+        width: 100%;
+        height: 25rem;
+        padding: 2rem;
+    }
+    .login-form-checkbox {
+        right: 2rem;
+    }
+    .forgot-password {
+        left: 2rem;
+    }
+    .login-form-input-group i {
+        font-size: 1.8rem;
+    }
+    .login-form-input-group input {
+        font-size: 1.8rem;
+        margin-bottom: 3rem;
+    }
+}
+
+@media screen and (max-width: 500px) {
+	.login-form-wrapper {
+        width: 90%;
+        margin: 10rem auto;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .login-form {
+        padding: 1rem;
+    }
+    .login-form-checkbox {
+        right: 1rem;
+    }
+    .forgot-password {
+        left: 1rem;
+    }
+    .login-form-submit-btn {
+        width: 100%;
+        font-size: 1.8rem;
+        background-color: #00e5e5;
+        color: #fff;
+        text-shadow: .1rem .1rem .1rem #000;
+        border: none;
+        outline: none;
+        padding: .2rem 1rem;
+        letter-spacing: 1rem;
+        margin-right: .2rem;
+        cursor: pointer;
+        transition: background .3s;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .login-form-img-wrapper {
+        height: 25rem;
+    }
+    .login-form-img-wrapper div {
+        width: 80%;
+    }
+    .login-form-img-wrapper div span {
+        font-size: 1.5rem;
+    }
+    .login-form-input-group i {
+        font-size: 1.5rem;
+    }
+    .login-form-input-group input {
+        font-size: 1.5rem;
+        margin-bottom: 3rem;
+    }
+    .login-form-submit-btn {
+        font-size: 1.5rem;
+    }
+    .google-btn,
+    .facebook-btn {
+        font-size: 1.5rem;
+    }
+    .login-form-checkbox label,
+    .forgot-password {
+        font-size: 1.5rem;
+    }
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+	<head th:replace="fragments :: page_head('Your Address Book', 'tag')" />
+	<link rel="stylesheet" th:href="@{/css/modal.css}"/>
+</head>
+<body>
+
+<div th:with="redirectdFromCheckoutPage = ${param.redirect != null && param.redirect[0] == 'checkout'}">
+	<!-- Navbar -->
+	<div th:replace="navigation :: navbar"></div>
+
+	<h1 class="title" th:text="${redirectdFromCheckoutPage} ? 'Chose a Shipping Address' : 'Your Address Book'"></h1>
+	
+	<div class="address-wrapper">
+		<a th:unless="${param.redirect}" th:href="@{/address_book/new}" class="add-address-btn">Add New Address</a>
+		<a th:if="${redirectdFromCheckoutPage}" th:href="@{/address_book/new(redirect=checkout)}" class="add-address-btn">Add New Address</a>
+		
+		<div th:if="${message}">
+			<p class="address-message">[[${message}]]</p>
+		</div>
+		
+		<div class="address" th:classappend="${usePrimaryAddressAsDefault ? 'default-address' : ''}">
+			<h2>Your primary address</h2>
+	
+			
+			
+			<div class="address-links">
+				<th:block th:if="${usePrimaryAddressAsDefault}">
+				<span th:text="${redirectdFromCheckoutPage} ? '[Currently Selected]' : '[Default]'"></span>
+				</th:block>
+				
+				<th:block th:unless="${usePrimaryAddressAsDefault}">
+				<a th:unless="${param.redirect}" th:href="@{address_book/default/0}">[Set as default]</a>
+				<a th:if="${param.redirect != null && param.redirect[0] == 'cart'}" th:href="@{address_book/default/0?redirect=cart}">[Set as default]</a>
+				<a th:if="${redirectdFromCheckoutPage}" th:href="@{address_book/default/0?redirect=checkout}">[Chose]</a>
+				</th:block>
+				
+				<a th:unless="${param.redirect}" th:href="@{/account_details(redirect=address_book)}" class="far fa-edit edit-address-btn"></a>
+				<a th:if="${redirectdFromCheckoutPage}" th:href="@{/account_details(redirect=checkout)}" class="far fa-edit edit-address-btn"></a>
+			</div>
+			
+			<div class="address-name">
+				[[${customer}]]
+			</div>
+		</div>
+		
+		<th:block th:each="address, status : ${listAddresses}">
+		<div class="address" th:classappend="${address.defaultForShipping ? 'default-address' : ''}">
+			<h2>Address #[[${status.count + 1}]]</h2>
+			
+			<div class="address-links">
+				<th:block th:if="${address.defaultForShipping}">
+				<span th:text="${redirectdFromCheckoutPage} ? '[Currently Selected]' : '[Default]'"></span>
+				</th:block>
+				
+				<th:block th:unless="${address.defaultForShipping}">
+				<a th:unless="${param.redirect}" th:href="@{'address_book/default/' + ${address.id}}">[Set as default]</a>
+				<a th:if="${param.redirect != null && param.redirect[0] == 'cart'}" th:href="@{'address_book/default/' + ${address.id} + '?redirect=cart'}">[Set as default]</a>
+				<a th:if="${redirectdFromCheckoutPage}" th:href="@{'address_book/default/' + ${address.id} + '?redirect=checkout'}">[Chose]</a>
+				</th:block>
+			
+				<!-- Edit Address -->
+				<a th:unless="${param.redirect}" th:href="@{'/address_book/edit/' + ${address.id}}" class="far fa-edit edit-address-btn"
+					 title="Edit this address"></a>
+				
+				<a th:if="${redirectdFromCheckoutPage}" 
+					th:href="@{'/address_book/edit/' + ${address.id} + '?redirect=checkout'}" class="far fa-edit edit-address-btn" title="Edit this address"></a>
+				
+				<!-- Delete Address -->
+				<a th:href="@{'/address_book/delete/' + ${address.id}}" class="far fa-trash-alt link-delete delete-address-btn" 
+					th:entityId="${status.count + 1}" title="Delete this address"></a>
+			</div>
+			
+			<div class="address-name">
+				[[${address}]]
+			</div>
+		</div>
+		</th:block>
+	</div>
+</div>
+
+<!-- Footer -->
+<div th:replace="fragments :: footer"></div>
+
+<!-- Confirm Modal -->
+ <div class="modal">
+    <div class="confirm-modal-content">
+        <h1>Delete Confirmation</h1>
+        <hr>
+        <p class="confirm-modal-message"></p>
+        <hr>
+        <div class="confirm-modal-btns">
+            <a href="#" class="confirm-modal-btn confirm-modal-delete-btn">Yes</a>
+            <a href="#" class="confirm-modal-btn confirm-modal-close-btn">No</a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	var confirmModal;
+	
+	$(document).ready(function() {
+		confirmModal = $(".modal");
+		
+		handleLinkRemoveAddress();
+		handleLinkCloseConfirmModal();
+	});
+	
+	function handleLinkRemoveAddress() {
+		$(".link-delete").on("click", function(e) {
+			e.preventDefault();
+			showConfirmModal($(this));
+		});
+	}
+	
+	function showConfirmModal(link) {
+		confirmModal.addClass("change");
+		id = link.attr("entityId");
+		url = link.attr("href");
+		
+		$(".confirm-modal-message").text('Are you sure you want to delete this address ' + id + '?');
+		$(".confirm-modal-delete-btn").attr("href", url);
+	}
+	
+	function handleLinkCloseConfirmModal(){
+		$(".confirm-modal-close-btn").on("click", function() {
+			confirmModal.removeClass("change")
+		});
+	}
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

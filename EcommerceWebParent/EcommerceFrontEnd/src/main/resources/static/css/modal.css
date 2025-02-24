@@ -1,0 +1,715 @@
+.modal {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 100;
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity .5s;
+}
+
+.change.modal {
+	visibility: visible;
+	opacity: 1;
+}
+
+.modal .close-modal {
+	font-size: 2.5rem;
+    color: #00e5e5;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    transition: color .3s;
+    cursor: pointer;
+    z-index: 200;
+}
+
+.modal .close-modal:hover {
+    color: red;
+}
+
+/* Detail Modal */
+.detail-modal-content {
+    position: relative;
+}
+
+.detail-modal-title {
+    color: #00e5e5;
+    font-size: 4rem;
+    text-align: center;
+    margin: 3rem 0;
+    letter-spacing: .2rem;
+    font-weight: 400;
+}
+
+.detail-modal-input-wrapper {
+    width: 110rem;
+    margin: 0 auto;
+}
+
+.detail-modal-input {
+	width: 100%;
+    display: flex;
+    margin-bottom: 1.8rem;
+}
+
+.detail-modal-input label {
+    color: #00e5e5;
+    font-size: 2rem;
+    white-space: nowrap;
+    margin-right: 1rem;
+    letter-spacing: .1rem;
+}
+
+.detail-modal-input input[type=text] {
+	width: 100%;
+    font-size: 2rem;
+    background: transparent;
+    color: #00e5e5;
+    border: none;
+    outline: none;
+    border-bottom: .1rem solid #00e5e5;
+}
+
+.detail-modal-input textarea {
+	width: 100%;
+    height: 10rem;
+    font-size: 1.8rem;
+    padding: .5rem;
+    color: #00e5e5;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: .1rem solid #00e5e5;
+    
+}
+
+.detail-modal-input span {
+    color: #00ffff;
+    font-size: 2rem;
+    letter-spacing: .1rem;
+}
+
+/* Tab */
+.tab-wrapper {
+	width: 110rem;
+	margin: 10rem auto;
+}
+
+.tab-nav {
+	display: flex;
+	border-bottom: .2rem solid aqua;
+}
+
+.tab-link {
+	color: aqua;
+	font-size: 2.2rem;
+	padding-right: 1rem;
+}
+
+.active {
+	color: #fff;
+	border-bottom: none;
+}
+
+.tab-content {
+	width: 100%;
+	padding: 2rem 0;
+}
+
+.tab-content-input-group {
+	margin-bottom: 2rem;
+	display: flex;
+	align-items: center;
+}
+
+.tab-content-input-group label,
+.tab-content-input-group span {
+	font-size: 2rem;
+	color: #00e5e5;
+	margin-right: 1.5rem;
+	white-space: nowrap;
+}
+
+.tab-content-input-group input {
+	width: 100%;
+	font-size: 2rem;
+	color: #fff;
+	background: transparent;
+	border: none;
+	outline: none;
+	padding: 0;
+}
+
+.tab-content-input-group p {
+	font-size: 1.7rem;
+} 
+
+.tab-content-product-wrapper {
+	width: 100%;
+	border: .1rem solid #00e5e5;
+	padding: .5rem;
+	display: flex;
+	position: relative;
+	margin-bottom: 1rem;
+}
+
+.tab-content-product-wrapper .product-number {
+	font-size: 2rem;
+	color: #00e5e5;
+	padding: .5rem;
+	margin-right: 1rem;
+}
+
+.tab-content-product-wrapper .product-img {
+	width: 10rem;
+	object-fit: contain;
+	margin-right: 1rem;
+}
+
+.tab-content-product-wrapper .product-name,
+.tab-content-product-wrapper .product-subtotal {
+	width: 80rem;
+	font-size: 1.5rem;
+	color: #00e5e5;
+}
+
+.tab-content-product-wrapper .write-review-btn,
+.tab-content-product-wrapper .view-review-btn {
+	color: #00e5e5;
+	border: .1rem solid #00e5e5;
+	padding: .2rem 1rem;
+	text-transform: uppercase;
+	font-size: 1.5rem;
+	letter-spacing: .1rem;
+	position: absolute;
+	top: .5rem;
+	right: .5rem;
+	transition: all .3s;
+}
+
+.tab-content-product-wrapper .write-review-btn:hover,
+.tab-content-product-wrapper .view-review-btn:hover {
+	background: #00e5e5;
+	color: #000;
+	border: .1rem solid #fff;
+}
+
+.tab-content-track-icons {
+	width: 50%;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+}
+
+.track-icon {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.track-icon span {
+	font-size: 2rem;
+	color: #fff;
+}
+
+.track-table {
+	width: 100%;
+	margin: 4rem 0;
+}
+
+.track-table th,
+.track-table td {
+	color: #00e5e5;
+	font-size: 2rem;
+	margin: 4rem 0;
+	padding: .2rem .5rem;
+	border: .1rem solid #00e5e5;
+}
+/* End of Tab */
+
+/* Responsive */
+@media screen and (max-width: 1200px) {
+    .detail-modal-title {
+        font-size: 3rem;
+    }
+    .detail-modal-input-wrapper {
+        width: 95%;
+    }
+    
+    .tab-wrapper {
+		width: 95%;
+	}
+	
+	.tab-content-product-wrapper .product-name, 
+	.tab-content-product-wrapper .product-subtotal {
+		width: 50rem;
+	}
+}
+
+@media screen and (max-width: 950px) {
+	.track-table {
+		margin: 5rem 0;
+	}
+
+	.track-table th,
+	.track-table td {
+		font-size: 1.3rem;
+	}
+}
+
+@media screen and (max-width: 850px) {
+    .detail-modal-title {
+        font-size: 2.5rem;
+    }
+	
+	.tab-content-product-wrapper .product-name {
+		width: 40rem;
+	}
+}
+
+@media screen and (max-width: 750px) {
+	.tab-content-product-wrapper .product-name {
+		width: 30rem;
+		font-size: 1.3rem;
+	}
+	
+	.tab-content-product-wrapper .product-subtotal {
+		font-size: 1.3rem;
+	}
+	
+	.tab-content-product-wrapper .product-img {
+		width: 7rem;
+	}
+	
+	.tab-content-input-group label,
+	.tab-content-input-group span {
+		font-size: 1.6rem;
+	}
+	
+	.tab-content-input-group input {
+		font-size: 1.6rem;
+	}
+	
+	.tab-content-input-group p {
+		font-size: 1.6rem;
+	}
+	
+	.tab-content-product-wrapper .write-review-btn,
+	.tab-content-product-wrapper .view-review-btn {
+		padding: .2rem .5rem;
+		font-size: 1.3rem;
+	}
+	
+	.tab-content-track-icons {
+		width: 70%;
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-between;
+	}
+	
+	.track-icon span {
+		font-size: 1.5rem;
+	}
+}
+
+@media screen and (max-width: 650px) {
+	.tab-content-product-wrapper .product-name {
+		width: 25rem;
+	}
+}
+
+@media screen and (max-width: 550px) {
+	.tab-content-product-wrapper {
+		padding: 1rem 0;
+	}
+	
+	.tab-content-product-wrapper .product-name, 
+	.tab-content-product-wrapper .product-subtotal {
+		width: 18rem;
+		font-size: 1.3rem;
+	}
+	
+	.track-icon i {
+		font-size: 3rem;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.tab-nav {
+		flex-wrap: wrap;
+	}
+	
+	.tab-link {
+		font-size: 1.6rem;
+	}
+
+ 	.detail-modal-title {
+       margin: 8rem 0;
+    }
+    
+    .detail-modal-input {
+    	flex-direction: column;
+    }
+	
+    .detail-modal-input label {
+        margin-bottom: .5rem;
+    }
+    
+    .detail-modal-input label,
+    .detail-modal-input input[type = "text"],
+    .detail-modal-input textarea,
+    .detail-modal-input span {
+        font-size: 1.6rem;
+    }
+    
+    .tab-content-product-wrapper .product-name,
+	.tab-content-product-wrapper .product-subtotal {
+		font-size: 1.8rem;
+		width: 100%;
+	}
+    
+    .tab-content-product-wrapper .write-review-btn,
+	.tab-content-product-wrapper .view-review-btn {
+		display: none;
+	}
+	
+	.tab-content-track-icons {
+		width: 100%;
+	}
+	
+	.track-icon i {
+		font-size: 3rem;
+		margin-bottom: .5rem;
+	}
+	
+	.track-icon span {
+		font-size: 1.5rem;
+	}
+	
+	.track-table th,
+	.track-table td {
+		font-size: 1.5rem;
+	}
+ 
+}
+
+@media screen and (max-width: 400px) {
+	
+	.track-icon i {
+		font-size: 2rem;
+		margin-bottom: .5rem;
+	}
+	
+	.track-icon span {
+		font-size: 1.4rem;
+	}
+}
+
+@media screen and (max-width: 350px) {
+	.tab-content-product-wrapper {
+		width: 100%;
+		border: none;
+		border-bottom: .1rem solid #00e5e5;
+		padding: .5rem;
+		display: flex;
+		position: relative;
+		margin-bottom: 1rem;
+	}
+	
+	
+	.tab-content-product-wrapper .product-name {
+		font-size: 1.3rem;
+		margin-bottom: .5rem;
+	}
+	
+	.tab-content-product-wrapper .product-subtotal {
+		font-size: 1.3rem;
+		color: #fff;
+	}
+	
+	.track-table th,
+	.track-table td {
+		font-size: 1.3rem;
+	}
+}
+/* End of Detail Modal */
+
+/* Confirm Delete Modal */
+.confirm-modal-content {
+    width: 50rem;
+    height: 20rem;
+    background-color: #fff;
+    padding: 1rem;
+    position: absolute;
+    box-shadow: .2rem .2rem .5rem #000;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.confirm-modal-content h1 {
+    font-size: 3rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+}
+
+.confirm-modal-message {
+    font-size: 2rem;
+    margin: 5rem 0;
+    letter-spacing: .1rem;
+}
+
+.confirm-modal-btns {
+    position: absolute;
+    bottom: .2rem;
+    right: .2rem;
+    text-shadow: .1rem .1rem .1rem #000;
+}
+
+.confirm-modal-btn {
+    font-size: 1.5rem;
+    padding: .1rem 2rem;
+    text-transform: uppercase;
+    letter-spacing: .5rem;
+    color: #fff;
+    font-weight: bolder;
+}
+
+.confirm-modal-delete-btn {
+    background-color: #00e5e5;
+    transition: background .3s;
+}
+
+.confirm-modal-delete-btn:hover {
+    background-color: #00cccc;
+}
+
+.confirm-modal-close-btn {
+    background-color: #bfbfbf;
+    transition: background .3s;
+}
+
+.confirm-modal-close-btn:hover {
+    background-color: #b2b2b2;
+}
+
+@media screen and (max-width: 650px) {
+    .confirm-modal-content {
+        width: 50rem;
+        height: 23rem;
+    }
+    .confirm-modal-content h1 {
+        font-size: 3.5rem;
+    }
+    .confirm-modal-message {
+        font-size: 1.8rem;
+        margin: 3.4rem 0;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .confirm-modal-content {
+        width: 45rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .confirm-modal-content {
+        width: 35rem;
+        height: 20rem;
+    }
+    .confirm-modal-content h1 {
+        font-size: 2.5rem;
+    }
+    .confirm-modal-message {
+        font-size: 1.5rem;
+        margin: 3rem 0;
+    }
+    .confirm-modal-btn {
+        font-size: 1.5rem;
+        padding: .1rem 2rem;
+        text-transform: uppercase;
+        letter-spacing: .5rem;
+        color: #fff;
+        font-weight: bolder;
+    }
+}
+
+@media screen and (max-width: 370px) {
+    .confirm-modal-content {
+        width: 95%;
+        height: 18rem;
+    }
+    .confirm-modal-content h1 {
+        font-size: 2rem;
+    }
+    .confirm-modal-message {
+        font-size: 1.5rem;
+        margin: 2.5rem 0;
+    }
+    .confirm-modal-btn {
+        font-size: 1.5rem;
+        padding: .1rem 2rem;
+        text-transform: uppercase;
+        letter-spacing: .5rem;
+        color: #fff;
+        font-weight: bolder;
+    }
+}
+/* End of Confirm Delete Modal */
+
+/* Return Modal */
+.return-order-modal {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 100;
+	display: none;
+}
+
+.return-modal-content {
+    width: 65rem;
+    padding: 1rem;
+    background-color: #474747;
+    color: #00e5e5;
+    position: absolute;
+    box-shadow: .2rem .2rem .7rem #000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.return-modal-content h1 {
+    font-size: 3.5rem;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+}
+
+.return-modal-content h2 {
+    font-size: 2.2rem;
+    font-weight: 300;
+    margin-bottom: .5rem;
+}
+
+.return-order-form {
+    width: 100%;
+}
+
+.reason-input-group {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    font-weight: 300;
+}
+
+.return-order-form textarea {
+    width: 100%;
+    max-width: 100%;
+    max-height: 10rem;
+    background: transparent;
+    outline: none;
+    border: none;
+    border: .2rem solid #00e5e5;
+    color: #00e5e5;
+    font-size: 1.8rem;
+    padding: .5rem;
+    margin: 1rem 0;
+}
+
+.return-order-form textarea::placeholder {
+    color: #00e5e5;
+}
+
+.return-modal-btns {
+    display: flex;
+}
+
+.return-modal-btn {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    padding: .2rem .5rem;
+    border: none;
+    outline: none;
+    font-weight: bolder;
+    cursor: pointer;
+}
+
+.return-modal-btns .send-equest-btn {
+    margin-right: 1rem;
+    background-color: #00e5e5;
+    color: #555;
+    letter-spacing: .4rem;
+    transition: background .3s;
+}
+
+.return-modal-btns .send-equest-btn:hover {
+    background-color: #00cccc;
+}
+
+.return-modal-btns .cancel-btn {
+    background-color: #eee;
+    letter-spacing: .4rem;
+    transition: background .3s;
+}
+
+.return-modal-btns .cancel-btn:hover {
+    background-color: #bfbfbf;
+}
+
+.return-confirm-message {
+    font-size: 2rem;
+    margin: 1rem 0;
+}
+
+@media screen and (max-width: 700px) {
+    .return-modal-content {
+        width: 55rem;
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .return-modal-content {
+        width: 45rem;
+        padding: .5rem;
+    }
+    .return-modal-content h1 {
+        font-size: 3rem;
+        margin-bottom: .5rem;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .return-modal-content {
+        width: 40rem;
+        padding: 0 .5rem;
+    }
+    .reason-input-group {
+        margin-bottom: .5rem;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .return-modal-content {
+        width: 35rem;
+    }
+    .reason-input-group {
+        margin-bottom: .5rem;
+    }
+    .form-reason textarea {
+        max-height: 7rem;
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .return-modal-content {
+        width: 32rem;
+    }
+}
+/* End of Return Modal */

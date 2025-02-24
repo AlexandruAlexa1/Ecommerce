@@ -1,0 +1,74 @@
+<h1>Customer Detail</h1>
+
+<div class="tab-wrapper">
+	<!-- Tab links -->
+	<div class="tab-nav">
+		<a href="#" onclick="openTab(event, 'general')" class="tab-link active">General</a>
+		<a href="#" onclick="openTab(event, 'address')" class="tab-link">Address</a>
+	</div>
+	
+	<!-- Tab content --> 
+	<div id="general" class="tab-content">
+		<div class="input-group">
+			<label>First Name:</label> 
+			<input type="text" th:value="${customer.firstName}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>Last Name:</label> 
+			<input type="text" th:value="${customer.lastName}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>E-mail:</label>
+			<input type="text" th:value="${customer.email}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>Phone Number:</label>
+			<input type="text" th:value="${customer.phoneNumber}" readonly />
+		</div>
+		
+		<div class="input-group-checkbox">
+			<label>Enabled:</label>
+			<input type="checkbox" th:checked="${customer.enabled}" disabled="disabled" />
+		</div>
+		
+		<div class="input-group">
+			<label>Created Time: <span th:text="${#dates.format(customer.createdTime, 'dd-MM-yyyy HH:mm:ss')}"</label> 
+		</div>
+	</div>
+	
+	<div id="address" class="tab-content" style="display: none;">
+		<div class="input-group">
+			<label>Address Line 1:</label> 
+			<input type="text" th:value="${customer.addressLine1}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>Address Line 2:</label> 
+			<input type="text" th:value="${customer.addressLine2}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>City:</label> 
+			<input type="text" th:value="${customer.city}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>State:</label> 
+			<input type="text" th:value="${customer.state}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>Country:</label> 
+			<input type="text" th:value="${customer.country.name}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>Postal Code:</label> 
+			<input type="text" th:value="${customer.postalCode}" readonly />
+		</div>
+	</div>
+	
+</div>

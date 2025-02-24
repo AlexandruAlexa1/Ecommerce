@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content" th:remove="tag">
+	<div class="input-group">
+		<label>Order ID:</label>
+		<input type="text" th:value="${order.id}" readonly />
+	</div>
+	
+	<div class="input-group">
+		<label>Customer:</label>
+		<input type="text" th:value="${order.customer.fullName}" readonly />
+	</div>
+	
+	<div class="input-group">
+		<label>Product Cost:</label>
+		<input type="text" th:field="*{productCost}" required />
+	</div>
+	
+	<div class="input-group">
+		<label>Subtotal:</label>
+		<input type="text" th:field="*{subtotal}" required />
+	</div>
+	
+	<div class="input-group">
+		<label>Shipping Cost:</label>
+		<input type="text" th:field="*{shippingCost}" required />
+	</div>
+	
+	<div class="input-group">
+		<label>Tax:</label>
+		<input type="text" th:field="*{tax}" required />
+	</div>
+	
+	<div class="input-group">
+		<label>Total:</label>
+		<input type="text" th:field="*{total}" required />
+	</div>
+	
+	<div class="input-group">
+		<label>Payment Method:</label>
+		<select th:field="*{paymentMethod}">
+			<option th:each="pm : ${T(com.ecommerce.common.entity.order.PaymentMethod).values()}"
+				th:value="${pm}" th:text="${pm}" />
+		</select>
+	</div>
+	
+	<div class="input-group">
+		<label>Status:</label>
+		<select th:field="*{orderStatus}">
+			<option th:each="os : ${T(com.ecommerce.common.entity.order.OrderStatus).values()}"
+				th:value="${os}" th:text="${os}" />
+		</select>
+	</div>
+</div>
+</body>
+</html>

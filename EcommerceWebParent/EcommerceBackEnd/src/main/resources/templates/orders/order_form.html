@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments :: page_head(${pageTitle}, 'none')" />
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="form-title"><span>Manage Orders</span> [[${pageTitle}]]</h1>
+
+<!-- Form -->
+<form th:action="@{/orders/save}" method="post" th:object="${order}" onsubmit="return processFormBeforeSubmit();" class="common-form order-form">
+	<input type="hidden" th:field="*{id}" />
+	
+	<div class="tab-wrapper">
+		<!-- Tab links -->
+		<div class="tab-nav">
+			<a href="#" onclick="openTab(event, 'overview')" class="tab-link active">Overview</a>
+			<a href="#" onclick="openTab(event, 'products')" class="tab-link">Products</a>
+			<a href="#" onclick="openTab(event, 'shipping')" class="tab-link">Shipping</a>
+			<a href="#" onclick="openTab(event, 'track')" class="tab-link">Track</a>
+		</div>
+		
+		<!-- Tab content -->
+		<div id="overview" class="tab-content">
+			<div th:replace="orders/order_form_overview :: content"></div>
+		</div>
+		
+		<div id="products" class="tab-content" style="display: none;">
+			<div th:replace="orders/order_form_products :: content"></div>
+		</div>
+		
+		<div id="shipping" class="tab-content" style="display: none;">
+			<div th:replace="orders/order_form_shipping :: content"></div>
+		</div>
+		
+		<div id="track" class="tab-content" style="display: none;">
+			<div th:replace="orders/order_form_tracks :: content"></div>
+		</div>
+		
+		<input type="submit" value="Save" class="form-btn submit-btn"/>
+		<a href="#" class="fa-solid fa-xmark cancel-form-btn"></a>
+	</div>
+</form>
+
+<!-- Add Product Modal -->
+<div th:replace="orders/add_product_modal :: content"></div>
+
+<!-- Warning Modal -->
+<div th:replace="fragments :: warning-modal"></div>
+
+<script type="text/javascript">
+	contextPath = "[[@{/}]]";
+	moduleUrl = "[[@{/orders}]]";
+	let csrfHeaderName = "[[${_csrf.headerName}]]";
+	let csrfValue = "[[${_csrf.token}]]";
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/common_form_country_state.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.number.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/order_form_overview_products.js}"></script>
+<script type="text/javascript" th:src="@{/js/order_form_add_product.js}"></script>
+<script type="text/javascript" th:src="@{/js/order_form_remove_product.js}"></script>
+<script type="text/javascript" th:src="@{/js/order_form_tracks.js}"></script>
+</body>
+</html>

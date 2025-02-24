@@ -1,0 +1,36 @@
+<h1 class="detail-modal-title">Review Details</h1>
+
+<div class="detail-modal-input-wrapper">
+	<div class="detail-modal-input">
+	<label>Review ID:</label>
+	<input type="text" th:value="${review.id}" readonly />
+	</div>
+	<div class="detail-modal-input">
+		<label>Product:</label>
+		<input type="text" th:value="${review.product.shortName}" readonly />
+	</div>
+	<div class="detail-modal-input">
+		<label>Customer:</label>
+		<input type="text" th:value="${review.customer.fullName}" readonly />
+	</div>
+	<div class="detail-modal-input">
+		<label>Headline:</label>
+		<input type="text" th:value="${review.headline}" readonly />
+	</div>
+	<div class="detail-modal-input">
+		<label>Rating:</label>
+		<input type="text" th:value="${review.rating}" readonly />
+	</div>
+	<div class="detail-modal-input">
+		<label>Comment:</label>
+		<textarea type="text" th:text="${review.comment}" readonly></textarea>
+	</div>
+	<div class="detail-modal-input">
+		<label>Review Time:</label>
+		<span th:text="${review.reviewTime}"></span>
+	</div>
+	<div class="detail-modal-input">
+		<label>Votes:</label>
+		<input type="text" th:value="${review.votes}" readonly />
+	</div>
+</div>

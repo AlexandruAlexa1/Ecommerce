@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<head th:replace="fragments :: page_head('Write Review Success', 'tag')" />
+<link th:href="@{/star-rating/css/star-rating.css}" media="all" rel="stylesheet" type="text/css" />
+<script th:src="@{/star-rating/js/star-rating.js}" type="text/javascript"></script>
+<link th:href="@{/star-rating/themes/krajee-svg/theme.css}" media="all" rel="stylesheet" type="text/css" />
+<script th:src="@{/star-rating/themes/krajee-svg/theme.js}" type="text/javascript"></script>
+</head>
+<body>
+
+<div class="container">
+	<!-- Navbar -->
+	<div th:replace="navigation :: navbar"></div>
+	
+	<h1 class="title">Write Product Review</h1>
+	
+	<div style="width: 100%; display: flex; justify-content: center;">
+		<div style="display: flex; flex-direction: column; font-size: 2rem;">
+			<img th:src="@{${review.product.mainImagePath}}" width="300">
+			<h2>[[${review.product.name}]]</h2>
+			
+			<span style="color: aqua;">You review has been posted.</span>
+			
+			<div style="border: .2rem solid #000; display: flex; flex-direction: column; padding: 2rem;">
+				<div>
+					<input type="text" th:value="${review.rating}" class="product-rating-star" dir="ltr" data-size="md" />
+				</div>
+				<input type="text" th:value="${review.headline}" readonly style="margin-bottom: 2rem;" />
+				<textarea rows="5" cols="100">[[${review.comment}]]</textarea>
+			</div>
+		</div>
+	</div>
+
+	<div class="copyright">[[${COPYRIGHT}]]</div>
+</div>
+
+<script type="text/javascript">
+	$(".product-rating-star").rating({
+		displayOnly: true,
+		hoverOnClear: false,
+		showCaption: false,
+		theme: 'krajee-svg'
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

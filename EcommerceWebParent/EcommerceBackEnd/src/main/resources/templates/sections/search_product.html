@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments :: page_head('Search Product', 'none')" />
+<body>
+
+<h1 class="title">Add Product</h1>
+
+<div style="width: 90%; margin: 0 auto;">
+	<!-- Search Products-->
+	<form th:action="@{/sections/search_product}" method="post" class="search-form">
+		<input type="search" name="keyword" th:value="${keyword}" placeholder="product name" required />
+		<input type="submit" value="Search" style="border-right: .1rem solid #00cccc;" />
+	</form>
+	
+	<!-- Products -->
+	<th:block th:each="product : ${listProducts}">
+	<div class="order-form-product">
+		<div class="details">
+			<a href="" class="linkProduct" th:pid="${product.id}" title="Add this product">
+				<img th:src="@{${product.mainImagePath}}">
+				<span th:id="'pname' + ${product.id}" 
+					style="color: #00cccc;">[[${product.shortName}]]</span>
+			</a>
+		</div>
+	</div>
+	</th:block>
+	
+	<!-- Pagination -->
+	<div th:replace="fragments :: pagination('product')"></div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		handleLinkAddProduct();
+	});
+	
+	function handleLinkAddProduct() {
+		$(".linkProduct").on("click", function(e) {
+			e.preventDefault();
+			productId = $(this).attr("pid");
+			productName = $("#pname" + productId).text();
+			
+			if (window.parent.isProductAlreadyAdded(productId)) {
+				alert("The product '" + productName + "' was already added.");
+			} else {
+				window.parent.addProduct(productId);
+			}
+		});
+	}
+</script>
+</body>
+</html>

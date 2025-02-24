@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+	<head th:replace="fragments :: page_head('Manage Articles', 'tag')"></head>
+	<link rel="stylesheet" th:href="@{/richtext/richtext.min.css}" />
+	<script th:src="@{/richtext/jquery.richtext.min.js}"></script>
+</head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="form-title"><span>Manage Articles</span> [[${pageTitle}]]</h1>
+
+<!-- Form -->
+<form th:action="@{/articles/save}" method="post" class="common-form"
+	  th:object="${article}">
+	<input type="hidden" th:field="*{id}" />
+	
+	<div class="input-group">
+		<label>Title:</label>
+		<input type="text" th:field="*{title}" minlenght="5" maxlength="128" required />
+	</div>
+	
+	<div class="input-group">
+		<label>Alias:</label>
+		<input type="text" th:field="*{alias}" minlenght="5" maxlength="68"
+			placeholder="If leaved empty, default alias will be same as title with spaces replaced by dashes" />
+	</div>
+	
+	<div class="input-group-textarea">
+		<label>Content:</label>
+		<textarea th:field="*{content}" id="articleContent" required></textarea>
+	</div>
+	
+	<div class="input-group">
+		<label>Type:</label>
+		<select th:field="*{type}" required>
+			<option value="menu">Menu-Bound Article</option>
+			<option value="free">Free Article</option>
+		</select>
+	</div>
+	
+	<div class="input-group-checkbox">
+		<label>Published:</label>
+		<input type="checkbox" th:field="*{published}" />
+	</div>
+	
+	<input type="submit" value="Save"/>
+	<a href="#" class="fa-solid fa-xmark cancel-form-btn"></a>
+</form>
+
+<script type="text/javascript">
+	moduleUrl = "[[@{/articles}]]";
+	
+	$(document).ready(function() {
+		$("#articleContent").richText();
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

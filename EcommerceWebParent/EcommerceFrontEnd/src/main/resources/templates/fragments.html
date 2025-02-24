@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:fragment="page_head(title, remove)" th:remove="${remove}">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- <meta http-equiv="refresh" content="5"> -->
+	
+	<title>[[${title}]] - [[${SITE_NAME}]]</title>
+	
+	<link rel="stylesheet" th:href="@{/css/style.css}"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"/>
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+</head>
+<body>
+
+<!-- Pagination -->
+<a th:fragment="page_link(moduleURL, pageNumber, label)" 
+	th:href="@{${moduleURL} + '/page/' + ${pageNumber} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${label}]]</a>
+	
+<div th:fragment="pagination(moduleURL, entityName)" class="pagination-wrapper">
+	<span th:if="${totalItems > 0}">Showing [[${entityName}]] # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+	<span th:unless="${totalItems > 0}">No [[${entityName}]] found</span>
+	
+	<ul th:if="${totalPages > 1}" class="pagination">
+		<li th:if="${currentPage > 1}">
+			<a th:replace="fragments :: page_link(${moduleURL}, 1, 'First')"></a>
+		</li>
+		<li th:if="${currentPage > 1}">
+			<a th:replace="fragments :: page_link(${moduleURL}, ${currentPage -1}, 'Previous')"></a>
+		</li>
+		
+		<li th:each="i : ${#numbers.sequence(1, totalPages)}">
+			<a th:replace="fragments :: page_link(${moduleURL}, ${i}, ${i})"></a>
+		</li>
+			
+		<li th:if="${currentPage < totalPages}">
+			<a th:replace="fragments :: page_link(${moduleURL}, ${currentPage + 1}, 'Next')"></a>
+		</li>
+		<li th:if="${currentPage < totalPages}">
+			<a th:replace="fragments :: page_link(${moduleURL}, ${currentPage + 1}, 'Last')"></a>
+		</li>
+	</ul>
+</div>
+<!-- End of Pagination -->
+
+<!-- Format Currency -->
+<div th:fragment="format_currency(amount)" th:remove="tag">
+	<span th:if="${CURRENCY_SYMBOL_POSITION == 'Before price'}" th:remove="tag">[[${CURRENCY_SYMBOL}]]</span>[[${#numbers.formatDecimal(amount, 1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]<span th:if="${CURRENCY_SYMBOL_POSITION == 'After price'}" th:remove="tag">[[${CURRENCY_SYMBOL}]]</span>
+</div>
+
+<!-- Format Time -->
+<div th:fragment="format_time(dateTime)" th:remove="tag">
+	<span>[[${#dates.format(dateTime, 'yyyy-MM-dd HH:mm')}]]</span>
+</div>
+
+<!-- Sort -->
+<th th:fragment="column_link(fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
+	<a th:href="@{${moduleURL} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">
+		[[${columnLabel}]]
+	</a>
+				
+	<span th:if="${sortField == fieldName}"
+		th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
+</th>
+
+<!-- Currency Input -->
+<div th:fragment="currency_input(amount)" th:remove="tag">
+	<input type="text" readonly th:value="${(CURRENCY_SYMBOL_POSITION == 'Before price' ? CURRENCY_SYMBOL : '') + #numbers.formatDecimal(amount, 1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE) + (CURRENCY_SYMBOL_POSITION == 'After price' ? CURRENCY_SYMBOL : '')}"  />
+</div>
+
+<!-- Search Form -->
+<div th:fragment="search_form">
+	<form class="search-form" th:action="@{${moduleURL} + '/page/1'}">
+		<input type="hidden" name="sortField" th:value="${sortField}"/>
+		<input type="hidden" name="sortDir" th:value="${sortDir}"/>
+		
+		<input type="search" name="keyword" th:value="${keyword}" required />
+		<input type="submit" value="Search" />
+		<input type="button" value="Clear" onclick="clearFilter()"/>
+	</form>
+</div>
+
+<!-- Detail Modal -->
+<div th:fragment="detail_modal" class="modal">
+	<a class="fas fa-times close-modal" title="Close"></a>
+	<div class="detail-modal-content"></div>
+</div>
+<!-- End of Detail Modal -->
+
+<!-- Warning Modal -->
+<div th:fragment="warning-modal" class="warning-modal">
+	<div class="warning-modal-content">
+		<h2 class="warning-modal-title"></h2>
+		<p class="warning-modal-message">Message</p>
+		<a class="fa-solid fa-xmark warning-modal-btn"></a>
+	</div>
+</div>
+
+<!-- Footer -->
+<div th:fragment="footer" class="footer">
+	<div class="footer-content">
+		<h5>Welcome</h5>
+		<div class="footer-links">
+			<th:block th:each="menu : ${listMenus}">
+			<a th:if="${menu.type == 'Footer Menu'}" th:href="@{'/m/' + ${menu.alias}}">[[${menu.title}]]</a>
+			</th:block>
+			<p>[[${COPYRIGHT}]]</p>
+		</div>
+		<div class="footer-icons">
+			<i class="fa-brands fa-linkedin"></i>
+	    	<i class="fa-brands fa-google"></i>
+	    	<i class="fa-brands fa-facebook-square"></i>
+	    	<i class="fa-brands fa-instagram"></i>
+	    	<p>Support: aa@yahoo.com</p>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments :: page_head('Manage Rates', 'none')"></head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="form-title"><span>Manage Rates</span> [[${pageTitle}]]</h1>
+
+<!-- Form -->
+<form th:action="@{/shipping_rates/save}" method="post" class="common-form"
+	  th:object="${rate}">
+	<input type="hidden" th:field="*{id}" />
+	
+	<div class="input-group">
+		<label>Destination Country:</label>
+		<select th:field="*{country}">
+			<th:block th:each="country : ${listCountries}">
+			<option th:value="${country.id}">[[${country.name}]]</option>
+			</th:block>
+		</select>
+	</div>
+	
+	<div class="input-group">
+		<label>Destination State/Province</label>
+		<input type="text" th:field="*{state}" maxlength="45" required="required" list="listStates" />
+		<datalist id="listStates"></datalist>
+	</div>
+	
+	<div class="input-group">
+		<label>Shipping Rate (per DIM weight)</label>
+		<input type="number" th:field="*{rate}" required="required" />
+	</div>
+	
+	<div class="input-group">
+		<label>Days to deliver:</label>
+		<input type="number" th:field="*{days}" required="required" />
+	</div>
+	
+	<div class="input-group-checkbox">
+		<label>Cash On Deliver (COD):</label>
+		<input type="checkbox" th:field="*{codSupported}" />
+	</div>
+	
+	<input type="submit" value="Save" class="form-btn submit-btn"/>
+	<a href="#" class="fa-solid fa-xmark cancel-form-btn"></a>
+</form>
+
+<script type="text/javascript">
+	contextPath = "[[@{/}]]";
+	moduleUrl = "[[@{/shipping_rates}]]";
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/common_form_country_state.js}"></script>
+</body>
+</html>

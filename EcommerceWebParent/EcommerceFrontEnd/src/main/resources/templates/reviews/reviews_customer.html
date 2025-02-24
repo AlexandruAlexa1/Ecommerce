@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+	<head th:replace="fragments :: page_head('My Reviews', 'tag')" />
+	<link rel="stylesheet" th:href="@{/css/modal.css}"/>
+</head>
+
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="title">Reviews Posted by me</h1>
+
+<div class="table-wrapper">
+	<!-- Search Form -->
+	<div th:replace="fragments :: search_form"></div>
+	
+	<div th:if="${message}">
+		<p class="message">[[${message}]] Message</p>
+	</div>
+		
+	<table>
+		<thead>
+			<tr>
+				<th th:replace="fragments :: column_link('id', 'ID', 'none')"/>
+				<th th:replace="fragments :: column_link('product', 'Product', 'none')"/>
+				<th th:replace="fragments :: column_link('headline', 'Headline', 'none')"/>
+				<th th:replace="fragments :: column_link('rating', 'Rating', 'none')"/>
+				<th th:replace="fragments :: column_link('reviewTime', 'Review Time', 'none')"/>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="review : ${listReviews}">
+				<td>[[${review.id}]]</td>
+				<td>[[${review.product.shortName}]]</td>
+				<td>[[${review.headline}]]</td>
+				<td>[[${review.rating}]]</td>
+				<td>
+					<div th:replace="fragments :: format_time(${review.reviewTime})"></div>
+				</td>
+				<td>
+					<a class="fas fa-file-alt icon icon-aqua link-detail" title="View details of this review"
+						th:href="@{'/reviews/detail/' + ${review.id}}"></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<!-- Responsive Table -->
+	<div class="table-cards-wrapper">
+		<th:block th:each="review : ${listReviews}">
+		<div class="table-card">
+			<div class="table-card-header">
+				<h5>Review ID #[[${review.id}]]</h5>
+				<a class="fas fa-file-alt icon icon-aqua link-detail" title="View details of this review"
+							th:href="@{'/reviews/detail/' + ${review.id}}"></a>
+			</div>
+			<div class="table-card-body">
+				<a th:href="@{'/p/' + ${review.product.alias}}" title="View Product">[[${review.product.shortName}]]</a>
+				<p>Review: [[${review.headline}]]</p>
+				<div th:replace="fragments :: format_time(${review.reviewTime})"></div>
+			</div>
+		</div>
+		</th:block>
+	</div>
+	
+	<!-- Pagination -->
+	<div th:replace="fragments :: pagination(${moduleURL}, 'reviews')"></div>
+</div>
+
+<!-- Detail Modal -->
+<div th:replace="fragments :: detail_modal"></div>
+
+<!-- Footer -->
+<div th:replace="fragments :: footer"></div>
+
+<script type="text/javascript">
+	contextPath = "[[@{/}]]";
+	moduleURL = "[[@{/reviews}]]";
+	
+	$(document).ready(function() {
+		handleLinkViewDetail();
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

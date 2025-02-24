@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments :: page_head('Reports', 'none')"></head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="title">Sales Report</h1>
+	
+<div class="tab-wrapper sales-report-wrapper">
+	<!-- Tab links -->
+	<div class="tab-nav">
+		<a onclick="openTab(event, 'date')" class="tab-link active" href="#">Sales by Date</a>
+		<a onclick="openTab(event, 'category')" class="tab-link" href="#">Sales by Category</a>
+		<a onclick="openTab(event, 'product')" class="tab-link" href="#">Sales by Product</a>
+	</div>
+	
+	<!-- Tab content -->
+	<div id="date" class="tab-content">
+		<div th:replace="reports/sales_report_fragment :: content('_date')"></div>
+	</div>
+	
+	<div id="category" class="tab-content" style="display: none;">
+		<div th:replace="reports/sales_report_fragment :: content('_category')"></div>
+	</div>
+	
+	<div id="product" class="tab-content" style="display: none;">
+		<div th:replace="reports/sales_report_fragment :: content('_product')"></div>
+	</div>
+</div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+	contextPath = "[[@{/}]]";
+	currencySymbol = "[[${CURRENCY_SYMBOL}]]";
+	thousandsPointType = "[[${THOUSANDS_POINT_TYPE == 'COMMA' ? ',' : '.'}]]";
+	decimalPointType = "[[${DECIMAL_POINT_TYPE == 'COMMA' ? ',' : '.'}]]";
+	currencySymbolPosition = "[[${CURRENCY_SYMBOL_POSITION}]]";
+	decimalDigits = "[[${DECIMAL_DIGITS}]]";
+	
+	prefixCurrencySymbol = currencySymbolPosition == 'Before price' ? currencySymbol : '';
+	suffixCurrencySymbol = currencySymbolPosition == 'After price' ? currencySymbol : '';
+	
+	$(document).ready(function() {
+		google.charts.load('current', {'packages' : ['corechart', 'table']});
+		google.charts.setOnLoadCallback(loadSalesReportByDate);
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.number.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/sales_report_common.js}"></script>
+<script type="text/javascript" th:src="@{/js/sales_report_by_date.js}"></script>
+<script type="text/javascript" th:src="@{/js/sales_report_by_category.js}"></script>
+<script type="text/javascript" th:src="@{/js/sales_report_by_product.js}"></script>
+</body>
+</html>

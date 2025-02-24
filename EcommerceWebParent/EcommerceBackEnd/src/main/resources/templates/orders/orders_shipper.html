@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments :: page_head('List Orders', 'none')"></head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="title">Manage Orders</h1>
+
+<div class="orders-wrapper">
+<!-- Search -->
+<div th:replace="fragments :: search_form"></div>
+
+<!-- Message -->
+<div th:if="${message}" class="message">[[${message}]]</div>
+
+<div>
+	<th:block th:each="order : ${listOrders}">
+	
+	<div class="order-card">
+		<div class="header">
+			<span>ID #[[${order.id}]]</span>
+			<a th:href="@{'/orders/detail/' + ${order.id}}"
+					title="View details of this order" class="fas fa-file-alt icon-aqua link-detail" ></a>
+		</div>
+		<div class="body">
+			<p><i class="fas fa-user"></i> [[${order.recipientName}]]</p>
+			<p><i class="fas fa-home"></i> [[${order.recipientAddress}]]</p>
+			<p><i class="fas fa-phone-alt"></i> [[${order.phoneNumber}]]</p>
+			<div th:if="${order.COD}">
+				<b>COD:</b> <div th:replace="fragments :: format_currency(${order.total})"></div>
+			</div>
+			
+			<div class="icons">
+				<div th:replace="orders/order_status_fragment :: content(${order.picked}, 'PICKED', 'fa-people-carry')"></div>
+				
+				<div th:replace="orders/order_status_fragment :: content(${order.shipping}, 'SHIPPING', 'fa-shipping-fast')"></div>
+				
+				<div th:replace="orders/order_status_fragment :: content(${order.delivered}, 'DELIVERED', 'fa-box-open')"></div>
+				
+				<div th:replace="orders/order_status_fragment :: content(${order.returned}, 'RETURNED', 'fa-undo')"></div>
+			</div>
+		</div>
+	</div>
+	
+	</th:block>
+</div>
+
+<!-- Pagination -->
+<div th:replace="fragments :: pagination('order')"></div>
+</div>
+
+<!-- Detail Modal -->
+<div th:replace="fragments :: detail_modal"></div>
+
+<!-- Detail Modal -->
+<div th:fragment="confirm_modal" class="modal order-shipper-modal" id="confirmModal">
+	<div class="confirm-modal-content">
+		<h1></h1>
+		<hr>
+		<p class="message"></p>
+		<hr>
+		<div class="links">
+			<a href="" class="delete-link">Yes</a>
+			<a href="#" class="close-link close-modal">No</a>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	moduleURL = "[[@{/orders}]]";
+	csrfHeaderName = "[[${_csrf.headerName}]]";
+	csrfValue = "[[${_csrf.token}]]";
+	
+	$(document).ready(function() {
+		handleLinkViewDetail($('.link-detail'));
+		
+		$("[name='keyword']").attr("placeholder", "Type #number to search by Order ID");
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript" th:src="@{/js/orders_shipper.js}"></script>
+</body>
+</html>

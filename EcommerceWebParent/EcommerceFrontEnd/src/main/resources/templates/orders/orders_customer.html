@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+	<head th:replace="fragments :: page_head('Orders', 'tag')" />
+	<link rel="stylesheet" th:href="@{/css/modal.css}"/>
+</head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="title">My Orders</h1>
+
+<div class="table-wrapper">
+	<!-- Search -->
+	<div>
+		<form class="search-form" th:action="@{${moduleURL} + '/page/1'}">
+			<input type="hidden" name="sortField" th:value="${sortField}"/>
+			<input type="hidden" name="sortDir" th:value="${sortDir}"/>
+			
+			<input type="search" name="orderKeyword" th:value="${orderKeyword}" required />
+			<input type="submit" value="Search" />
+			<input type="button" value="Clear" onclick="clearFilter()"/>
+		</form>
+	</div>
+	
+	<!-- List Orders -->
+	<table>
+		<thead>
+			<tr>
+				<th th:replace="fragments :: column_link('id', 'ID', 'none')"/>
+				<th th:replace="fragments :: column_link('orderTime', 'Order Time', 'none')"/>
+				<th>Products</th>
+				<th th:replace="fragments :: column_link('total', 'Total', 'none')"/>
+				<th th:replace="fragments :: column_link('orderStatus', 'Status', 'none')"/>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="order : ${listOrders}">
+				<td th:text="${order.id}">ID</td>
+				<td>
+					<div th:replace="fragments :: format_time(${order.orderTime})"></div>
+				</td>
+				<td th:utext="${order.productNames}"></td>
+				<td>
+					<div th:replace="fragments :: format_currency(${order.total})"></div>
+				</td>
+				<td><span th:class="'textOrderStatus' + ${order.id}">[[${order.orderStatus}]]</span></td>
+				<td>
+					<a class="fas fa-file-alt icon icon-aqua link-detail" 
+						th:href="@{'/orders/detail/' + ${order.id}}"
+						title="View details of this order"></a>
+					&nbsp;
+					<th:block th:if="${order.returnRequestd == false && order.delivered == true && order.returned == false}">
+					<a href="" class="fas fa-undo icon icon-silver link-return"
+						th:classappend="'linkReturn' + ${order.id}"
+						th:orderID="${order.id}"
+						title="Return this order"></a>
+					</th:block>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<!-- Responsive Table -->
+	<div class="table-cards-wrapper">
+		<th:block th:each="order : ${listOrders}">
+		<div class="table-card">
+			<div class="table-card-header">
+				<h5>Order ID #[[${order.id}]]</h5>
+				
+				<div>
+					<a class="fas fa-file-alt icon icon-aqua link-detail" 
+						th:href="@{'/orders/detail/' + ${order.id}}"
+						title="View details of this order"></a>
+					
+					<th:block th:if="${order.returnRequestd == false && order.delivered == true && order.returned == false}">
+					<a href="" class="fas fa-undo icon icon-silver link-return"
+						th:classappend="'linkReturn' + ${order.id}"
+						th:orderID="${order.id}"
+						title="Return this order"></a>
+					</th:block>
+				</div>
+			</div>
+			<div class="table-card-body">
+				<div th:utext="${order.productNames}"></div>
+				
+				<div style="display: flex; justify-content: space-between;  margin-bottom: .5rem;">
+					<div th:replace="fragments :: format_currency(${order.total})"></div>
+					<span th:class="'textOrderStatus' + ${order.id}">[[${order.orderStatus}]]</span>
+				</div>
+				
+				<div th:replace="fragments :: format_time(${order.orderTime})"></div>
+			</div>
+		</div>
+		</th:block>
+	</div>
+	
+	<!-- Pagination -->
+	<div th:replace="fragments :: pagination(${moduleURL}, 'orders')"></div>
+</div>
+
+<!-- Detail Modal -->
+<div th:replace="fragments :: detail_modal"></div>
+
+<!-- Return Modal -->
+<div th:replace="orders/return_order_modal :: content"></div>
+
+<!-- Footer -->
+<div th:replace="fragments :: footer"></div>
+
+<script type="text/javascript">
+	contextPath = "[[@{/}]]";
+	moduleURL = "[[@{/orders}]]";
+	var csrfHeaderName = "[[${_csrf.headerName}]]";
+	var csrfValue = "[[${_csrf.token}]]";
+	
+	$(document).ready(function() {
+		handleLinkViewDetail();
+	});
+	
+	function openTab(event, tabName) {
+		document.querySelectorAll(".tab-content").forEach((item) => {
+			item.style.display = "none";
+			item.classList.remove("active");
+		})
+			
+		document.querySelectorAll(".tab-link").forEach((link) => {
+			link.classList.remove("active");
+		})
+			
+		document.getElementById(tabName).style.display = "block";
+		event.currentTarget.classList.add("active");
+	}
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/return_order.js}"></script>
+</body>
+</html>

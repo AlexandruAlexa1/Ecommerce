@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+	<th:block th:each="review : ${listReviews}">
+	<div class="review-rating">
+		<input type="text" class="product-detail-rating-star" dir="ltr" data-size="sm" th:value="${review.rating}"/>
+		
+		<div class="review-rating-vote">
+		<a th:href="@{'/vote_review/' + ${review.id} + '/up'}" class="LinkVoteReview fa-thumbs-up"
+			th:classappend="${review.upvotedByCurrentCustomer ? 'fas' : 'far'}"
+			th:id="'linkVoteUp-' + ${review.id}"
+			th:reviewId="${review.id}"></a>
+			
+		<span th:id="'voteCount-' + ${review.id}">[[${review.votes}]] Votes</span>
+		
+		<a th:href="@{'/vote_review/' + ${review.id} + '/down'}" class="LinkVoteReview far fa-thumbs-down"
+			th:classappend="${review.downvotedByCurrentCustomer ? 'fas' : 'far'}"
+			th:id="'linkVoteDown-' + ${review.id}"
+			th:reviewId="${review.id}"></a>
+		</div>
+	</div>
+		
+	<div class="review">
+		<h5 class="review-headline">
+			[[${review.headline}]]
+			<span class="author"> <i class="fa-solid fa-user-check"></i> [[${review.customer.fullName}]]</span>
+		</h5>
+		<p class="review-comment">[[${review.comment}]]</p>
+	</div>
+	</th:block>
+</div>
+</body>
+</html>

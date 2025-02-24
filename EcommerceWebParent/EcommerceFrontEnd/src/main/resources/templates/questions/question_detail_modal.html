@@ -1,0 +1,45 @@
+<h1 th:if="${question.approvalStatus}" class="detail-modal-title">This question was approved</h1>
+
+<div class="detail-modal-input-wrapper" style="margin: 10rem auto">
+<div class="detail-modal-input">
+	<label>Product:</label>
+	<input type="text" th:value="${question.product.name}" readonly />
+</div>
+
+<div class="detail-modal-input">
+	<label>Question:</label>
+	<textarea rows="5" cols="12" th:text="${question.questionContent}" readonly></textarea>
+</div>
+
+<div class="detail-modal-input">
+	<label>Asked by:</label>
+	<input type="text" th:value="${question.customer.fullName}" readonly />
+</div>
+
+<div class="detail-modal-input">
+	<label>Asked time:</label>
+	<div th:replace="fragments :: format_time(${question.askTime})"></div>
+</div>
+
+<div class="detail-modal-input">
+	<label>Votes:</label>
+	<input type="text" th:value="${question.votes}" readonly />
+</div>
+
+<div class="detail-modal-input">
+	<label>Answer:</label>
+	<textarea rows="5" cols="12" th:text="${question.answerContent}" readonly></textarea>
+</div>
+
+<div class="detail-modal-input">
+	<label>Answer By:</label>
+	<input type="text" th:value="${question.user.fullName}" readonly />
+</div>
+
+<div class="detail-modal-input">
+	<label>Answer Time:</label>
+	<div th:replace="fragments :: format_time(${question.answerTime})"></div>
+</div>
+</div>
+
+<h1 th:if="${!question.answer}" class="detail-modal-title">This question has not been answered.</h1>

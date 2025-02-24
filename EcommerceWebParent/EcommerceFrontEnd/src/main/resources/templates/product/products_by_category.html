@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+	<head th:replace="fragments :: page_head(${pageTitle}, 'tag')" />
+	<link th:href="@{/star-rating/css/star-rating.css}" media="all" rel="stylesheet" type="text/css" />
+	<link th:href="@{/css/products.css}" rel="stylesheet" type="text/css" />
+	<script th:src="@{/star-rating/js/star-rating.js}" type="text/javascript"></script>
+	<link th:href="@{/star-rating/themes/krajee-svg/theme.css}" media="all" rel="stylesheet" type="text/css" />
+	<script th:src="@{/star-rating/themes/krajee-svg/theme.js}" type="text/javascript"></script>
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<!-- Breadcrumb -->
+<div th:replace="breadcrumb :: content"></div>
+
+<!-- List SubCategory -->
+<div class="subcategory-wrapper">
+	<th:block th:each="category : ${category.children}">
+	<div th:if="${category.enabled == true}" class="subcategory">
+		<a th:href="@{'/c/' + ${category.alias}}">
+			<img th:src="@{${category.imagePath}}" class="subcategory-img">
+			<span class="subcategory-name">[[${category.name}]]</span>
+		</a>
+	</div>
+	</th:block>
+</div>
+
+<!-- List Products -->
+<div class="products-wrapper">
+	<th:block th:each="product : ${listProducts}">
+	<div th:replace="product/product_fragment :: content"></div>
+	</th:block>
+</div>
+
+<!-- Pagination -->
+<div th:replace="fragments :: pagination('/c/' + ${category.alias}, 'product')"></div>
+
+<!-- Footer -->
+<div th:replace="fragments :: footer"></div>
+
+<script type="text/javascript">
+	$(".product-detail-rating-star").rating({
+		displayOnly: true,
+		hoverOnClear: false,
+		showCaption: false,
+		theme: 'krajee-svg'
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

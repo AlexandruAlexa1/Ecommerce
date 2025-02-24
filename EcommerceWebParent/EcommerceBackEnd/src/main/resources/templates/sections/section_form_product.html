@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments :: page_head(${pageTitle}, 'none')" />
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="form-title"><span>Manage Section</span> [[${pageTitle}]]</h1>
+
+<!-- Form -->
+<form th:action="@{/sections/save/product}" th:object="${section}" method="post" class="common-form"
+	onsubmit="return checkIfProductsIsSelected(this)">
+	<input type="hidden" th:field="*{id}" />
+	
+	<div class="input-group">
+		<label>Heading:</label>
+		<input type="text" th:field="*{heading}" />
+	</div>
+	
+	<div class="input-group-textarea">
+		<label>Description:</label>
+		<textarea th:field="*{description}"></textarea>
+	</div>
+	
+	<div class="input-group-checkbox">
+		<label>Enabled:</label>
+		<input type="checkbox" th:field="*{enabled}" />
+	</div>
+	
+	<div class="input-group">
+		<label>Products:</label>
+		<input type="button" value="Add a Product" class="form-btn" id="addProductBtn" />
+	</div>
+	
+	<div class="section-form-products">
+		<th:block th:each="product : ${section.products}">
+		<div class="section-form-product" th:id="'product' + ${product.id}">
+			<input type="hidden" name="productId" th:value="${product.id}" class="hiddenProductId" />
+			<div class="section-form-product-links">
+				<a href="" class="fa-solid fa-trash linkRemove" th:productNumber="${product.id}" title="Remove this product"></a>
+				<a href="" class="fa-solid fa-angle-left" title="Move product to left"></a>
+				<a href="" class="fa-solid fa-angle-right" title="Move product to right"></a>
+			</div>
+			<img th:src="@{${product.mainImagePath}}">
+			<p>[[${product.shortName}]]</p>
+		</div>
+		</th:block>
+	</div>
+	
+	<input type="submit" value="Save" class="form-btn submit-btn"/>
+	<a href="#" class="fa-solid fa-xmark cancel-form-btn"></a>
+</form>
+
+<!-- Add Product Modal -->
+<div th:replace="sections/add_product_modal :: content"></div>
+
+<!-- Warning Modal -->
+<div th:replace="fragments :: warning-modal"></div>
+
+<script type="text/javascript">
+	contextPath = "[[@{/}]]";
+	moduleUrl = "[[@{/sections}]]";
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/section_form_add_product.js}"></script>
+</body>
+</html>

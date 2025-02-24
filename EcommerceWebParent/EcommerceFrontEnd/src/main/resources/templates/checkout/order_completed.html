@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments :: page_head('Success', 'none')" />
+<body>
+
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<div class="confirm-order-message">
+    <h1>Thank you!</h1>
+    <h2>Your Order has been Completed!</h2>
+    <p>A confirmation email has been sent to you.</p>
+    <p>Kindly check you email for the details.</p>
+    <p><a th:href="@{/orders}">Click here</a> to manage and track your order.</p>
+</div>
+
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

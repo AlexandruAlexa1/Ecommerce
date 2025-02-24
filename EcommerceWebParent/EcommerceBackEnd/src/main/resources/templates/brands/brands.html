@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments :: page_head('List Brands', 'none')"></head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="title">Manage Brands</h1>
+
+<div class="table-wrapper">
+    <div class="links-wrapper">
+    	<a th:href="@{/brands/new}"  class="fa-solid fa-folder-plus" title="Create new Brand"></a>
+		<a th:href="@{/brands/export/csv}" class="fa-solid fa-file-csv" title="Export to CSV"></a>
+    </div>
+
+    <!-- Search -->
+	<div th:replace="fragments :: search_form"></div>
+	
+	<!-- Message -->
+	<div th:if="${message}" class="message">[[${message}]]</div>
+	
+	<!-- Table -->
+	<table class="common-table">
+	    <thead>
+	        <tr>
+	           	<th>ID</th>
+				<th>Logo</th>
+				<th th:replace="fragments :: column_link('name', 'Brand Name')"></th>
+				<th>Categories</th>
+				<th></th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr th:each="brand: ${listBrands}">
+				<td>[[${brand.id}]]</td>
+				<td>
+					<img th:src="@{${brand.getLogoPath}}" class="img">
+				</td>
+				<td>[[${brand.name}]]</td>
+				<td>[[${brand.categories}]]</td>
+				<td>
+					<div class="table-links">
+						<div th:replace="fragments :: edit('/brands/edit/' + ${brand.id}, 'brand')"></div>
+						<div th:replace="fragments :: delete('/brands/delete/' + ${brand.id}, ${brand.id}, 'brands', true)"></div>
+					</div>
+				</td>
+			</tr>
+	    </tbody>
+	</table>
+
+	<!-- Responsive Table -->
+    <div class="table-cards">
+    	<th:block th:each="brand: ${listBrands}">
+	        <div class="table-card">
+	            <span class="id">ID: [[${brand.id}]]</span>
+	            
+	            <img th:src="@{${brand.getLogoPath}}" class="img">
+	            
+	            <div class="details">
+	                <p>[[${brand.name}]]</p>
+	                <p>[[${brand.categories}]]</p>
+	            </div>
+	            <div class="links">
+	               	<div th:replace="fragments :: edit('/brands/edit/' + ${brand.id}, 'brand')"></div>
+					<div th:replace="fragments :: delete('/brands/delete/' + ${brand.id}, ${brand.id}, 'brands', true)"></div>
+	            </div>
+	        </div>
+        </th:block>
+    </div>
+    
+    <!-- Pagination -->
+    <div th:replace="fragments :: pagination('brands')"></div>
+</div>
+
+<!-- Confirm Modal-->
+<div th:replace="fragments :: confirm_modal"></div>
+
+
+<script type="text/javascript">
+	moduleURL = "[[@{/brands}]]";
+	
+	$(document).ready(function() {
+		handleLinkDelete("brand");
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/common_list.js}"></script>
+</body>
+</html>

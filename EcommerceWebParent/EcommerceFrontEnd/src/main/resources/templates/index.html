@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+	<head th:replace="fragments :: page_head('Welcome', 'tag')" />
+	<link rel="stylesheet" th:href="@{css/slideshow.css}" />
+	<script type="text/javascript" th:src="@{js/slideshow.js}"></script>
+ 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+ 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<!-- Slidesow -->
+<div class="slideshow-wrapper">
+    <div class="slideshow">
+        <div class="slide slide-1">
+            <img class="slide-img" th:src="@{/images/slideshow/stand.jpg}">
+            <div class="slide-content">
+	            <h2 class="slide-name">Stands</h2>
+	            <a th:href="@{/c/stands}" class="slide-btn">View products</a>
+	        </div>
+        </div>
+        
+        <div class="slide slide-2">
+            <img class="slide-img" th:src="@{/images/slideshow/bag.jpg}">
+            <div class="slide-content">
+	            <h2 class="slide-name">Bags</h2>
+	            <a th:href="@{/c/bags}" class="slide-btn">View products</a>
+	      	</div>
+        </div>
+        
+        <div class="slide slide-3">
+            <img class="slide-img" th:src="@{/images/slideshow/camera.jpg}">
+            <div class="slide-content">
+	            <h2 class="slide-name">Cameras</h2>
+	            <a th:href="@{/c/cameras}" class="slide-btn">View products</a>
+	        </div>
+        </div>
+        
+        <div class="slide slide-4">
+           <img class="slide-img" th:src="@{/images/slideshow/phone.jpg}">
+           <div class="slide-content">
+            <h2 class="slide-name">Phones</h2>
+            <a th:href="@{/c/phones}" class="slide-btn">View products</a>
+           </div>
+        </div>
+        
+        <div class="slide slide-5">
+          <img class="slide-img" th:src="@{/images/slideshow/graphic-card.jpg}">
+          <div class="slide-content">
+           <h2 class="slide-name">Graphic Cards</h2>
+           <a th:href="@{/c/graphic_cards}" class="slide-btn">View products</a>
+          </div>
+        </div>
+        
+        <div class="slide slide-6">
+           <img class="slide-img" th:src="@{/images/slideshow/cpu.jpg}">
+           <div class="slide-content">
+            <h2 class="slide-name">CPU</h2>
+            <a th:href="@{/c/cpus}" class="slide-btn">View products</a>
+           </div>
+        </div>
+        
+        <div class="slide slide-7">
+            <img class="slide-img" th:src="@{/images/slideshow/leptop.jpg}">
+            <div class="slide-content">
+	            <h2 class="slide-name">Leptops</h2>
+	            <a th:href="@{/c/laptops}" class="slide-btn">View products</a>
+	        </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sections -->
+<div class="sections">
+	<th:block th:each="section : ${listSections}">
+	
+	<!-- Articles -->
+	<div th:if="${section.type == T(com.ecommerce.common.entity.SectionType).ARTICLE}" class="section article-section">
+		<h5 class="section-heading">[[${section.heading}]]</h5>
+		<p class="section-description">[[${section.description}]]</p>
+		
+		<th:block th:each="article : ${section.articles}">
+			<a th:href="@{'/a/' + ${article.alias}}">[[${article.title}]]</a>
+		</th:block>
+	</div>
+	
+	<!-- Brands -->
+	<div th:if="${section.type == T(com.ecommerce.common.entity.SectionType).BRAND}" class="section">
+		<h5 class="section-heading">[[${section.heading}]]</h5>
+		<p class="section-description">[[${section.description}]]</p>
+		
+		<div class="cards-wrapper">
+			<th:block th:each="brand : ${section.brands}">
+			<div class="card" style="cursor: default;">
+				<img th:src="@{${brand.logoPath}}" class="card-img">
+				<span class="card-name">[[${brand.name}]]</span>
+			</div>
+			</th:block>
+		</div>
+	</div>
+	
+	<!-- All Categories -->
+	<div th:if="${section.type == T(com.ecommerce.common.entity.SectionType).ALL_CATEGORIES}" class="section">
+		<h5 class="section-heading">[[${section.heading}]]</h5>
+		<p class="section-description">[[${section.description}]]</p>
+		
+		<div class="cards-wrapper">
+			<th:block th:each="category : ${section.categories}">
+			<div class="card">
+				<a th:href="@{'/c/' + ${category.alias}}">
+					<img th:src="@{${category.imagePath}}" class="card-img">
+				</a>
+				<span class="card-name">[[${category.name}]]</span>
+			</div>
+			</th:block>
+		</div>
+	</div>
+	
+	<!-- Categories -->
+	<div th:if="${section.type == T(com.ecommerce.common.entity.SectionType).CATEGORY}" class="section">
+		<h5 class="section-heading">[[${section.heading}]]</h5>
+		<p class="section-description">[[${section.description}]]</p>
+		
+		<div class="cards-wrapper">
+			<th:block th:each="category : ${section.categories}">
+			<div class="card">
+				<a th:href="@{'/c/' + ${category.alias}}">
+					<img th:src="@{${category.imagePath}}" class="card-img">
+				</a>
+				<span class="card-name">[[${category.name}]]</span>
+			</div>
+			</th:block>
+		</div>
+	</div>
+	
+	<!-- Products -->
+	<div th:if="${section.type == T(com.ecommerce.common.entity.SectionType).PRODUCT}" class="section">
+		<h5 class="section-heading">[[${section.heading}]]</h5>
+		<p class="section-description">[[${section.description}]]</p>
+		
+		<div class="cards-wrapper">
+			<th:block th:each="product : ${section.products}">
+			<div class="card">
+				<a th:href="@{'/p/' + ${product.alias}}">
+					<img th:src="@{${product.mainImagePath}}" class="card-img">
+				</a>
+				<span class="card-name">[[${product.shortNames}]]</span>
+			</div>
+			</th:block>
+		</div>
+	</div>
+	
+	<!-- Text -->
+	<div th:if="${section.type == T(com.ecommerce.common.entity.SectionType).TEXT}" class="section text-section">
+		<h5 class="section-heading">[[${section.heading}]]</h5>
+		<div class="section-description" th:utext="${section.description}"></div>
+	</div>
+	
+	</th:block>
+</div>
+
+<!-- Footer -->
+<div th:replace="fragments :: footer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script>
+	$('.cards-wrapper').slick({
+		  infinite: true,
+		  slidesToShow: 8,
+		  slidesToScroll: 4,
+		  prevArrow: '<span class="priv-slide-btn fa-solid fa-chevron-left"></span>',
+		  nextArrow: '<span class="next-slide-btn fa-solid fa-chevron-right"></span>',
+		  responsive: [
+			{
+		    	 breakpoint: 1400,
+			      settings: {
+			        slidesToShow: 7
+			      }
+		    },
+		    {
+		    	 breakpoint: 1250,
+			      settings: {
+			        slidesToShow: 6
+			      }
+		    },
+		    {
+		    	 breakpoint: 1000,
+			      settings: {
+			        slidesToShow: 5
+			      }
+		    },
+		    {
+			      breakpoint: 850,
+			      settings: {
+			        slidesToShow: 4
+			      }
+		    },
+		    {
+			      breakpoint: 500,
+			      settings: {
+			        slidesToShow: 3,
+			        slidesToScroll: 3,
+			        appendArrows: false
+			      }
+		    }
+		  ]
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

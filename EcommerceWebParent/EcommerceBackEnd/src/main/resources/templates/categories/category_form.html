@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments :: page_head('Manage Categories', 'none')"></head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="form-title"><span>Manage Categories</span> [[${pageTitle}]]</h1>
+
+<!-- Form -->
+<form th:action="@{/categories/save}" method="post" class="common-form"
+	  th:object="${category}" enctype="multipart/form-data" onsubmit="return checkUnique(this)">
+	<input type="hidden" th:field="*{id}" />
+	<div class="input-group">
+		<label>Category Name:</label>
+		<input type="text" th:field="*{name}" required minlength="3" maxlength="128"/>
+	</div>
+	<div class="input-group">
+		<label>Alias:</label>
+		<input type="text" th:field="*{alias}" required minlength="3" maxlength="68"/>
+	</div>
+	<div class="input-group">
+		<label>Parent Category:</label>
+		<select th:field="*{parent}">
+			<option value="0">[No Parent]</option>
+			<th:block th:each="category : ${listCategories}">
+				<option th:value="${category.id}">[[${category.name}]]</option>
+			</th:block>
+		</select>
+	</div>
+	<div class="upload-img">
+		<label>Image:</label>
+		<input type="hidden" th:field="*{image}">
+		<input type="file" name="fileImage" id="fileImage" accept="image/png, image/jpeg"
+			th:required="${category.imagePath == null}" />
+		<img th:src="@{${category.imagePath}}" alt="Image preview" id="thumbnail">
+	</div>
+	<div class="input-group-checkbox">
+		<label>Enabled:</label>
+		<input type="checkbox" th:field="*{enabled}"/>
+	</div>
+	
+	<input type="submit" value="Save" />
+	<a href="#" class="fa-solid fa-xmark cancel-form-btn"></a>
+</form>
+<!-- End of Form-->
+
+
+<script type="text/javascript">
+	MAX_FILE_SIZE = 1102400; // 100KB
+	moduleUrl = "[[@{/categories}]]";
+	
+	function checkUnique(form) {
+		category_id = $('#id').val();
+		category_name = $('#name').val();
+		category_alias = $('#alias').val();
+		
+		csrf_value = $("input[name = '_csrf']").val();
+		
+		url = "[[@{/categories/check_unique}]]";
+		params = {id: category_id, name: category_name, alias: category_alias, _csrf: csrf_value};
+		
+		$.post(url, params, function(response) {
+			if (response == 'OK') {
+				form.submit();
+			} else if (response == "DuplicateName") {
+				alert('There is another category having same name ' + category_name);
+			} else if (response == "DuplicateAlias") {
+				alert('There is another category having same alias ' + category_alias);
+			}
+		}).fail(function() {
+			alert('failed');
+		});
+		
+		return false;
+	}
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>
