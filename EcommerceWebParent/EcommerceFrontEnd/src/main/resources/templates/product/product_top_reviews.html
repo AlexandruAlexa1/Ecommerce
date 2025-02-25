@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="content" class="product-reviews" id="reviews">
+	<h2>Customer Reviews</h2>
+	
+	<div th:if="${customerReviewed}"> 
+		<span class="review-message">You already reviewed this product!</span>
+	</div>
+	
+	<div class="review-rating">
+		<input type="text" class="product-detail-rating-star rating-stars" dir="ltr" data-size="sm" th:value="${product.averageRating}"/>
+
+		<div class="rating-number">
+			<span id="ratingNumber">[[${product.averageRating}]] </span>
+			of [[${product.reviewCount}]]
+		</div>
+	</div>
+	
+	<div th:replace="reviews/reviews_votes :: content"></div>
+	
+	<a th:if="${product.reviewCount} > 3" th:href="@{'/ratings/' + ${product.alias}}" class="link-reviews">View all [[${product.reviewCount}]] ratings</a>
+	
+	<div th:if="${customerCanReview}">
+		<span class="review-message">You purchased and got this product.</span>
+		<a th:href="@{'/write_review/product/' + ${product.id}}" class="link-reviews">Write Your Review Now</a>
+	</div>
+</div>
+
+</body>
+</html>

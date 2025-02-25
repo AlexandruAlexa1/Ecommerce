@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="content" th:remove="tag">
+	<h1>Use this page to manage states/provinces which will be chosen by user in the customer registration form.<br>
+		Click Load Country List first.</h1>
+	
+	<div class="load-states">
+		<input type="button" value="Load Country List" class="load-btn" id="loadCountriesBtn">
+		<select class="load-select" id="dropDownCountriesForStates"></select>
+		<select class="load-select" id="dropDownStates"></select>
+	</div>
+	
+	<form class="add-form" id="formState">
+		<div class="input-group">
+			<label>State/Province Name:</label> 
+			<input type="text" id="fieldStateName" required minlength="3" maxlength="45" />
+		</div>
+		
+		<div>
+			<input type="button" value="New" id="add-state-btn"/>
+			<input type="button" value="Update" id="update-state-btn" disabled="disabled" />
+			<input type="button" value="Delete" id="delete-state-btn" disabled="disabled" />
+		</div>
+	</form>
+	
+	<div class="message" id="state-message"></div>
+</div>
+
+</body>
+</html>

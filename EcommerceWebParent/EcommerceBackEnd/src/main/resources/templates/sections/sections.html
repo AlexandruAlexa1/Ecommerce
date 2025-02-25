@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments :: page_head(${title}, 'none')"></head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="title" style="letter-spacing: .2rem;">[[${title}]] (Manage Sections)</h1>
+
+<div class="table-wrapper">
+	<div class="links-manage-sections">
+	    <a th:href="@{/sections/all_categories/new}">Add All Categories Section</a>
+	    <a th:href="@{/sections/product/new}">Add Product Section</a>
+	    <a th:href="@{/sections/category/new}">Add Category Section</a>
+	    <a th:href="@{/sections/brand/new}">Add Brand Section</a>
+	    <a th:href="@{/sections/article/new}">Add Article Section</a>
+	    <a th:href="@{/sections/text/new}">Add Text Section</a>
+	</div>
+	    
+	<!-- Message -->
+	<div th:if="${message}" class="message">[[${message}]]</div>
+	
+	<!-- Table -->
+	<table class="common-table">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Heading</th>
+				<th>Type</th>
+				<th>Position</th>
+				<th>Enabled</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="section : ${listSections}">
+				<td>[[${section.id}]]</td>
+				<td>[[${section.heading}]]</td>
+				<td>[[${section.type}]]</td>
+				<td>
+					<a th:href="@{'/sections/up/' + ${section.id}}" class="fa-solid fa-angle-up icon-aqua"></a>
+					[[${section.position}]]
+					<a th:href="@{'/sections/down/' + ${section.id}}" class="fa-solid fa-angle-down icon-aqua"></a>
+				</td>
+				<td>
+					<div th:replace="fragments :: status('/sections/' + ${section.id}, 'section', ${section.enabled})"></div>
+				</td>
+				<td>
+					<div class="table-links">
+						<div th:replace="fragments :: edit('/sections/edit/' + ${section.id}, 'section')"></div>
+						<div th:replace="fragments :: delete('/sections/delete/' + ${section.id}, ${section.id}, 'section', true)"></div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<!-- Responsive Table -->
+	<div class="table-cards">
+		<th:block th:each="section : ${listSections}">
+	     <div class="table-card">
+	         <span class="id">ID: [[${section.id}]]</span>
+	         
+	         <div class="details">
+	         	<p><span>Heading:</span>[[${section.heading}]]</p>
+	         	<p><span>Type:</span>[[${section.type}]]</p>
+	         </div>
+	         
+	         <div class="links">
+	        	<div>
+	         		<a th:href="@{'/sections/up/' + ${section.id}}" class="fa-solid fa-angle-up icon-aqua"></a>
+					<span style="font-size: 1.6rem; margin-right: 1rem">[[${section.position}]]</span>
+					<a th:href="@{'/sections/up/' + ${section.id}}" class="fa-solid fa-angle-down icon-aqua"></a>
+				</div>
+				<div th:replace="fragments :: status('/sections/' + ${section.id}, 'section', ${section.enabled})"></div>
+				<div class="table-links">
+					<div th:replace="fragments :: edit('/sections/edit/' + ${section.id}, 'section')"></div>
+					<div th:replace="fragments :: delete('/sections/delete/' + ${section.id}, ${section.id}, 'section', true)"></div>
+				</div>
+	         </div>
+	     </div>
+	    </th:block>
+	</div>
+</div>
+
+<!-- Confirm Modal-->
+<div th:replace="fragments :: confirm_modal"></div>
+
+<script type="text/javascript">
+	moduleURL = "[[@{/sections}]]";
+	
+	$(document).ready(function() {
+		handleLinkDelete("section")
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/common_list.js}"></script>
+</body>
+</html>

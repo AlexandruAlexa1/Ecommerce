@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+</head>
+<body>
+<div th:fragment="content">
+	<h2 style="margin-bottom: 1rem;">Questions & answers for this product</h2>
+	
+	<th:block th:each="question : ${listQuestions}">
+	<div class="question-wrapper">
+	<div class="question">
+		<h5 class="question-content">
+			<span>Question:</span> 
+			[[${question.questionContent}]]
+		</h5>
+		<span class="author">
+			<i class="fa-solid fa-user-check"></i> 
+			[[${question.customer.fullName}]]
+			<div th:replace="fragments :: format_time(${question.askTime})"></div>
+		</span>
+		
+		<div class="question-vote">
+			<a th:href="@{'/vote_question/' + ${question.id} + '/up'}" 
+				class="fa-solid fa-thumbs-up icon-silver linkVoteQuestion"
+				th:classappend="${question.upvotedByCurrentCustomer ? 'icon-green' : 'icon-silver'}"
+				th:id="'linkVoteUp-' + ${question.id}"
+				th:questionId="${question.id}"></a>
+			
+			<span th:id="'voteCountQuestion-' + ${question.id}">[[${question.votes}]] Votes</span>
+		
+			<a th:href="@{'/vote_question/' + ${question.id} + '/down'}" 
+				class="fa-solid fa-thumbs-down icon-silver linkVoteQuestion"
+				th:classappend="${question.downvotedByCurrentCustomer ? 'icon-green' : 'icon-silver'}"
+				th:id="'linkVoteDown-' + ${question.id}"
+				th:questionId="${question.id}"></a>
+		</div>
+	</div>
+	<div th:if="${question.answer}" class="answer">
+		<h5 class="answer-content">
+			<span>Answer:</span> 
+			[[${question.answerContent}]]
+		</h5>
+		<span class="admin">
+			<i class="fa-solid fa-user-astronaut"></i>
+			[[${question.user.fullName}]]
+			<div th:replace="fragments :: format_time(${question.answerTime})"></div>
+		</span>
+	</div>
+	</div>
+	</th:block>
+</div>
+</body>
+</html>

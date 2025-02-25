@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments :: page_head(${pageTitle}, 'none')" />
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="form-title"><span>Manage Question</span> [[${pageTitle}]]</h1>
+
+<!-- Form -->
+<form th:action="@{/questions/save}" th:object="${question}" method="post" class="common-form">
+	<input type="hidden" th:field="*{id}" />
+	
+	<div class="input-group">
+		<label>Product:</label>
+		<input type="text" th:value="${question.product.name}" readonly />
+	</div>
+	
+	<div class="input-group-textarea">
+		<label>Question:</label>
+		<textarea rows="5" cols="12" th:field="*{questionContent}" maxlength="128" required></textarea>
+	</div>
+	
+	<div class="input-group">
+		<label>
+			Asked by: [[${question.customer.fullName}]] on 
+			<div th:replace="fragments :: format_time(${question.askTime})"></div>
+		</label>
+	</div>
+	
+	<div class="input-group-textarea">
+		<label>Answer:</label>
+		<textarea rows="5" cols="12" th:field="*{answerContent}"></textarea>
+	</div>
+
+	<div class="input-group">
+		<label>Approved:</label>
+		<input type="checkbox" th:field="*{approvalStatus}" />
+	</div>
+			
+	<input type="submit" value="Save" class="form-btn submit-btn"/>
+	<a href="#" class="fa-solid fa-xmark cancel-form-btn"></a>
+</form>
+
+<script type="text/javascript">
+	moduleUrl = "[[@{/questions}]]";
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

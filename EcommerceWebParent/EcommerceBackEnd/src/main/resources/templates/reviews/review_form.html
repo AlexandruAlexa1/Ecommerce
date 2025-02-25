@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments :: page_head(${pageTitle}, 'none')" />
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="form-title"><span>Manage Review</span> [[${pageTitle}]]</h1>
+
+<!-- Form -->
+<form th:action="@{/reviews/save}" method="post" th:object="${review}" class="common-form">
+	<input type="hidden" th:field="*{id}" />
+	
+	<div class="input-group">
+		<label>Product:</label>
+		<input type="text" th:value="${review.product.name}" readonly />
+	</div>
+	<div class="input-group">
+		<label>Customer:</label>
+		<input type="text" th:value="${review.customer.fullName}" readonly />
+	</div>
+	<div class="input-group">
+		<label>Rating:</label>
+		<input type="text" th:value="${review.rating}" readonly />
+	</div>
+	<div class="input-group">
+		<label>Votes:</label>
+		<input type="text" th:value="${review.votes}" readonly />
+	</div>
+	<div class="input-group">
+		<label>Review Time: <span th:text="${#dates.format(review.reviewTime, 'yyy-MM-dd HH:mm:ss')}"></span></label>
+	</div>
+	<div class="input-group">
+		<label>Headline:</label>
+		<input type="text" th:field="*{headline}" minlength="20"  maxlength="150" required />
+	</div>
+	<div class="input-group-textarea">
+		<label>Comment:</label>
+		<textarea rows="3" th:field="${review.comment}" minlength="30"  maxlength="500" required></textarea>
+	</div>
+		
+	<input type="submit" value="Save" class="form-btn submit-btn"/>
+	<a href="#" class="fa-solid fa-xmark cancel-form-btn"></a>
+</form>
+
+<script type="text/javascript">
+	moduleUrl = "[[@{/reviews}]]";
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

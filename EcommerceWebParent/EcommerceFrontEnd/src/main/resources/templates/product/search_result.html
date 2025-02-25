@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+	<head th:replace="fragments :: page_head(${pageTitle}, 'tag')" />
+	<link th:href="@{/star-rating/css/star-rating.css}" media="all" rel="stylesheet" type="text/css" />
+	<link th:href="@{/css/products.css}" rel="stylesheet" type="text/css" />
+	<script th:src="@{/star-rating/js/star-rating.js}" type="text/javascript"></script>
+	<link th:href="@{/star-rating/themes/krajee-svg/theme.css}" media="all" rel="stylesheet" type="text/css" />
+	<script th:src="@{/star-rating/themes/krajee-svg/theme.js}" type="text/javascript"></script>
+</head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h2 th:if="${totalItems > 0}" class="search-products-title">Search Results for '[[${keyword}]]'</h2>
+<h3 th:unless="${totalItems > 0}" class="search-products-title">No match found for '[[${keyword}]]'</h3>
+
+<!-- List Result -->
+<div class="products-wrapper">
+	<th:block th:each="product : ${listResult}">
+		<div th:replace="product/product_fragment :: content"></div>
+	</th:block>
+</div>
+
+<!-- Pagination -->
+<div th:replace="fragments :: pagination('/search', 'product')"></div>
+
+<!-- Footer -->
+<div th:replace="fragments :: footer"></div>
+
+<script type="text/javascript">
+	$(".product-detail-rating-star").rating({
+		displayOnly: true,
+		hoverOnClear: false,
+		showCaption: false,
+		theme: 'krajee-svg'
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

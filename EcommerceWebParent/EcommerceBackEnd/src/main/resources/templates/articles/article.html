@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments :: page_head('Manage Articles', 'none')"></head>
+<body style="background: #fff">
+	<div class="article-wrapper">
+		<h1 class="article-title">[[${article.title}]]</h1>
+		<div th:utext="${article.content}" class="article-content"></div>
+	</div>
+</body>
+</html>

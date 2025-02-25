@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments :: page_head('List Customers', 'none')"></head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="title">Manage Customers</h1>
+
+<div class="table-wrapper">
+<div class="links-wrapper">
+	<a th:href="@{/customers/export/csv}" class="fa-solid fa-file-csv" title="Export to CSV"></a>
+</div>
+
+<!-- Search -->
+<div th:replace="fragments :: search_form"></div>
+
+<!-- Message -->
+<div th:if="${message}" class="message">[[${message}]]</div>
+
+<!-- Table -->
+<table class="common-table">
+	<thead>
+		<tr>
+			<th th:replace="fragments :: column_link('id', 'ID')"></th>
+			<th th:replace="fragments :: column_link('firstName', 'First Name')"></th>
+			<th th:replace="fragments :: column_link('lastName', 'Last Name')"></th>
+			<th th:replace="fragments :: column_link('email', 'E-mail')"></th>
+			<th th:replace="fragments :: column_link('city', 'City')"></th>
+			<th th:replace="fragments :: column_link('state', 'State')"></th>
+			<th th:replace="fragments :: column_link('country', 'Country')"></th>
+			<th th:replace="fragments :: column_link('enabled', 'Enabled')"></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each="customer : ${listCustomers}">
+			<td>[[${customer.id}]]</td>
+			<td>[[${customer.firstName}]]</td>
+			<td>[[${customer.lastName}]]</td>
+			<td>[[${customer.email}]]</td>
+			<td>[[${customer.city}]]</td>
+			<td>[[${customer.state}]]</td>
+			<td>[[${customer.country.name}]]</td>
+			<td>
+				<div th:replace="fragments :: status('/customers/' + ${customer.id}, 'customer', ${customer.enabled})"></div>
+			</td>
+			<td>
+				<div class="table-links">
+					<a class="fas fa-file-alt icon-aqua link-customer" th:href="@{'/customers/detail/' + ${customer.id}}"
+					title="View details of this customer"></a>
+				
+					<div th:replace="fragments :: edit('/customers/edit/' + ${customer.id}, 'customer')"></div>
+					
+					<div th:replace="fragments :: delete('/customers/delete/' + ${customer.id}, ${customer.id}, 'customer', true)"></div>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<!-- Responsive Table -->
+<div class="table-cards">
+	<th:block th:each="customer : ${listCustomers}">
+     <div class="table-card">
+         <span class="id">ID: [[${customer.id}]]</span>
+         
+         <div class="details">
+         	<p><span>Name:</span>[[${customer.fullName}]]</p>
+         	<p><span>E-mail:</span>[[${customer.email}]]</p>
+         	<p><span>Country:</span>[[${customer.country.name}]]</p>
+         	<p><span>State:</span>[[${customer.state}]]</p>
+         	<p><span>City:</span>[[${customer.city}]]</p>
+         </div>
+         
+         <div class="links">
+       		<a class="fas fa-file-alt icon-aqua link-customer" th:href="@{'/customers/detail/' + ${customer.id}}"
+					title="View details of this customer"></a>
+				
+			<div th:replace="fragments :: edit('/customers/edit/' + ${customer.id}, 'customer')"></div>
+			
+			<div th:replace="fragments :: delete('/customers/delete/' + ${customer.id}, ${customer.id}, 'customer', true)"></div>
+         </div>
+     </div>
+    </th:block>
+</div>
+
+
+<!-- Pagination -->
+<div th:replace="fragments :: pagination('customers')"></div>
+</div>
+
+<!-- Confirm Modal-->
+<div th:replace="fragments :: confirm_modal"></div>
+
+<!-- Detail Modal -->
+<div th:replace="fragments :: detail_modal"></div>
+
+<script type="text/javascript">
+	moduleURL = "[[@{/customers}]]";
+	
+	$(document).ready(function() {
+		handleLinkViewDetail($('.link-customer'));
+		handleLinkDelete('customer');
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/common_list.js}"></script>
+</body>
+</html>

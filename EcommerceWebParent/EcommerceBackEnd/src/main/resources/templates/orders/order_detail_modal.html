@@ -1,0 +1,171 @@
+<h1>Order Detail</h1>
+
+<div class="tab-wrapper">
+	<!-- Tab links -->
+	<div class="tab-nav">
+		<a href="#" onclick="openTab(event, 'overview')" class="tab-link active">Overview</a>
+		<a href="#" onclick="openTab(event, 'products')" class="tab-link">Products</a>
+		<a href="#" onclick="openTab(event, 'shipping')" class="tab-link">Shipping</a>
+		<a href="#" onclick="openTab(event, 'track')" class="tab-link">Track</a>
+	</div>
+	
+	<!-- Tab content --> 
+	<div id="overview" class="tab-content">
+		<div class="input-group">
+			<label>Order ID:</label> 
+			<input type="text" th:value="${order.id}" readonly />
+		</div>
+		
+		<th:block th:if="${isVisibleForAdminOrSalesperson}">
+		<div class="input-group">
+			<label>Customer:</label> 
+			<input type="text" th:value="${order.customer.fullName}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>Product Cost:</label>
+			<div th:replace="fragments :: currency_input(${order.productCost})"></div>
+		</div>
+		
+		<div class="input-group">
+			<label>Subtotal:</label> 
+			<div th:replace="fragments :: currency_input(${order.subtotal})"></div>
+		</div>
+		
+		<div class="input-group">
+			<label>Shipping Cost:</label> 
+			<div th:replace="fragments :: currency_input(${order.shippingCost})"></div>
+		</div>
+		
+		<div class="input-group">
+			<label>Tax:</label> 
+			<div th:replace="fragments :: currency_input(${order.tax})"></div>
+		</div>
+		</th:block>
+		
+		<div class="input-group">
+			<label>Total:</label> 
+			<div th:replace="fragments :: currency_input(${order.total})"></div>
+		</div>
+		
+		<th:block th:if="${isVisibleForAdminOrSalesperson}">
+		<div class="input-group">
+			<label>TOTAL = Subtotal + Shipping Cost + Tax</label> 
+		</div>
+		</th:block>
+		
+		<div class="input-group">
+			<label>Payment Method: [[${order.paymentMethod}]]</label> 
+		</div>
+		
+		<div class="input-group">
+			<label>Status: [[${order.orderStatus}]]</label> 
+		</div>
+		
+		<div class="input-group">
+			<label>Order Date: <div th:replace="fragments :: format_time(${order.orderTime})"></div></label> 
+		</div>
+	</div>
+	
+	<div id="products" class="tab-content" style="display: none;">
+		<th:block th:each="detail, status : ${order.orderDetails}">
+		<div th:with="product = ${detail.product}" class="order-detail-product">
+			<span class="product-number">[[${status.count}]]</span>
+			
+			<img th:src="@{${product.mainImagePath}}" class="product-img">
+			
+			<div class="product-details">
+				<p class="product-name">Product Name: [[${product.shortName}]]</p>
+				
+				<th:block th:if="${isVisibleForAdminOrSalesperson}">
+				<div class="product-price">
+					<div>
+					Product Cost: <div th:replace="fragments :: format_currency(${detail.productCost})"></div>
+					</div>
+					<div>
+						Subtotal: [[${detail.quantity}]] X
+						<div th:replace="fragments :: format_currency(${detail.unitPrice})"></div>
+						=
+						<div th:replace="fragments :: format_currency(${detail.subtotal})"></div>
+					</div>
+					<div>
+						Shipping Cost: <div th:replace="fragments :: format_currency(${detail.shippingCost})"></div>
+					</div>
+				</div>
+				</th:block>
+			</div>
+		</div>
+		</th:block>
+	</div>
+	
+	<div id="shipping" class="tab-content" style="display: none;">
+		<div class="input-group">
+			<label>Deliver Days:</label> 
+			<input type="text" th:value="${order.deliverDays}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>Expected Deliver Date: [[${#dates.format(order.deliverDate, 'E, dd MMM yyyy')}]]</label> 
+		</div>
+		
+		<div class="input-group">
+			<label>First Name:</label> 
+			<input type="text" th:value="${order.firstName}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>Last Name:</label> 
+			<input type="text" th:value="${order.lastName}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>Address Line 1:</label> 
+			<input type="text" th:value="${order.addressLine1}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>Address Line 2:</label> 
+			<input type="text" th:value="${order.addressLine2}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>City:</label> 
+			<input type="text" th:value="${order.city}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>State:</label> 
+			<input type="text" th:value="${order.state}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>Country:</label> 
+			<input type="text" th:value="${order.country}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>Postal Code:</label> 
+			<input type="text" th:value="${order.postalCode}" readonly />
+		</div>
+	</div>
+	
+	<div id="track" class="tab-content" style="display: none;">
+		<table class="order-detail-table">
+			<thead>
+				<tr>
+					<th>Time</th>
+					<th>Status</th>
+					<th>Notes</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="track : ${order.orderTracks}">
+					<td>[[${track.updatedTime}]]</td>
+					<td>[[${track.status}]]</td>
+					<td><i>[[${track.notes}]]</i></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+</div>

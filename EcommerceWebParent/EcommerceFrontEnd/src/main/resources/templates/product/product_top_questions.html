@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<body>
+
+<div th:fragment="content" id="questions" class="product-questions">
+	<div th:replace="questions/questions_votes :: content"></div>
+	
+	<a th:if="${questionCount} > 3" th:href="@{'/questions/' + ${product.alias}}" class="link-questions" th:text="'View all ' + ${questionCount} + ' questions'"></a>
+	
+	<th:block sec:authorize="isAuthenticated()">
+	<form onsubmit="return addQuestion()" class="question-form">
+		<textarea id="questionContent" placeholder="Type your question here..." required></textarea>
+		<input type="submit" value="Submit">
+	</form>
+	</th:block>
+	
+	<th:block sec:authorize="!isAuthenticated()"> 
+	<a th:href="@{/login}" class="question-btn">Ask a Question</a>
+	</th:block>
+</div>
+
+</body>
+</html>

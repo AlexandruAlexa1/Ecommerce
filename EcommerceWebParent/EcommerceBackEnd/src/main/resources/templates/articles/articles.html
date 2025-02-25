@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments :: page_head('List Articles', 'none')"></head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="title">Manage Articles</h1>
+
+<div class="table-wrapper">
+<!-- Search Form -->
+<div th:replace="fragments :: search_form"></div>
+
+<div class="links-wrapper">
+  	<a th:href="@{/articles/new}" class="fa-solid fa-folder-plus" title="Create new Article"></a>
+</div>
+
+<!-- Message -->
+<div th:if="${message}" class="message">[[${message}]]</div>
+
+<!-- Table -->
+<table class="common-table">
+	<thead>
+		<tr>
+			<th th:replace="fragments :: column_link('id', 'ID')"></th>
+			<th th:replace="fragments :: column_link('title', 'Title')"></th>
+			<th th:replace="fragments :: column_link('type', 'Type')"></th>
+			<th th:replace="fragments :: column_link('user', 'Created by')"></th>
+			<th th:replace="fragments :: column_link('updatedTime', 'Updated Time')"></th>
+			<th th:replace="fragments :: column_link('published', 'Published')"></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr th:each="article : ${listArticles}">
+			<td>[[${article.id}]]</td>
+			<td>[[${article.title}]]</td>
+			<td>[[${article.type}]]</td>
+			<td>[[${article.user.fullName}]]</td>
+			<td>[[${article.updatedTime}]]</td>
+			<td>
+				<div th:replace="fragments :: status('/articles/' + ${article.id}, 'article', ${article.published})"></div>
+			</td>
+			<td>
+				<div class="table-links">
+					<a class="fas fa-file-alt icon-aqua link-article"
+						th:href="@{'/articles/modal/detail/' + ${article.id}}"
+						title="View details of this article"></a>
+					<div th:replace="fragments :: edit('/articles/edit/' + ${article.id}, 'article')"></div>
+					<div th:replace="fragments :: delete('/articles/delete/' + ${article.id}, ${article.id}, 'article', 'none')"></div>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<!-- Responsive Table -->
+<div class="table-cards">
+	<th:block th:each="article : ${listArticles}">
+     <div class="table-card">
+         <span class="id">ID: [[${article.id}]]</span>
+         
+         <div class="details">
+         	<p><span>Title:</span> [[${article.title}]]</p>
+         	<p><span>Type:</span> [[${article.type}]]</p>
+         	<p><span>Created by:</span> [[${article.user.fullName}]]</p>
+         </div>
+         
+         <div class="links">
+       		<a class="fas fa-file-alt icon-aqua link-article"
+						th:href="@{'/articles/detail/' + ${article.id}}"
+						title="View details of this article"></a>
+			<div th:replace="fragments :: edit('/articles/edit/' + ${article.id}, 'article')"></div>
+			<div th:replace="fragments :: delete('/articles/delete/' + ${article.id}, ${article.id}, 'article', 'none')"></div>
+         </div>
+     </div>
+    </th:block>
+</div>
+
+<!-- Pagination -->
+<div th:replace="fragments :: pagination('articles')"></div>
+</div>
+
+<!-- Confirm Modal-->
+<div th:replace="fragments :: confirm_modal"></div>
+
+<!-- Detail Modal -->
+<div th:replace="fragments :: detail_modal"></div>
+
+<script type="text/javascript">
+	moduleURL = "[[@{/articles}]]";
+	
+	$(document).ready(function() {
+		handleLinkViewDetail($('.link-article'));
+		handleLinkDelete("article")
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/common_list.js}"></script>
+</body>
+</html>

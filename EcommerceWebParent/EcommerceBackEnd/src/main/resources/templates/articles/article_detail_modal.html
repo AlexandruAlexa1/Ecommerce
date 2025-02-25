@@ -1,0 +1,36 @@
+<h1 class="detail-modal-title">Article Details</h1>
+
+<div class="detail-modal-input-wrapper">
+	<div class="detail-modal-input">
+		<label>Title:</label>
+		<input type="text" th:value="${article.title}" readonly />
+	</div>
+	
+	<div class="detail-modal-input">
+		<label>Alias:</label>
+		<input type="text" th:value="${article.alias}" readonly />
+	</div>
+	
+	<div class="detail-modal-input">
+		<label>Content:</label>
+		<iframe style="width:100%; height: 50rem;" th:src="@{'/articles/detail/' + ${article.id}}"></iframe>
+	</div>
+	
+	<div class="detail-modal-input">
+		<label>Type:</label>
+		<input type="text" th:value="${article.type}" readonly />
+	</div>
+	
+	<div class="detail-modal-input">
+		<label>Published:</label>
+		<input type="checkbox" th:checked="${article.published}" disabled="disabled" />
+	</div>
+	
+	<div class="detail-modal-input">
+		<label>Updated by: [[${article.user.fullName}]]</label>
+	</div>
+	
+	<div class="detail-modal-input">
+		<label>Updated Time: [[${article.updatedTime}]]</label>
+	</div>
+</div>

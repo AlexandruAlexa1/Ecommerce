@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments :: page_head('Admin Control Panel', 'none')"></head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="home-title"></h1>
+
+<!-- User Message -->
+<div class="user-message">
+	Welcome
+	<a th:href="@{/account}" sec:authentication="principal.fullname"></a>
+	<br>
+	<span sec:authentication="principal.authorities"></span>
+</div>
+
+<script type="text/javascript">
+	const heading = 'Admin control panel';
+	let i = 0;
+	
+	function typing() {
+		if (i < heading.length) {
+			document.querySelector('.home-title').innerHTML += heading.charAt(i);
+			i++;
+			setTimeout(typing, 50);
+		}
+	}
+	
+	typing();
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

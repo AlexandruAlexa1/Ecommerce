@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Wet+Paint&display=swap');
+
+.slideshow {
+    width: 100%;
+    height: 65vh;
+    display: flex;
+    clip-path: polygon(50% 0%, 100% 0, 100% 98%, 50% 100%, 50% 100%, 0 98%, 0 0);
+}
+
+.slide {
+    width: inherit;
+    height: inherit;
+    position: absolute;
+    background-color: #000;
+}
+
+.slide-img {
+    width: inherit;
+    height: inherit;
+    opacity: .6;
+    object-fit: fill;
+}
+
+.slide-name {
+    font-family: Rubik Wet Paint;
+    font-size: 8rem;
+    color: #fff;
+    letter-spacing: 1rem;
+    text-shadow: .4rem .2rem .5rem #00e5e5;
+    position: absolute;
+    left: 1rem;
+    bottom: 0;
+}
+
+.slide-btn {
+    background-color: #00e5e5;
+    color: #000;
+    font-size: 1.8rem;
+    white-space: nowrap;
+    padding: .4rem 3rem;
+    letter-spacing: .5rem;
+    font-weight: 300;
+    position: absolute;
+    right: 1rem;
+    bottom: 2rem;
+    transition: background .3s;
+}
+
+.slide-btn:hover {
+	background-color: #00cccc;
+}
+
+.slide-btn::before {
+    content: "";
+    width: .5rem;
+    height: 100%;
+    background-color: rgb(26, 93, 95);
+    position: absolute;
+    top: 0;
+    left: -.5rem;
+    transform: skewY(45deg);
+    transform-origin: right;
+}
+
+.slide-btn::after {
+    content: "";
+    width: 100%;
+    height: .5rem;
+    background-color: rgb(57, 217, 223);
+    position: absolute;
+    top: -.5rem;
+    left: 0;
+    transform: skewX(45deg);
+    transform-origin: bottom;
+    transition: background .3s;
+}
+
+.slide-btn:hover::after {
+	background-color: #00cccc;
+}
+
+@media screen and (max-width: 1200px) {
+	.slideshow {
+	    clip-path: polygon(50% 0%, 100% 0, 100% 99%, 50% 100%, 50% 100%, 0 99%, 0 0);
+	}
+	
+    .slide-name {
+        font-size: 6rem;
+    }
+    .slide-btn {
+	    bottom: 1.2rem;
+	    font-size: 1.6rem;
+	    padding: .4rem 1rem;
+	}
+	
+	.slide-btn::before {
+	    width: .4rem;
+	    left: -.4rem;
+	}
+
+	.slide-btn::after {
+	    height: .4rem;
+	    top: -.4rem;
+	}
+}
+
+@media screen and (max-width: 850px) {
+	.slideshow {
+	    clip-path: polygon(50% 0%, 100% 0, 100% 100%, 50% 100%, 50% 100%, 0 100%, 0 0);
+	}
+	
+    .slide-name {
+        font-size: 5rem;
+    }
+    
+    .slide-btn {
+	    bottom: .7rem;
+	    font-size: 1.5rem;
+	    
+	}
+}
+
+@media screen and (max-width: 650px) {
+    .slide-name {
+        font-size: 4rem;
+        bottom: .5rem;
+        left: .5rem;
+    }
+    .slide-btn {
+        font-size: 1.3rem;
+        text-transform: uppercase;
+        right: .7rem;
+        bottom: 1rem;
+    }
+    
+    .slide-btn::before {
+	    width: .3rem;
+	    left: -.3rem;
+	}
+
+	.slide-btn::after {
+	    height: .3rem;
+	    top: -.3rem;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	.slide-name {
+		font-size: 2.7rem;
+        letter-spacing: 1rem;
+    	font-family: Roboto;
+    	text-shadow: .3rem .2rem .4rem #00e5e5;
+    	 text-transform: uppercase;
+	}
+	
+	.slide-btn {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 400px) {
+	.slideshow {
+	    width: 100%;
+	    height: 50vh;
+    }
+    
+    .slide-name {
+        
+    }
+    .slide-btn {
+        display: none;
+    }
+}

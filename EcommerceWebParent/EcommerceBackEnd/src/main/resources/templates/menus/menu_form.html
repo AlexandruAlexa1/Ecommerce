@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments :: page_head('Manage Articles', 'none')"></head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="form-title"><span>Manage Menus</span> [[${pageTitle}]]</h1>
+
+<!-- Form -->
+<form th:action="@{/menus/save}" method="post" class="common-form"
+	  th:object="${menu}">
+	<input type="hidden" th:field="*{id}" />
+	
+	<div class="input-group">
+		<label>Title:</label>
+		<input type="text" th:field="*{title}" minlenght="5" maxlength="128" required />
+	</div>
+	
+	<div class="input-group">
+		<label>Alias:</label>
+		<input type="text" th:field="*{alias}" 
+			placeholder="If leaved empty, default alias will be same as title with spaces replaced by dashes" />
+	</div>
+	
+	<div class="input-group">
+		<label>Article:</label>
+		<select th:field="*{article}">
+			<th:block th:each="article : ${listArticles}">
+				<option th:value="${article.id}">[[${article.title}]]</option>
+			</th:block>
+		</select>
+	</div>
+	
+	<div class="input-group">
+		<label>Type:</label>
+		<select th:field="*{type}">
+			<option value="Header Menu">Header Menu</option>
+			<option value="Footer Menu">Footer Menu</option>
+		</select>
+	</div>
+	
+	<div class="input-group-checkbox">
+		<label>Enabled:</label>
+		<input type="checkbox" th:field="*{enabled}" />
+	</div>
+	
+	<input type="submit" value="Save"/>
+	<a href="#" class="fa-solid fa-xmark cancel-form-btn"></a>
+</form>
+
+<script type="text/javascript">
+	moduleUrl = "[[@{/menus}]]";
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

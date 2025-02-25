@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:fragment="page_head(title, remove)" th:remove="${remove}">
+	<title>[[${title}]]</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="stylesheet" th:href="@{/css/style.css}"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"/>
+	<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+</head>
+<body>
+<!-- Table Sort Link -->
+<th th:fragment="column_link(fieldName, columnLabel)">
+	<a th:href="@{${moduleURL} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">
+		[[${columnLabel}]]
+	</a>
+				
+	<span th:if="${sortField == fieldName}"
+		th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
+</th>
+
+<!-- Table Enable Link -->
+<div th:fragment="status(entityURL, entityName, enabled)">
+	<a th:if="${enabled == true}" th:href="@{${entityURL} + '/enabled/false'}"
+		th:title="'Disable this ' + ${entityName}" class="far fa-check-square icon-green"></a>
+		
+	<a th:if="${enabled == false}" th:href="@{${entityURL} + '/enabled/true'}" 
+		th:title="'Enable this ' +  ${entityName}" class="far fa-check-square icon-silver"></a>
+</div>
+
+<!-- Table Edit Link -->
+<div th:fragment="edit(entityURL, entityName)">
+	<a th:href="@{${entityURL}}" class="far fa-edit icon-aqua" th:title="'Edit this ' + ${entityName}"></a>
+</div>
+
+<!-- Table Delete Link -->
+<div th:fragment="delete(entityURL, entityId, entityName, visible)">
+	<th:block th:if="${visible}">
+		<a th:href="@{${entityURL}}" th:entityId="${entityId}" th:title="'Delete this ' + ${entityName}"
+		 	class="fas fa-eraser icon-silver link-delete"></a>
+	</th:block>
+</div>
+
+<div th:fragment="category_actions" class="icons-wrapper">
+ 	<a th:href="@{'/categories/edit/' + ${category.id}}" title="Edit this user">
+ 		<i class="far fa-edit fa-2x icon-aqua">
+ 	</i></a>
+ 	<th:block th:if="${category.hasChildren == false}">
+		<a th:href="@{'/categories/delete/' + ${category.id}}" th:entityId="${category.id}" title="Delete this user" class="link-delete">
+			<i class="fas fa-eraser fa-2x icon-silver"></i>
+		</a>
+	</th:block>
+</div>
+
+<!-- Confirm Modal -->
+<div th:fragment="confirm_modal" class="modal" id="confirmModal">
+	<div class="confirm-modal-content">
+		<h1>Delete Confirmation</h1>
+		<hr>
+		<p class="message"></p>
+		<hr>
+		<div class="links">
+			<a href="" class="delete-link">Yes</a>
+			<a href="#" class="close-link close-modal">No</a>
+		</div>
+	</div>
+</div>
+
+<!-- Detail Modal -->
+<div th:fragment="detail_modal" class="modal" id="detailModal">
+	<a class="fas fa-times close-modal-icon close-modal"></a>
+	<div class="detail-modal-content"></div>
+</div>
+
+<!-- Warning Modal -->
+<div th:fragment="warning-modal" class="warning-modal">
+	<div class="warning-modal-content">
+		<h2>Warning</h2>
+		<p class="warning-modal-message">Message</p>
+		<a class="fa-solid fa-xmark warning-modal-btn"></a>
+	</div>
+</div>
+
+<!-- Pagination -->
+<a th:fragment="page_link(pageNumber, label)" 
+	th:href="@{${moduleURL} + '/page/' + ${pageNumber} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">[[${label}]]</a>
+	
+<div th:fragment="pagination(entityName)" class="pagination-wrapper">
+	<span th:if="${totalItems > 0}">Showing [[${entityName}]] # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
+	<span th:unless="${totalItems > 0}">No [[${entityName}]] found</span>
+	
+	<ul th:if="${totalPages > 1}" class="pagination">
+		<li th:if="${currentPage > 1}">
+			<a th:replace="fragments :: page_link(1, 'First')"></a>
+		</li>
+		<li th:if="${currentPage > 1}">
+			<a th:replace="fragments :: page_link(${currentPage -1}, 'Previous')"></a>
+		</li>
+		
+		<li th:each="i : ${#numbers.sequence(1, totalPages)}">
+			<a th:replace="fragments :: page_link(${i}, ${i})"></a>
+		</li>
+			
+		<li th:if="${currentPage < totalPages}">
+			<a th:replace="fragments :: page_link(${currentPage + 1}, 'Next')"></a>
+		</li>
+		<li th:if="${currentPage < totalPages}">
+			<a th:replace="fragments :: page_link(${currentPage + 1}, 'Last')"></a>
+		</li>
+	</ul>
+</div>
+
+<!-- Search -->
+<div th:fragment="search_form" th:remove="tag">
+	<form class="search-form" th:action="@{${moduleURL} + '/page/1'}">
+		<input type="hidden" name="sortField" th:value="${sortField}"/>
+		<input type="hidden" name="sortDir" th:value="${sortDir}"/>
+		
+		<input type="search" name="keyword" th:value="${keyword}" required />
+		<input type="submit" value="Search" />
+		<input type="button" value="Clear" onClick="clearFilter()"/>
+	</form>
+</div>
+
+<!-- Format Currency -->
+<div th:fragment="format_currency(amount)" th:remove="tag">
+	<span th:if="${CURRENCY_SYMBOL_POSITION == 'Before price'}" th:remove="tag">[[${CURRENCY_SYMBOL}]]</span>[[${#numbers.formatDecimal(amount, 1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]<span th:if="${CURRENCY_SYMBOL_POSITION == 'After price'}" th:remove="tag">[[${CURRENCY_SYMBOL}]]</span>
+</div>
+
+<!-- Format Time -->
+<div th:fragment="format_time(dateTime)" th:remove="tag">
+	<span>[[${#dates.format(dateTime, 'yyyy-MM-dd HH:mm')}]]</span>
+</div>
+
+<!-- Currency Input -->
+<div th:fragment="currency_input(amount)" th:remove="tag">
+	<input type="text" readonly th:value="${(CURRENCY_SYMBOL_POSITION == 'Before price' ? CURRENCY_SYMBOL : '') + #numbers.formatDecimal(amount, 1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE) + (CURRENCY_SYMBOL_POSITION == 'After price' ? CURRENCY_SYMBOL : '')}"  />
+</div>
+</body>
+</html>

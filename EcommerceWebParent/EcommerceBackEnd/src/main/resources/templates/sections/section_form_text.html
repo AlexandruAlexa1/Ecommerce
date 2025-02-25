@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<head th:replace="fragments :: page_head(${pageTitle}, 'none')"></head>
+	<link rel="stylesheet" th:href="@{/richtext/richtext.min.css}" />
+	<script th:src="@{/richtext/jquery.richtext.min.js}"></script>
+</head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="form-title"><span>Manage Section</span> [[${pageTitle}]]</h1>
+
+<!-- Form -->
+<form th:action="@{/sections/save/text}" th:object="${section}" method="post" class="common-form">
+	<input type="hidden" th:field="*{id}" />
+	
+	<div class="input-group">
+		<label>Heading:</label>
+		<input type="text" th:field="*{heading}" />
+	</div>
+	
+	<div class="input-group-textarea">
+		<label>Description:</label>
+		<textarea th:field="*{description}" id="sectionDescription"></textarea>
+	</div>
+	
+	<div class="input-group-checkbox">
+		<label>Enabled:</label>
+		<input type="checkbox" th:field="*{enabled}" />
+	</div>
+	
+	<input type="submit" value="Save" class="form-btn submit-btn"/>
+	<a href="#" class="fa-solid fa-xmark cancel-form-btn"></a>
+</form>
+
+<script type="text/javascript">
+	moduleUrl = "[[@{/sections}]]";
+	
+	$(document).ready(function() {
+		$("#sectionDescription").richText();
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

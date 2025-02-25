@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments :: page_head(${pageTitle}, 'none')" />
+<body>
+
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="title">[[${pageTitle}]]</h1>
+	
+<form th:action="@{/address_book/save}" th:object="${address}" method="post" class="common-form">
+    <img th:src="@{/images/form-img.jpg}" class="common-form-img">
+    <div class="form">
+	   	<input type="hidden" th:field="*{id}"/>
+		<input type="hidden" th:field="*{defaultForShipping}"/>
+		<input type="hidden" name="redirect" th:value="${param.redirect}"/>
+		
+		<div class="input-group">
+			<label>Fist Name:</label>
+			<input type="text" th:field="*{firstName}" minlength="2" maxlength="45" required="required" />
+		</div>
+		
+		<div class="input-group">
+			<label>Last Name:</label>
+			<input type="text" th:field="*{lastName}" minlength="2" maxlength="45" required="required" />
+		</div>
+		
+		<div class="input-group">
+			<label>Phone Number:</label>
+			<input type="text" th:field="*{phoneNumber}" minlength="8" maxlength="15" required="required" />
+		</div>
+		
+		<div class="input-group">
+			<label>Address Line 1:</label>
+			<input type="text" th:field="*{addressLine1}" minlength="3" maxlength="64" required="required" />
+		</div>
+		
+		<div class="input-group">
+			<label>Address Line 2:</label>
+			<input type="text" th:field="*{addressLine2}" maxlength="64" />
+		</div>
+		
+		<div class="input-group">
+			<label>City:</label>
+			<input type="text" th:field="*{city}" minlength="2" maxlength="45" />
+		</div>
+		
+		<div class="input-group">
+			<label>Country:</label>
+			<select th:field="*{country}">
+				<th:block th:each="country : ${listCountries}">
+				<option th:value="${country.id}">[[${country.name}]]</option>
+				</th:block>
+			</select>
+		</div>
+		
+		<div class="input-group">
+			<label>State/Province:</label>
+			<input type="text" th:field="*{state}" minlength="3" maxlength="45" list="listStates" />
+			<datalist id="listStates"></datalist>
+		</div>
+		
+		<div class="input-group">
+			<label>Postal Code:</label>
+			<input type="text" th:field="*{postalCode}" minlength="2" maxlength="10" />
+		</div>
+		
+		<input type="submit" value="Save" />
+     </div>
+</form>
+
+<!-- Footer -->
+<div th:replace="fragments :: footer"></div>
+
+<script type="text/javascript">
+	contextPath = "[[@{/}]]";
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/common_customer_form.js}"></script>
+</body>
+</html>

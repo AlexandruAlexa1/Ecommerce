@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="content(statusVar, label, iconName)">
+	<div th:if="${statusVar}" class="track-icon">
+		<i th:class="'fas ' + ${iconName} + ' fa-4x icon-green'"></i>
+		<span>[[${label}]]</span>
+	</div>
+	<div th:unless="${statusVar}" class="track-icon">
+		<i th:class="'fas ' + ${iconName} + ' fa-4x icon-silver linkUpdateStatus'"></i>
+		<span>[[${label}]]</span>
+	</div>
+</div>
+	
+</body>
+</html>

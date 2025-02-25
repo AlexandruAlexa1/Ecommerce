@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments :: page_head('Manage Brands', 'none')"></head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="form-title"><span>Manage Brands</span> [[${pageTitle}]]</h1>
+
+<!-- Form -->
+<form th:action="@{/brands/save}" method="post" class="common-form"
+	  th:object="${brand}" enctype="multipart/form-data" onsubmit="return checkUnique(this)">
+	<input type="hidden" th:field="*{id}" />
+	
+	<div class="input-group">
+		<label>Brand Name:</label>
+		<input type="text" th:field="*{name}" required minlength="3" maxlength="45"/>
+	</div>
+	
+	<div class="upload-img">
+		<label>Brand Logo:</label>
+		<input type="hidden" th:field="*{logo}">
+		<input type="file" name="fileImage" id="fileImage"
+			accept="image/png, image/jpeg" th:required="${brand.id == null}"/>
+		<img th:src="@{${brand.getLogoPath}}" alt="Logo preview" id="thumbnail">
+	</div>
+	
+	<div class="input-group-select">
+		<label>Select one or more categories:</label>
+		<select th:field="*{categories}" multiple required>
+			<th:block th:each="category : ${listCategories}">
+				<option th:value="${category.id}">[[${category.name}]]</option>
+			</th:block>
+		</select>
+	</div>
+	
+	<div class="input-group">
+		<label>Chosen categories:</label>
+		<div class="chosen-categories"></div>
+	</div>
+	
+	<input type="submit" value="Save" class="form-btn submit-btn"/>
+	<a href="#" class="fa-solid fa-xmark cancel-form-btn"></a>
+</form>
+
+<script type="text/javascript">
+	MAX_FILE_SIZE = 102400; //100KB
+
+	moduleUrl = "[[@{/brands}]]";
+	
+	$(document).ready(function() {
+		dropdownCategories = $("#categories");
+		chosenCategories = $(".chosen-categories");
+		
+		dropdownCategories.change(() => {
+			chosenCategories.empty();
+			showChosenCategories();
+		});
+		
+		showChosenCategories();
+	});
+	
+	function showChosenCategories() {
+		dropdownCategories.children("option:selected").each(function(item) {
+			selectedCategory = $(this);
+			categoryId = selectedCategory.val();
+			categoryName = selectedCategory.text().replace(/-/g, "");
+			
+			chosenCategories.append("<p>" + categoryName + "</p>");
+		});
+	}
+	
+	function checkUnique(form) {
+		id = $("#id").val();
+		name = $("#name").val();
+		csrf = $("input[name = '_csrf']").val();
+		
+		url = "[[@{/brands/check_unique}]]";
+		params = {id: id, name: name, _csrf: csrf};
+		
+		$.post(url, params, function(response) {
+			if (response == "OK") {
+				form.submit();
+			} else if (response == "Duplicate") {
+				alert('There is another brand having same name: ' + name);
+			}
+		}).fail(function() {
+			alert("Could not connect to the server")
+		});
+		
+		return false;
+	}
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

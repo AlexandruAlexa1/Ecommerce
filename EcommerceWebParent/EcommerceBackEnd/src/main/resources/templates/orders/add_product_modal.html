@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:fragment="content" class="modal" id="addProductModal">
+		<a class="fas fa-times close-modal-icon close-modal"></a>
+		<div class="detail-modal-content">
+			<iframe class="iframe-add-product" th:src="@{/orders/search_product}"></iframe>
+		</div>
+	</div>
+</body>
+</html>

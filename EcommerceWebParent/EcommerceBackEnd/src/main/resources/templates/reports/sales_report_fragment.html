@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+
+<div th:fragment="content(reportType)">
+	<!-- Links -->
+	<div th:with="buttonClass = 'button-sales-by' + ${reportType}" class="buttons">
+		<button period="last_7_days" th:classappend="${buttonClass}">Last 7 days</button>
+		<button period="last_28_days" th:classappend="${buttonClass}">Last 28 days</button>
+		<button period="last_6_months" th:classappend="${buttonClass}">Last 6 Months</button>
+		<button period="last_year" th:classappend="${buttonClass}">Last Year</button>
+		<button th:classappend="${buttonClass}">Custom Date Range</button>
+	</div>
+	
+	<!-- Custom Date Range -->
+	<div th:id="'divCustomDateRange' + ${reportType}" class="custom-date">
+		
+		<div class="input-group">
+			<label>From date:</label>
+			<input type="date" th:id="'startDate' + ${reportType}"/>
+		</div>
+
+		<div class="input-group">
+			<label>To date:</label>
+			<input type="date" th:id="'endDate' + ${reportType}"/>
+		</div>
+		
+		<button type="button" th:id="'buttonViewReportByDateRange' + ${reportType}">View</button>
+	</div>
+	
+	<!-- Chart -->
+	<div th:id="'chart_sales_by' + ${reportType}" class="chart"></div>
+	
+	<!-- Sales Report -->
+	<div class="reports">
+		<div class="report">
+			<h4>Total Gross Sales:</h4>
+			<p th:id="'textTotalGrossSales' + ${reportType}"></p>
+		</div>
+		
+		<div class="report">
+			<h4>Total Net Sales:</h4>
+			<p th:id="'textTotalNetSales' + ${reportType}"></p>
+		</div>
+		
+		<div class="report">
+			<h4>Avg. Gross Sales:</h4>
+			<p th:id="'textAvgGrossSales' + ${reportType}"></p>
+		</div>
+		
+		<div class="report">
+			<h4>Avg. Net Sales:</h4>
+			<p th:id="'textAvgNetSales' + ${reportType}"></p>
+		</div>
+		
+		<div class="report">
+			<h4 th:id="'labelTotalItems' + ${reportType}"></h4>
+			<p th:id="'textTotalItems' + ${reportType}"></p>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

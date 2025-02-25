@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<body>
+
+<div th:fragment="content" th:remove="tag">
+	<div class="img-wrapper" >
+		<div class="img-card">
+			<label>Main Image: [[${product.mainImage}]]</label>
+			<img th:src="@{${product.mainImagePath}}" alt="Main image preview">
+		</div>
+
+		<th:block th:each="productImage, status : ${product.images}">
+			<div class="img-card">
+				<label>Extra Image #[[${status.index + 1}]]: [[${productImage.name}]]</label>
+				<img th:src="@{${productImage.imagePath}}" th:alt="'Extra image #' + ${status.index + 1} +  'preview'">
+			</div>
+		</th:block>
+	</div>
+</div>
+
+</body>
+</html>

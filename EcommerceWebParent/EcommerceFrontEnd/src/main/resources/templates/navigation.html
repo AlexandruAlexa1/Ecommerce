@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+</head>
+<body>
+
+<!-- Navbar -->
+<div th:fragment="navbar" class="navbar">
+	<a th:href="@{/}" class="logo-link">
+	    <img th:src="@{${SITE_LOGO}}">
+	</a>
+	
+	<div class="search-box">
+		<form th:action="@{/search}" method="get">
+		    <input type="search" name="keyword" th:value="${keyword}" placeholder="Search products..." required />
+		    <input type="submit" value="Search">
+		</form>
+	</div>
+	
+	<div class="menu">
+	    <div class="menu-line menu-line-1"></div>
+	    <div class="menu-line menu-line-2"></div>
+	    <div class="menu-line menu-line-3"></div>
+	</div>
+	
+	<nav class="nav-list">
+		<th:block th:each="menu : ${listMenus}">
+			<a th:if="${menu.type == 'Header Menu'}" th:href="@{'/m/' + ${menu.alias}}" class="nav-link">[[${menu.title}]]</a>
+		</th:block>
+		
+	    <a th:href="@{/}" class="nav-link">Home</a>
+	    
+	    <div class="dropdown">
+	    	<a href="#" class="nav-link">Categories <i class="fa-solid fa-angle-down"></i></a>
+	    	<div class="dropdown-content">
+			    <th:block th:each="category : ${listCategories}">
+			    	<a th:href="@{'/c/' + ${category.alias}}">[[${category.name}]]</a>
+			    </th:block>
+	    	</div>
+	    </div>
+		
+		<th:block sec:authorize="!isAuthenticated()">
+	    	<a th:href="@{/login}" class="nav-link">Login</a>
+	    </th:block>
+	    
+	    <th:block sec:authorize="isAuthenticated()">
+		    <form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+				<input type="submit" value="Logout" />
+			</form>
+			<a th:href="@{/address_book}" class="nav-link">Address Book</a>
+			<a th:href="@{/questions}" class="nav-link">Questions</a>
+			<a th:href="@{/reviews}" class="nav-link">Reviews</a>
+			<a th:href="@{/orders}" class="nav-link">Orders</a>
+			<a th:href="@{/account_details}" class="nav-link nav-link-user" sec:authentication="principal.fullName"></a>
+			<a href="javascript: document.logoutForm.submit()" class="nav-link">Logout</a>
+	    </th:block>
+	    
+	    <a th:href="@{/cart}" class="nav-link nav-link-cart"><i class="fa-solid fa-cart-arrow-down"></i></a>
+	    
+	    <div class="nav-list-icons">
+	    	<i class="fa-brands fa-linkedin"></i>
+	    	<i class="fa-brands fa-google"></i>
+	    	<i class="fa-brands fa-facebook-square"></i>
+	    	<i class="fa-brands fa-instagram"></i>
+	    </div>
+	</nav>
+</div>
+</body>
+</html>

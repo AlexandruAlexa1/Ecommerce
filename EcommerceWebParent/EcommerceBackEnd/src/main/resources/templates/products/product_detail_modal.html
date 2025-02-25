@@ -1,0 +1,80 @@
+<div class="tab-wrapper product-detail-modal">
+	<h1>Product Detail</h1>
+	
+	<!-- Tab links -->
+	<div class="tab-nav">
+		<a onclick="openTab(event, 'Overview')" class="tab-link active" href="#">Overview</a>
+		<a onclick="openTab(event, 'Description')" class="tab-link" href="#">Description</a>
+		<a onclick="openTab(event, 'Images')" class="tab-link" href="#">Images</a>
+		<a onclick="openTab(event, 'Details')" class="tab-link" href="#">Details</a>
+		<a onclick="openTab(event, 'Shipping')" class="tab-link" href="#">Shipping</a>
+	</div>
+	
+	<!-- Tab content -->
+	<div id="Overview" class="tab-content">
+		<div class="input-group">
+			<label>Product Name:</label> 
+			<input type="text" th:value="${product.name}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>Alias:</label> 
+			<input type="text" th:value="${product.alias}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>Brand:</label>
+			<input type="text" th:value="${product.brand.name}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>Category:</label>
+			<input type="text" th:value="${product.category.name}" readonly />
+		</div>
+		
+		<div class="input-group-checkbox">
+			<label>Enabled:</label> 
+			<input type="checkbox" th:checked="${product.enabled}" onclick="return false;" />
+		</div>
+		
+		<div class="input-group-checkbox">
+			<label>In-Stock:</label> 
+			<input type="checkbox" th:checked="${product.inStock}" onclick="return false;" />
+		</div>
+		
+		<div class="input-group">
+			<label>Cost:</label> 
+			<input type="number" th:value="${product.cost}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>Price:</label> 
+			<input type="number" th:value="${product.price}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>Discount:</label> 
+			<input type="number" th:value="${product.discountPercent}" readonly />
+		</div>
+		
+		<div class="input-group">
+			<label>Updated Time: [[${product.updatedTime}]]</label> 
+		</div>
+	</div>
+	
+	<div id="Description" class="tab-content" style="display: none;">
+		<div th:replace="products/product_description_read_only :: content"></div>
+	</div>
+	
+	<div id="Images" class="tab-content" style="display: none;">
+		<div th:replace="products/product_images_read_only :: content"></div>
+	</div>
+	
+	<div id="Details" class="tab-content" style="display: none;">
+		<div th:replace="products/product_details_read_only :: content"></div>
+	</div>
+	
+	<div id="Shipping" class="tab-content" style="display: none;">
+		<div th:replace="products/product_shipping_read_only :: content"></div>
+	</div>
+</div>

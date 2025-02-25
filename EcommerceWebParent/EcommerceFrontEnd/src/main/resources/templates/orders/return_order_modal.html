@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="content" class="return-order-modal">
+    <div class="return-modal-content">
+        <h1 class="return-modal-title"></h1>
+
+        <form onsubmit="return submitReturnOrderForm();" class="return-order-form">
+        	<div class="reason-wrapper">
+        		<h2>Reason:</h2>
+	            <div class="reason-input-group">
+	                <input type="radio" name="returnReason" value="I bought the wrong items" required />
+	                <span>I bought the wrong items</span>
+	            </div>
+	            <div class="reason-input-group">
+	                <input type="radio" name="returnReason" value="I received the wrong items" />
+	                <span>I received the wrong items</span>
+	            </div>
+	            <div class="reason-input-group">
+	                <input type="radio" name="returnReason" value="The product was damaged/defective" />
+	                <span>product was damaged/defective</span>
+	            </div>
+	            <div class="reason-input-group">
+                	<input type="radio" name="returnReason" value="The product arrived too late" />
+                	<span>The product arrived too late</span>
+            	</div>
+
+            	<textarea rows="10" maxlength="120" id="reasonText" placeholder="Additional information"></textarea>
+        	</div>
+
+            <div class="return-modal-btns">
+                <input type="submit" class="return-modal-btn send-equest-btn" value="Send Request"></input>
+                <input type="button" class="return-modal-btn cancel-btn" value="Cancel"></input>
+            </div>
+        </form>
+
+        <p class="return-confirm-message"></p>
+    </div>
+</div>
+
+</body>
+</html>

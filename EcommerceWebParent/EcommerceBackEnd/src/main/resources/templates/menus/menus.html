@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments :: page_head('List Menus', 'none')"></head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="title">Manage Menus</h1>
+
+<div class="table-wrapper">
+    <div class="links-wrapper">
+        <a th:href="@{/menus/new}" class="fa-solid fa-folder-plus" title="Create new Menu"></a>
+    </div>
+	
+	<!-- Message -->
+	<div th:if="${message}" class="message">[[${message}]]</div>
+	
+	<!-- Table -->
+	<table class="common-table">
+	    <thead>
+	        <tr>
+	            <th>ID</th>
+	            <th>Title</th>
+	            <th>Type</th>
+	            <th>Article</th>
+	            <th>Enabled</th>
+	            <th>Position</th>
+	            <th></th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	    	<tr th:each="menu : ${listMenus}">
+	      		<td>[[${menu.id}]]</td>
+	      		<td>[[${menu.title}]]</td>
+	      		<td>[[${menu.type}]]</td>
+	      		<td>
+	      			<a th:href="'/articles/modal/detail/' + ${menu.article.id}" class="link-article">[[${menu.article.title}]]</a>
+	      		</td>
+	      		<td>
+					<div th:replace="fragments :: status('/menus/' + ${menu.id}, 'menu', ${menu.enabled})"></div>
+				</td>
+	      		<td>
+	      			<a th:href="@{'/menus/up/' + ${menu.id}}" class="fa-solid fa-angle-up icon-aqua"></a>
+	      			[[${menu.position}]]
+	      			<a th:href="@{'/menus/down/' + ${menu.id}}" class="fa-solid fa-angle-down icon-aqua"></a>
+	      		</td>
+	      		<td>
+	      			<div class="table-links">
+	      				<div th:replace="fragments :: edit('/menus/edit/' + ${menu.id}, 'menu')"></div>
+	      				<div th:replace="fragments :: delete('/menus/delete/' + ${menu.id}, ${menu.id}, 'menu', 'true')"></div>
+	      			</div>
+	      		</td>
+	    	</tr>
+	    </tbody>
+	</table>
+
+	<!-- Responsive Table -->
+    <div class="table-cards">
+    	<th:block th:each="menu : ${listMenus}">
+	        <div class="table-card">
+	            <span class="id">ID: [[${menu.id}]]</span>
+	            
+	            <div class="details">
+	            	<p><span>Title:</span>[[${menu.title}]]</p>
+	            	<p><span>Type:</span>[[${menu.type}]]</p>
+	            	<p>
+	            		<span>Article:</span>
+	            		<a th:href="'/articles/detail/' + ${menu.article.id}" class="link-article">[[${menu.article.title}]]</a>
+	            	</p>
+	            </div>
+	            
+	            <div class="links">
+	            	<div>
+	            		<a th:href="@{'/menus/up/' + ${menu.id}}" class="fa-solid fa-angle-up icon-aqua"></a>
+		      			<span style="font-size: 1.6rem; margin-right: 1rem">[[${menu.position}]]</span>
+		      			<a th:href="@{'/menus/down/' + ${menu.id}}" class="fa-solid fa-angle-down icon-aqua"></a>
+	            	</div>
+	            	<div th:replace="fragments :: status('/menus/' + ${menu.id}, 'menu', ${menu.enabled})"></div>
+		            <div th:replace="fragments :: edit('/menus/edit/' + ${menu.id}, 'menu')"></div>
+		   			<div th:replace="fragments :: delete('/menus/delete/' + ${menu.id}, ${menu.id}, 'menu', 'true')"></div>
+	            </div>
+	        </div>
+        </th:block>
+    </div>
+</div>
+
+<!-- Confirm Modal -->
+<div th:replace="fragments :: confirm_modal"></div>
+
+<!-- Detail Modal -->
+<div th:replace="fragments :: detail_modal"></div>
+
+<script type="text/javascript">
+	moduleURL = "[[@{/menus}]]";
+	
+	$(document).ready(function() {
+		handleLinkDelete('menu');
+		handleLinkViewDetail($('.link-article'));
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/common_list.js}"></script>
+</body>
+</html>

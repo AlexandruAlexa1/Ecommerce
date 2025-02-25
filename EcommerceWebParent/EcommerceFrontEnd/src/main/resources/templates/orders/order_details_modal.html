@@ -1,0 +1,163 @@
+<div class="tab-wrapper">
+	<!-- Tab links -->
+	<div class="tab-nav">
+		<a href="#" onclick="openTab(event, 'overview')" class="tab-link active">Overview</a>
+		<a href="#" onclick="openTab(event, 'products')" class="tab-link">Products</a>
+		<a href="#" onclick="openTab(event, 'shipping')" class="tab-link">Shipping</a>
+		<a href="#" onclick="openTab(event, 'track')" class="tab-link">Track</a>
+	</div>
+	
+	<!-- Tab content --> 
+	<div id="overview" class="tab-content">
+		<div class="tab-content-input-group">
+			<label>Order ID:</label>
+			<input type="text" th:value="${order.id}" readonly />
+		</div>
+		
+		<div class="tab-content-input-group">
+			<label>Subtotal:</label>
+			<div th:replace="fragments :: currency_input(${order.total})"></div>
+		</div>
+		
+		<div class="tab-content-input-group">
+			<label>Shipping Cost:</label>
+			<div th:replace="fragments :: currency_input(${order.shippingCost})"></div>
+		</div>
+		
+		<div class="tab-content-input-group">
+			<label>Tax:</label>
+			<div th:replace="fragments :: currency_input(${order.tax})"></div>
+		</div>
+		
+		<div class="tab-content-input-group">
+			<label>Total:</label>
+			<div th:replace="fragments :: currency_input(${order.total})"></div>
+		</div>
+		
+		<div class="tab-content-input-group">
+			<label>TOTAL = Subtotal + Shipping Cost + Tax</label>
+		</div>
+		
+		<div class="tab-content-input-group">
+			<label>Payment Method: [[${order.paymentMethod}]]</label> 
+		</div>
+		
+		<div class="tab-content-input-group">
+			<label>Status: [[${order.orderStatus}]]</label> 
+		</div>
+		
+		<div class="tab-content-input-group">
+			<label>Order Date:</label> 
+			<div th:replace="fragments :: format_time(${order.orderTime})"></div>
+		</div>
+	</div>
+	
+	<div id="products" class="tab-content" style="display: none;">
+		<th:block th:each="detail, status : ${order.orderDetails}">
+		<div th:with="product = ${detail.product}" class="tab-content-product-wrapper">
+			<span class="product-number">[[${status.count}]]</span>
+			
+			<img th:src="@{${product.mainImagePath}}" class="product-img">
+			
+			<div>
+				<p class="product-name">[[${product.shortName}]]</p>
+				<div class="product-subtotal">
+					Subtotal: [[${detail.quantity}]] X
+					<div th:replace="fragments :: format_currency(${detail.unitPrice})" /> =
+					<div th:replace="fragments :: format_currency(${detail.subtotal})" />
+				</div>
+			</div>
+			
+			<div th:if="${!product.reviewedByCustomer && product.customerCanReview}">
+				<a th:href="@{'/write_review/product/' + ${product.id}}" class="write-review-btn">Write Review</a>
+			</div>
+			
+			<div th:if="${product.reviewedByCustomer}">
+				<a target="_blank" th:href="@{'/reviews/page/1?sortField=reviewTime&sortDir=desc&keyword=' + ${#strings.substring(product.shortName, 0, 20)}}" class="view-review-btn">See your Review</a>
+			</div>
+		</div>
+		</th:block>
+	</div>
+	
+	<div id="shipping" class="tab-content" style="display: none;">
+		<div class="tab-content-input-group">
+			<label>Deliver Days:</label> 
+			<input type="text" th:value="${order.deliverDays}" readonly />
+		</div>
+		
+		<div class="tab-content-input-group">
+			<label>Expected Deliver Date: [[${#dates.format(order.deliverDate, 'E, dd MMM yyyy')}]]</label> 
+		</div>
+		
+		<div class="tab-content-input-group">
+			<label>First Name:</label> 
+			<input type="text" th:value="${order.firstName}" readonly />
+		</div>
+		
+		<div class="tab-content-input-group">
+			<label>Last Name:</label> 
+			<input type="text" th:value="${order.lastName}" readonly />
+		</div>
+		
+		<div class="tab-content-input-group">
+			<label>Address Line 1:</label> 
+			<input type="text" th:value="${order.addressLine1}" readonly />
+		</div>
+		
+		<div class="tab-content-input-group">
+			<label>Address Line 2:</label> 
+			<input type="text" th:value="${order.addressLine2}" readonly />
+		</div>
+		
+		<div class="tab-content-input-group">
+			<label>City:</label> 
+			<input type="text" th:value="${order.city}" readonly />
+		</div>
+		
+		<div class="tab-content-input-group">
+			<label>State:</label> 
+			<input type="text" th:value="${order.state}" readonly />
+		</div>
+		
+		<div class="tab-content-input-group">
+			<label>Country:</label> 
+			<input type="text" th:value="${order.country}" readonly />
+		</div>
+		
+		<div class="tab-content-input-group">
+			<label>Postal Code:</label> 
+			<input type="text" th:value="${order.postalCode}" readonly />
+		</div>
+	</div>
+	
+	<div id="track" class="tab-content" style="display: none;">
+		<div class="tab-content-track-icons">
+			<div th:replace="orders/order_status_fragment :: content(${order.processing}, 'processing', 'fa-spinner')"></div>
+			<div th:replace="orders/order_status_fragment :: content(${order.picked}, 'picked', 'fa-people-carry')"></div>
+			<div th:replace="orders/order_status_fragment :: content(${order.shipping}, 'shipping', 'fa-shipping-fast')"></div>
+			<div th:replace="orders/order_status_fragment :: content(${order.delivered}, 'delivered', 'fa-box-open')"></div>
+			
+			<th:block th:if="${order.returnRequestd}">
+			<div th:replace="orders/order_status_fragment :: content(${order.delivered}, 'returned', 'fa-undo')"></div>
+			</th:block>
+		</div>
+		
+		<table class="track-table">
+			<thead>
+				<tr>
+					<th>Time</th>
+					<th>Status</th>
+					<th>Notes</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="track : ${order.orderTracks}">
+					<td>[[${track.updatedTime}]]</td>
+					<td>[[${track.status}]]</td>
+					<td><i>[[${track.notes}]]</i></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+</div>

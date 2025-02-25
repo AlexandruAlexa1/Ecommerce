@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content" th:remove="tag">
+	<form th:action="@{/settings/save_payment}" method="post">
+		<div class="input-group">
+			<label>PayPal API Base URL:</label>
+			<input type="text" name="PAYPAL_API_BASE_URL" th:value="${PAYPAL_API_BASE_URL}" required /> 
+		</div>
+		
+		<div class="input-group">
+			<label>PayPal Client ID:</label>
+			<input type="text" name="PAYPAL_API_CLIENT_ID" th:value="${PAYPAL_API_CLIENT_ID}" required /> 
+		</div>
+		
+		<div class="input-group">
+			<label>PayPal Client Secret:</label>
+			<input type="text" name="PAYPAL_API_CLIENT_SECRET" th:value="${PAYPAL_API_CLIENT_SECRET}" required /> 
+		</div>
+		<input type="submit" value="Save" class="form-btn submit-btn" />
+	</form>
+</div>
+</body>
+</html>

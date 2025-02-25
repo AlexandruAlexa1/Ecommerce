@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments :: page_head(${pageTitle}, 'none')" />
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="form-title"><span>Manage Section</span> [[${pageTitle}]]</h1>
+
+<!-- Form -->
+<form th:action="@{/sections/save/brand}" th:object="${section}" method="post" class="common-form"
+	onsubmit="return selectAllBrands(this)">
+	<input type="hidden" th:field="*{id}" />
+	
+	<div class="input-group">
+		<label>Heading:</label>
+		<input type="text" th:field="*{heading}" />
+	</div>
+	
+	<div class="input-group-textarea">
+		<label>Description:</label>
+		<textarea th:field="*{description}"></textarea>
+	</div>
+	
+	<div class="input-group-checkbox">
+		<label>Enabled:</label>
+		<input type="checkbox" th:field="*{enabled}" />
+	</div>
+	
+	<div class="input-group-select" style="flex-direction: column; align-items: unset; margin-bottom: 0;">
+		<label style="margin-bottom: .5rem">Brands:</label>
+		<select size="9" id="brands">
+			<th:block th:each="brand : ${listBrands}">
+			<option th:value="${brand.id}">[[${brand.name}]]</option>
+			</th:block>
+		</select>
+	</div>
+	
+	<input type="button" value="Add Brand" class="form-btn" style="margin-bottom: 2rem;" id="add-brand-btn" />
+	
+	<div class="input-group-select" style="flex-direction: column; align-items: unset;">
+		<label style="margin-bottom: .5rem">Chosen Brands:</label>
+		<select th:field="*{brands}" id="chosen-brands" size="9" multiple>
+			<th:block th:each="brand : ${section.brands}">
+			<option th:value="${brand.id}">[[${brand.name}]]</option>
+			</th:block>
+		</select>
+		<div class="section-input-group-btns">
+			<a class="fa-solid fa-eraser" id="remove-brand-btn" title="Delete Brand"></a>
+			<a class="fa-solid fa-angle-up" id="move-up-brand-btn" title="Move up Brand"></a>
+			<a class="fa-solid fa-angle-down" id="move-down-brand-btn" title="Move down Brand"></a>
+		</div>
+	</div>
+			
+	<input type="submit" value="Save" class="form-btn submit-btn"/>
+	<a href="#" class="fa-solid fa-xmark cancel-form-btn"></a>
+</form>
+
+<!-- Warning Modal -->
+<div th:replace="fragments :: warning-modal"></div>
+
+<script type="text/javascript">
+	moduleUrl = "[[@{/sections}]]";
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script type="text/javascript" th:src="@{/js/section_form_add_brand.js}"></script>
+</body>
+</html>

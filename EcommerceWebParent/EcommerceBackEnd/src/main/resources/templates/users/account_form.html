@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments :: page_head('Your Account Details', 'none')"></head>
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<h1 class="form-title">Your Account Details</h1>
+
+<!-- Form -->
+<form th:action="@{/account/update}" method="post" class="common-form"
+	  th:object="${user}" enctype="multipart/form-data">
+	<input type="hidden" th:field="*{id}" />
+	
+	<div th:if="${message != null}" class="message">
+		[[${message}]]
+	</div>
+	
+	<div class="input-group">
+		<label>E-mail:</label>
+		<input type="email" th:field="*{email}" readonly="readonly"/>
+	</div>
+	<div class="input-group">
+		<label>First Name:</label>
+		<input type="text" th:field="*{firstName}"/>
+		<div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="error-message"></div>
+	</div>
+	<div class="input-group">
+		<label>Last Name:</label>
+		<input type="text" th:field="*{lastName}"/>
+		<div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="error-message"></div>
+	</div>
+	<div class="input-group">
+		<label>Password:</label>
+		<input type="password" th:field="*{password}" placeholder="Leave blank if you don't want to change password"
+			oninput="checkPasswordMatch(document.getElementById('confirmPassword'))"/>
+		<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></div>
+	</div>
+	<div class="input-group">
+		<label>Repeat password:</label>
+		<input type="password" id="confirmPassword" oninput="checkPasswordMatch(this)"/>
+		<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></div>
+	</div>
+	<div class="list-roles">
+		<label>Assigned Roles: <b>[[${user.roles}]]</b></label>
+	</div>
+	
+	<div class="upload-img">
+		<label>Photos:</label>
+		<input type="hidden" th:field="*{photos}">
+		<input type="file" name="image" id="fileImage" accept="image/png, image/jpeg" />
+		<img alt="Photos preview" th:src="@{${user.getPhotosImagePath}}" id="thumbnail">
+	</div>
+	
+	<input type="submit" value="Save" class="form-btn submit-btn"/>
+	<a href="#" class="fa-solid fa-xmark cancel-form-btn"></a>
+</form>
+
+<script type="text/javascript">
+	MAX_FILE_SIZE = 102400; // 100KB
+	moduleUrl = "[[@{/}]]";
+	
+	function checkPasswordMatch(confirmPassword) {
+		if (confirmPassword.value != $('#password').val()) {
+			confirmPassword.setCustomValidity("Password do not match!");
+		} else {
+			confirmPassword.setCustomValidity("");
+		}
+	}
+</script>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

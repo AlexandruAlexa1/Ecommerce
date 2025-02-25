@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head th:replace="fragments :: page_head(${pageTitle}, 'none')" />
+<body>
+<!-- Navbar -->
+<div th:replace="navigation :: navbar"></div>
+
+<div th:if="${title != null}">
+	<h1>[[${title}]]</h1>
+</div>
+
+<div th:if="${message != null}">
+	<h1>[[${message}]]</h1>
+</div>
+<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>
